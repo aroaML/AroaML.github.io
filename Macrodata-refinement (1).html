@@ -902,7 +902,7 @@
     }
 
     .appr-mockup-inner {
-      max-width: 1000px;
+      max-width: 700px;
       margin: 0 auto;
     }
 
@@ -2057,7 +2057,7 @@
 
     </div>
 
-    <!-- Mockup showcase — replicates your Figma layout -->
+    <!-- Mockup showcase -->
     <div class="appr-mockup-section">
       <div class="appr-mockup-inner">
 
@@ -2301,7 +2301,7 @@
         if (mockupSection) {
           new IntersectionObserver((entries) => {
             if (!entries[0].isIntersecting) {
-              swapImage('Home.png', 'Macrodata Refinement — main application screen');
+              swapImage('assets/images/projects/Home.png', 'Macrodata Refinement — main application screen');
             }
           }, { threshold: 0 }).observe(mockupSection);
         }

@@ -118,28 +118,37 @@
       width: 100%;
       height: 100%;
       position: relative;
+      -webkit-transform-style: preserve-3d;
       transform-style: preserve-3d;
+      -webkit-transition: -webkit-transform 0.9s cubic-bezier(0.77, 0, 0.18, 1);
       transition: transform 0.9s cubic-bezier(0.77, 0, 0.18, 1);
       transform-origin: center center;
+      will-change: transform;
     }
 
-    .card.flipped { transform: rotateY(180deg); }
+    .card.flipped {
+      -webkit-transform: rotateY(180deg);
+      transform: rotateY(180deg);
+    }
 
     /* ── CARAS ── */
     .card-face {
       position: absolute;
       inset: 0;
       border-radius: 2px;
-      backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
-      overflow: hidden;
+      backface-visibility: hidden;
+      /* overflow: hidden eliminado — causa bug de desaparición en iOS Safari */
       background: var(--white);
       box-shadow:
         0 2px 8px rgba(0,0,0,0.12),
         0 8px 32px rgba(0,0,0,0.16);
     }
 
-    .card-back { transform: rotateY(180deg); }
+    .card-back {
+      -webkit-transform: rotateY(180deg);
+      transform: rotateY(180deg);
+    }
 
     /* ══════════════════════════════════════════
        ANIMACIÓN DE ESQUINA REALISTA
@@ -147,6 +156,10 @@
        levantaras por la esquina inferior derecha
     ══════════════════════════════════════════ */
     .scene:hover .card:not(.flipped) {
+      -webkit-transform:
+        rotateX(3deg)
+        rotateY(-4deg)
+        translateY(-6px);
       transform:
         rotateX(3deg)
         rotateY(-4deg)
