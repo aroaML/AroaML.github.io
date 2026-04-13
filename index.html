@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aroa Martín — Portfolio 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #F4F0EB; --black: #0E0D0B; --gray: #5A5550;
+      --line: #D4CFC8; --red: #9E2210;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--cream); font-family: 'Jost', sans-serif; overflow-x: hidden; }
+
+    /* NAV TOP */
+    .nav-top {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+      background: var(--cream); height: 48px;
+      display: flex; align-items: center; padding: 0 32px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    .nav-top.visible { opacity: 1; pointer-events: auto; }
+    .nav-top .side-left, .nav-top .side-right {
+      display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+    }
+    .nav-top .line-center {
+      flex: 1; height: 1px; background: var(--black);
+      transform: scaleX(0); transform-origin: center;
+      transition: transform 1s cubic-bezier(0.77, 0, 0.18, 1);
+    }
+    .nav-top .line-center.visible { transform: scaleX(1); }
+    .nav-num { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 9px; color: var(--red); }
+    .nav-link {
+      font-size: 9px; font-weight: 500; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--black); text-decoration: none;
+      transition: color 0.25s, letter-spacing 0.3s;
+    }
+    .nav-link:hover { color: var(--red); letter-spacing: 0.28em; }
+    .nav-link.active { color: var(--red); }
+
+    /* NAV BOTTOM */
+    .nav-bottom {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 20;
+      background: var(--cream); height: 48px;
+      display: flex; align-items: center; padding: 0 32px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    .nav-bottom.visible { opacity: 1; pointer-events: auto; }
+    .nav-bottom .side-left { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .nav-bottom .line-center {
+      flex: 1; height: 1px; background: var(--black);
+      transform: scaleX(0); transform-origin: center;
+      transition: transform 1s cubic-bezier(0.77, 0, 0.18, 1) 0.15s;
+    }
+    .nav-bottom .line-center.visible { transform: scaleX(1); }
+
+    /* SLIDES */
+    .slide {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .slide.out { opacity: 0; transform: translateY(-48px); pointer-events: none; }
+
+    /* HERO */
+    .slide-hero { background: var(--black); z-index: 12; }
+    .hero-line {
+      width: 1px; height: 0; background: var(--red); margin-bottom: 48px;
+      animation: grow-v 1s cubic-bezier(0.77, 0, 0.18, 1) 0.3s forwards;
+    }
+    @keyframes grow-v { from { height: 0; } to { height: 220px; } }
+    .hero-name {
+      text-align: center; opacity: 0; transform: translateY(12px);
+      animation: fade-up 0.9s ease 1.1s forwards;
+    }
+    @keyframes fade-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-name .first {
+      display: block; font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: clamp(52px, 7vw, 88px); color: #fff; letter-spacing: 0.08em; line-height: 1;
+    }
+    .hero-name .last {
+      display: block; font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-style: italic; font-size: clamp(52px, 7vw, 88px); color: #fff;
+      letter-spacing: 0.1em; line-height: 1;
+    }
+    .hero-sub {
+      font-size: 10px; font-weight: 500; letter-spacing: 0.28em;
+      text-transform: uppercase; color: var(--red); margin-top: 16px;
+      opacity: 0; animation: fade-up 0.9s ease 1.4s forwards;
+    }
+    .hero-rule {
+      width: 48px; height: 1px; background: var(--gray); margin: 14px auto 0;
+      opacity: 0; animation: fade-up 0.9s ease 1.6s forwards;
+    }
+    .scroll-hint {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: 0; animation: fade-up 0.9s ease 2s forwards;
+    }
+    .scroll-hint span { font-size: 8px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gray); }
+    .scroll-hint::after {
+      content: ''; display: block; width: 1px; height: 28px; background: var(--gray);
+      animation: scroll-bar 1.4s ease-in-out 2.4s infinite;
+    }
+    @keyframes scroll-bar {
+      0%   { transform: scaleY(0); transform-origin: top; opacity: 1; }
+      50%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+      100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
+    }
+
+    /* INTRO */
+    .slide-intro { background: var(--cream); z-index: 11; align-items: center; padding: 0 60px; text-align: left; }
+    .diamond-wrap { width: 100%; display: flex; justify-content: center; margin-bottom: 48px; }
+    .diamond-wrap svg { width: 20px; height: 20px; fill: var(--red); }
+    .tagline {
+      font-family: 'Cormorant Garamond', serif; font-weight: 500; font-style: italic;
+      font-size: clamp(26px, 3.5vw, 46px); color: var(--red);
+      line-height: 1.2; margin-bottom: 24px; max-width: 760px;
+    }
+    .body-text {
+      font-family: 'Cormorant Garamond', serif; font-weight: 400;
+      font-size: clamp(18px, 2.2vw, 32px); color: var(--black);
+      line-height: 1.45; max-width: 760px;
+    }
+
+    /* NORMAL CONTENT */
+    .normal-content { margin-top: 200vh; position: relative; z-index: 5; background: var(--cream); }
+
+    /* WORK */
+    .work-section { padding: 5px 0 80px;
+    scroll-margin-top: 10px; }
+    .work-title { padding: 0 0 48px 40px; }
+    .work-title h2 {
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: clamp(28px, 4vw, 44px); color: var(--black); line-height: 1.1;
+    }
+    .work-title h2 em { font-style: italic; color: var(--red); }
+    .projects-col { position: relative; padding-left: 22vw; padding-right: 18vw; }
+    .projects-col::before {
+      content: ''; position: absolute; left: calc(22vw - 44px); top: 0; bottom: 0;
+      width: 1px; background: #C8C3BB;
+    }
+    .projects-list { display: flex; flex-direction: column; }
+    .project-item {
+      display: block; text-decoration: none; padding: 0 0 52px;
+      position: relative; transition: opacity 0.3s ease;
+    }
+    .project-item:hover { opacity: 0.88; }
+    .project-img {
+      width: 100%; aspect-ratio: 15 / 7; background: #ABABAB;
+      overflow: hidden; margin-bottom: 14px;
+      position: relative;
+    }
+    .project-img img {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 0.6s ease;
+    }
+    .project-img.window-mock {
+      background: var(--cream);
+    }
+    .project-img.window-mock img {
+      object-fit: contain;
+    }
+    .project-item:hover .project-img img { transform: scale(1.02); }
+    .project-meta { display: flex; align-items: center; justify-content: center; gap: 20px; }
+    .project-name {
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(18px, 2.2vw, 26px);
+      font-weight: 400; color: var(--black); line-height: 1;
+    }
+    .project-tag {
+      font-family: 'Jost', sans-serif; font-size: 7.5px; font-weight: 500;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--black);
+      border: 1px solid var(--black); padding: 5px 12px; white-space: nowrap;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .project-item:hover .project-tag { background: var(--red); border-color: var(--red); color: #fff; }
+    .project-diamond {
+      position: absolute; left: calc(-44px - 5px); top: 50%;
+      transform: translateY(-50%) rotate(45deg);
+      width: 11px; height: 11px; background: var(--red);
+    }
+
+    /* FOOTER */
+    .site-footer {
+      border-top: 1px solid var(--line); padding: 48px 60px 96px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .footer-email {
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(16px, 2.5vw, 28px);
+      font-weight: 300; font-style: italic; color: var(--gray);
+      text-decoration: none; letter-spacing: 0.04em; transition: color 0.25s;
+    }
+    .footer-email:hover { color: var(--red); }
+
+    @media (max-width: 640px) {
+      .slide-intro { padding: 0 28px; }
+      .projects-col { padding-left: 48px; padding-right: 24px; }
+      .projects-col::before { left: 20px; }
+      .project-diamond { left: -29px; }
+      .work-title { padding-left: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav-top">
+    <div class="side-left">
+      <span class="nav-num">(1)</span>
+      <a href="UnderConstruction.html" class="nav-link">Who is she?</a>
+    </div>
+    <div class="line-center" id="line-top"></div>
+    <div class="side-right">
+      <a href="#work" class="nav-link">What she do?</a>
+      <span class="nav-num">(2)</span>
+    </div>
+  </nav>
+
+  <section class="slide slide-hero" id="slide-hero">
+    <div class="hero-line"></div>
+    <div class="hero-name">
+      <span class="first">Aroa</span>
+      <span class="last">Martín</span>
+      <p class="hero-sub">Portfolio 2026</p>
+      <div class="hero-rule"></div>
+    </div>
+  </section>
+
+  <section class="slide slide-intro" id="slide-intro">
+    <div class="diamond-wrap">
+      <svg viewBox="0 0 24 24"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg>
+    </div>
+    <p class="tagline">Design for a more authentic and intimate world.</p>
+    <p class="body-text">
+      I come from branding and advertising.<br><br>
+      Now I design digital experiences with the same obsession for detail, respect for form, and search for the essential.
+    </p>
+  </section>
+
+  <div class="normal-content">
+
+    <section class="work-section" id="work">
+      <div class="work-title">
+        <h2>A mere<br><em>fragment</em><br>of my craft</h2>
+      </div>
+      <div class="projects-col">
+        <div class="projects-list">
+
+          <a href="UnderConstruction.html" class="project-item">
+            <div class="project-diamond"></div>
+            <div class="project-img window-mock"><img src="assets/images/projects/Tannit.Home.jpg" alt="Tannit Agency"></div>
+            <div class="project-meta">
+              <span class="project-name">Tannit Agency</span>
+              <span class="project-tag">Brand Identity</span>
+            </div>
+          </a>
+
+          <a href="Macrodata-refinement (1).html" class="project-item">
+            <div class="project-diamond"></div>
+            <div class="project-img window-mock"><img src="assets/images/projects/Home. Home.jpg" alt="Macrodata refinement"></div>
+            <div class="project-meta">
+              <span class="project-name">Macrodata refinement</span>
+              <span class="project-tag">Tool · Product</span>
+            </div>
+          </a>
+
+          <a href="UnderConstruction.html" class="project-item">
+            <div class="project-diamond"></div>
+            <div class="project-img window-mock"><img src="assets/images/projects/Amantis. Home.jpg" alt="Amantis"></div>
+            <div class="project-meta">
+              <span class="project-name">Amantis</span>
+              <span class="project-tag">Campaigns</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="mailto:aroamtnlpz@gmail.com" class="footer-email">aroamtnlpz@gmail.com</a>
+    </footer>
+
+  </div>
+
+  <nav class="nav-bottom">
+    <div class="side-left">
+      <span class="nav-num">(3)</span>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </div>
+    <div class="line-center" id="line-bottom"></div>
+  </nav>
+
+  <script>
+    const slideHero  = document.getElementById('slide-hero');
+    const slideIntro = document.getElementById('slide-intro');
+    const lineTop    = document.getElementById('line-top');
+    const lineBot    = document.getElementById('line-bottom');
+    const H          = window.innerHeight;
+
+    const navTop = document.querySelector('.nav-top');
+    const navBot = document.querySelector('.nav-bottom');
+
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+
+      // Hero desaparece al primer scroll
+      if (y > H * 0.3) {
+        slideHero.classList.add('out');
+      } else {
+        slideHero.classList.remove('out');
+      }
+
+      // Intro desaparece al segundo scroll
+      if (y > H * 1.3) {
+        slideIntro.classList.add('out');
+      } else {
+        slideIntro.classList.remove('out');
+      }
+
+      // Navs aparecen desde la intro (no en el hero)
+      if (y > H * 0.25) {
+        navTop.classList.add('visible');
+        navBot.classList.add('visible');
+      } else {
+        navTop.classList.remove('visible');
+        navBot.classList.remove('visible');
+      }
+
+      // Nav lines aparecen con el contenido normal
+      if (y > H * 1.7) {
+        lineTop.classList.add('visible');
+        lineBot.classList.add('visible');
+      } else {
+        lineTop.classList.remove('visible');
+        lineBot.classList.remove('visible');
+      }
+    });
+  </script>
+
+</body>
+</html>
