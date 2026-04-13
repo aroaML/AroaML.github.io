@@ -1,0 +1,2329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Macrodata Refinement — Case Study</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&family=Courier+Prime&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================
+       RESET & VARIABLES
+    ============================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* Portfolio identity */
+      --cream: #F5F0EC;
+      --black: #111111;
+      --red: #9E2210;
+      --gray-text: #555555;
+      --gray-light: #999999;
+      --white: #FFFFFF;
+      --off-white: #FAFAF8;
+
+      /* App mockup colors */
+      --app-bg: #0A0A0A;
+      --app-surface: #141B24;
+      --app-text: #C8D8E8;
+      --app-accent: #4A9EBF;
+
+      /* Typography */
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Jost', 'Helvetica Neue', sans-serif;
+      --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+      /* Spacing */
+      --section-gap: clamp(100px, 12vw, 160px);
+      --content-width: min(72rem, 88vw);
+      --narrow-width: min(44rem, 84vw);
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--black);
+      background-color: var(--cream);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background-color: var(--red);
+      color: var(--cream);
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ============================================
+       UTILITY: SCROLL REVEAL
+    ============================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.35s; }
+
+    /* ============================================
+       SECTION LABEL (01 — THE PROBLEM etc.)
+    ============================================ */
+    .section-label {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1.8rem;
+    }
+
+    /* ============================================
+       BODY TEXT
+    ============================================ */
+    .body-text {
+      font-family: var(--font-body);
+      font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+      line-height: 1.72;
+      color: var(--gray-text);
+      max-width: 38rem;
+    }
+    .body-text + .body-text {
+      margin-top: 1rem;
+    }
+
+    /* ============================================
+       1. HERO
+    ============================================ */
+    .hero-sticky-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 0;
+      height: 100vh;
+      height: 100svh;
+    }
+
+    .hero {
+      height: 100%;
+      background-color: var(--black);
+      color: var(--cream);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: clamp(2rem, 6vw, 5rem) clamp(2rem, 8vw, 8rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Vertical red accent line — centrada como en el hero del index */
+    .hero::before {
+        
+     content: '';
+     position: absolute;
+     top: 0;
+     left: clamp(3rem, 3vw, 3rem);
+     width: 1px;
+     height: 0;
+     background: var(--red);
+     animation: lineGrow 1s 0.3s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+
+    }
+
+    @keyframes lineGrow {
+        from { height: 0; }
+        to   { height: 38%; }
+    }
+    .hero__label {
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      margin-bottom: 2.4rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .hero__title {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--cream);
+      max-width: 18ch;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .hero__subtitle {
+      font-family: var(--font-body);
+      font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+      font-weight: 300;
+      line-height: 1.6;
+      color: #999;
+      max-width: 44ch;
+      margin-bottom: clamp(3rem, 6vw, 5rem);
+      opacity: 0;
+      animation: fadeUp 0.9s 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .hero__meta {
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+      padding-top: 1.8rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      opacity: 0;
+      animation: fadeUp 0.8s 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .hero__meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .hero__meta-label {
+      font-family: var(--font-body);
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #666;
+    }
+
+    .hero__meta-value {
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: var(--cream);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================
+       CONTENT WRAPPER
+    ============================================ */
+    .content-wrap {
+      width: var(--content-width);
+      margin: 0 auto;
+    }
+
+    /* ============================================
+       2. PROBLEM SECTION
+    ============================================ */
+    .section {
+      padding: var(--section-gap) 0;
+    }
+
+    .section--cream {
+      background-color: var(--cream);
+    }
+
+    /* ============================================
+       2b. PROBLEM SECTION — NEW LAYOUT
+    ============================================ */
+    .prob-outer {
+      background-color: var(--cream);
+      position: relative;
+      z-index: 1;
+    }
+
+    .prob-block {
+      font-family: 'Jost', sans-serif;
+    }
+
+    .prob-block .prob-hero,
+    .res-block .prob-hero,
+    .appr-block .prob-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 480px;
+    }
+    .prob-block .prob-hero-left,
+    .res-block .prob-hero-left,
+    .appr-block .prob-hero-left {
+      background: #1A1208;
+      padding: 72px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .prob-block .prob-section-index {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #4A3A20;
+      font-weight: 300;
+      margin-bottom: 24px;
+    }
+    .prob-block .prob-section-number,
+    .res-block .prob-section-number,
+    .appr-block .prob-section-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 160px;
+      font-weight: 300;
+      color: #9E2210;
+      line-height: 0.85;
+    }
+    .prob-block .prob-section-tag,
+    .res-block .prob-section-tag,
+    .appr-block .prob-section-tag {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(40px, 5.5vw, 80px);
+      font-weight: 300;
+      color: #F2EDE4;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+    }
+    .prob-block .prob-hero-right,
+    .res-block .prob-hero-right,
+    .appr-block .prob-hero-right {
+      padding: 72px clamp(40px, 8vw, 120px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .prob-block .prob-hero-title,
+    .res-block .prob-hero-title,
+    .appr-block .prob-hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 3vw, 44px);
+      font-weight: 300;
+      color: #1A1208;
+      line-height: 1.2;
+      margin-bottom: 32px;
+    }
+    .prob-block .prob-hero-title em,
+    .res-block .prob-hero-title em,
+    .appr-block .prob-hero-title em { font-style: italic; color: #9E2210; }
+    .prob-block .prob-hero-body,
+    .res-block .prob-hero-body,
+    .appr-block .prob-hero-body {
+      font-size: 14px;
+      font-weight: 300;
+      color: #5A5040;
+      line-height: 2;
+      max-width: 52ch;
+    }
+
+    .prob-block .prob-friction {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      border-top: 1px solid #D5CCC0;
+    }
+    .prob-block .prob-friction-item {
+      padding: 56px 48px;
+      border-right: 1px solid #D5CCC0;
+    }
+    .prob-block .prob-friction-item:last-child { border-right: none; }
+    .prob-block .prob-f-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 56px;
+      font-weight: 300;
+      color: #D5CCC0;
+      line-height: 1;
+      margin-bottom: 28px;
+    }
+    .prob-block .prob-f-title {
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #9E2210;
+      margin-bottom: 18px;
+      font-weight: 400;
+    }
+    .prob-block .prob-f-stat {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 300;
+      color: #1A1208;
+      line-height: 1.3;
+      margin-bottom: 16px;
+    }
+    .prob-block .prob-f-body {
+      font-size: 12px;
+      font-weight: 300;
+      color: #7A6A58;
+      line-height: 1.9;
+    }
+
+    .prob-block .prob-excel-section {
+      background: #080C10;
+      border-top: none;
+      padding: 72px 56px 80px;
+    }
+    .prob-block .prob-excel-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .prob-block .prob-excel-label-bar {
+      padding: 0 0 40px 0;
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+    }
+    .prob-block .prob-excel-label {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #F2EDE4;
+      font-weight: 400;
+    }
+    .prob-block .prob-excel-sublabel {
+      font-size: 12px;
+      font-weight: 300;
+      color: #4A6A7A;
+    }
+    .prob-block .prob-excel-wrap {
+      background: transparent;
+      font-family: 'Courier Prime', monospace;
+    }
+.prob-block .prob-ba-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .prob-block .prob-ba-side {
+      display: flex;
+      flex-direction: column;
+      background: #0D1117;
+      border: 1px solid #1E2D3D;
+      box-shadow: 0 16px 56px rgba(0,0,0,0.5);
+    }
+    .prob-block .prob-ba-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid #1E2D3D;
+      background: #141B24;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .prob-block .prob-ba-header.right { border-left: none; }
+    .prob-block .prob-ba-label {
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #4A7A8A;
+    }
+    .prob-block .prob-ba-file { font-size: 9px; color: #2A4A5A; }
+    .prob-block .prob-ba-file.clean { color: #2A8A5A; }
+    .prob-block table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Courier Prime', monospace;
+    }
+    .prob-block th {
+      padding: 10px 16px;
+      font-size: 9px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #3A6A7A;
+      background: #141B24;
+      border-bottom: 1px solid #1E2D3D;
+      text-align: left;
+      font-weight: 400;
+      white-space: nowrap;
+    }
+    .prob-block th.bad { color: #5A4A30; background: #0F0C06; }
+    .prob-block td {
+      padding: 12px 16px;
+      font-size: 11px;
+      border-bottom: 1px solid #111820;
+      white-space: nowrap;
+    }
+    .prob-block tr:last-child td { border-bottom: none; }
+    .prob-block .td-bad { color: #3A5060; }
+    .prob-block .td-disorder { color: #5A4A30; background: #0C0A04; }
+    .prob-block .td-clean { color: #7AAABB; }
+    .prob-block .td-concat { color: #4A9EBF; }
+    .prob-block .prob-arrow-col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 0;
+    }
+    .prob-block .prob-arrow {
+      color: #4A9EBF;
+      font-size: 22px;
+      opacity: 0.6;
+      display: inline-block;
+      transform: rotate(90deg);
+    }
+    .prob-block .prob-statusbar {
+      border-top: 1px solid #1E2D3D;
+      padding: 10px 20px;
+      background: #0A0F15;
+      display: flex;
+      gap: 32px;
+      margin-top: 24px;
+    }
+    .prob-block .prob-s-item {
+      font-size: 9px;
+      color: #3A5A6A;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .prob-block .prob-s-item span { color: #4A9EBF; }
+
+    .prob-block .prob-bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid #D5CCC0;
+    }
+    .prob-block .prob-constraint-left {
+      background: #1A1208;
+      border-right: 1px solid #2A2010;
+      padding: 72px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .prob-block .prob-c-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #8A7A62;
+      margin-bottom: 28px;
+      font-weight: 400;
+    }
+    .prob-block .prob-c-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(24px, 2.5vw, 36px);
+      font-weight: 300;
+      color: #F2EDE4;
+      line-height: 1.3;
+      margin-bottom: 24px;
+    }
+    .prob-block .prob-c-body {
+      font-size: 13px;
+      font-weight: 300;
+      color: #C4B09A;
+      line-height: 2;
+    }
+    .prob-block .prob-c-rule {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid #3A3020;
+      font-family: 'Courier Prime', monospace;
+      font-size: 11px;
+      color: #C84830;
+      letter-spacing: 0.04em;
+    }
+    .prob-block .prob-constraint-right {
+      background: #1A1208;
+      padding: 72px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+    }
+    .prob-block .prob-flow-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #8A9A8A;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+    .prob-block .prob-flow-step {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .prob-block .prob-flow-step:last-child { margin-bottom: 0; }
+    .prob-block .prob-flow-box {
+      border: 1px solid #3A3A30;
+      padding: 16px 20px;
+      font-family: 'Jost', sans-serif;
+      font-size: 12px;
+      font-weight: 300;
+      color: #9A9A90;
+      flex: 1;
+      line-height: 1.5;
+    }
+    .prob-block .prob-flow-box span {
+      font-size: 10px;
+      color: #4A4A42;
+      display: block;
+      margin-top: 4px;
+    }
+    .prob-block .prob-flow-hint {
+      font-size: 9px;
+      color: #3A3020;
+      display: block;
+      margin-top: 4px;
+    }
+    .prob-block .prob-flow-box.active {
+      border-color: #9E2210;
+      color: #F2EDE4;
+      background: transparent;
+    }
+    .prob-block .prob-flow-arrow { color: #5A5A50; font-size: 13px; flex-shrink: 0; }
+    .prob-block .prob-flow-arrow.active { color: #C84830; }
+    .prob-block .prob-flow-note {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      color: #8A8A80;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 36px;
+      font-weight: 300;
+      border-top: 1px solid #3A3A30;
+      padding-top: 24px;
+    }
+
+    @media (max-width: 700px) {
+      .prob-block .prob-hero,
+      .prob-block .prob-bottom { grid-template-columns: 1fr; }
+      .prob-block .prob-hero-left,
+      .prob-block .prob-hero-right,
+      .prob-block .prob-constraint-left,
+      .prob-block .prob-constraint-right { padding: 48px 28px; }
+      .prob-block .prob-friction { grid-template-columns: 1fr; }
+      .prob-block .prob-friction-item { padding: 36px 28px; border-right: none; border-bottom: 1px solid #D5CCC0; }
+      .prob-block .prob-section-number { font-size: 80px; }
+
+      .prob-block .prob-excel-section { padding: 48px 0 56px; }
+      .prob-block .prob-excel-label-bar { padding: 0 24px 36px; }
+      .prob-block .prob-ba-grid { grid-template-columns: 1fr; }
+      .prob-block .prob-arrow-col {
+        padding: 20px 0;
+        border: none;
+        transform: rotate(90deg);
+      }
+      .prob-block .prob-ba-side { box-shadow: none; }
+      .prob-block td { white-space: normal; }
+    }
+
+    /* ============================================
+       02. RESEARCH SECTION
+    ============================================ */
+    .res-block {
+      background-color: var(--cream);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Header cream override para research */
+    .res-block .prob-hero-left {
+      background: var(--cream);
+      border-right: 1px solid #D5CCC0;
+    }
+    .res-block .prob-section-tag {
+      color: #1A1208;
+    }
+
+    /* Cards */
+    .res-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      padding: 72px clamp(48px, 16vw, 240px);
+    }
+
+    .res-card {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 2 / 3;
+      max-height: 600px;
+      border: 1px solid #C8BFB0;
+    }
+
+    .res-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--cream);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transform: translateY(100%);
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .res-card:hover .res-card-overlay {
+      transform: translateY(0);
+    }
+
+    .res-user-label {
+      font-size: 0.875rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--red);
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+
+    .res-user-name {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 2.2vw, 2rem);
+      font-weight: 300;
+      color: var(--black);
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+
+    .res-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-bottom: 16px;
+    }
+
+    .res-bullets li {
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: var(--gray-text);
+      line-height: 1.6;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .res-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--red);
+    }
+
+    .res-needs {
+      padding-top: 16px;
+      border-top: 1px solid #C8BFB0;
+    }
+
+    .res-needs-label {
+      font-size: 0.875rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      margin-bottom: 4px;
+      font-weight: 400;
+    }
+
+    .res-needs-value {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: var(--black);
+      font-style: italic;
+    }
+
+    .res-card-image {
+      position: absolute;
+      inset: 0;
+      background: #E8E0D6;
+    }
+
+    .res-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+
+    /* Key insight — caja horizontal crema */
+    .res-insight {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 56px;
+      align-items: center;
+      border-top: 1px solid #C8BFB0;
+      padding: 56px 48px 100px;
+      background: var(--cream);
+    }
+
+    .res-insight-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      font-weight: 400;
+    }
+
+    .res-insight-quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--black);
+      line-height: 1.35;
+      margin-bottom: 20px;
+    }
+
+    .res-insight-body {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--gray-text);
+      line-height: 1.85;
+    }
+
+    /* Research responsive */
+    @media (max-width: 700px) {
+      .res-cards { grid-template-columns: 1fr; padding: 40px 24px; }
+      .res-card { aspect-ratio: auto; position: static; overflow: visible; }
+      .res-card-image {
+        position: static;
+        display: block;
+        width: 100%;
+        aspect-ratio: 3 / 2;
+      }
+      .res-card-image img { height: 100%; }
+      .res-card-overlay {
+        position: static;
+        transform: none;
+        transition: none;
+        padding: 24px 0;
+        background: transparent;
+      }
+      .res-insight { grid-template-columns: 1fr; gap: 24px; padding: 40px 24px; }
+    }
+
+    /* ============================================
+       03. APPROACH SECTION
+    ============================================ */
+    .appr-block {
+      background-color: var(--cream);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Re-use prob-hero pattern — already styled above */
+
+    /* Match header column split to steps split (1fr 1.5fr) */
+    .appr-block .prob-hero {
+      grid-template-columns: 1fr 1.5fr;
+    }
+
+    /* Gray accent line at top of approach right panel */
+    .appr-block .prob-hero-right {
+      border-top: 1px solid #D5CCC0;
+    }
+
+    /* Steps — two-column editorial grid */
+    .appr-steps {
+      border-top: 1px solid #D5CCC0;
+    }
+
+    .appr-step {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      border-bottom: 1px solid #D5CCC0;
+      transition: background-color 0.3s ease;
+    }
+
+    .appr-step:hover {
+      background-color: rgba(0,0,0,0.012);
+    }
+
+    .appr-step-left {
+      padding: 72px 40px 72px 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border-right: 1px solid #D5CCC0;
+    }
+
+    .appr-step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px;
+      font-weight: 300;
+      color: #D5CCC0;
+      line-height: 1;
+    }
+
+    .appr-step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(18px, 1.6vw, 22px);
+      font-weight: 400;
+      color: var(--black);
+      line-height: 1.25;
+    }
+
+    .appr-step-right {
+      padding: 72px 56px;
+      display: flex;
+      align-items: center;
+    }
+
+    .appr-step-body {
+      font-family: 'Jost', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: #5A5040;
+      line-height: 2;
+      max-width: 58ch;
+    }
+
+    /* Mockup showcase — dark panel */
+    .appr-mockup-section {
+      background: var(--cream);
+      padding: 80px 56px 100px;
+    }
+
+    .appr-mockup-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Main app window — large, centered, with shadow */
+    .appr-mockup-main {
+      margin-bottom: 56px;
+    }
+
+    #apprMainImg {
+      transition: opacity 0.25s ease;
+    }
+
+    .appr-mockup-frame {
+      box-shadow: 19.83px 23.13px 15.86px rgba(0,0,0,0.2);
+      border-radius: 0;
+      overflow: hidden;
+      background: #141B24;
+    }
+
+    .appr-mockup-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Three screen thumbnails row */
+    .appr-mockup-screens {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .appr-screen-thumb {
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      text-align: left;
+      width: 100%;
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .appr-screen-thumb:hover {
+      transform: translateY(-4px);
+    }
+
+    .appr-screen-frame {
+      box-shadow:
+        0 6px 28px rgba(0,0,0,0.10),
+        0 2px 8px rgba(0,0,0,0.05);
+      border-radius: 0;
+      overflow: hidden;
+      background: #141B24;
+    }
+
+    .appr-screen-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .appr-screen-label {
+      margin-top: 14px;
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      text-align: center;
+      font-weight: 400;
+    }
+
+    /* Approach responsive */
+    @media (max-width: 800px) {
+      .appr-step {
+        grid-template-columns: 1fr;
+      }
+      .appr-step-left {
+        padding: 32px 28px 0;
+        border-right: none;
+        border-bottom: none;
+        flex-direction: row;
+        align-items: baseline;
+        gap: 16px;
+      }
+      .appr-step-num {
+        font-size: 28px;
+      }
+      .appr-step-right {
+        padding: 16px 28px 32px;
+      }
+      .appr-mockup-section {
+        padding: 48px 24px 64px;
+      }
+      .appr-mockup-screens {
+        gap: 12px;
+      }
+      .appr-screen-label {
+        font-size: 8px;
+      }
+    }
+
+    /* ============================================
+       04. RESULTS SECTION — rediseño
+    ============================================ */
+    .res4-block {
+      background-color: var(--cream);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Header — scoped reuse of prob-hero pattern, cream variant */
+    .res4-block .prob-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 480px;
+    }
+    .res4-block .prob-hero-left {
+      background: var(--cream);
+      border-right: 1px solid #D5CCC0;
+      padding: 72px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .res4-block .prob-section-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 160px;
+      font-weight: 300;
+      color: #9E2210;
+      line-height: 0.85;
+    }
+    .res4-block .prob-section-tag {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(40px, 5.5vw, 80px);
+      font-weight: 300;
+      color: #1A1208;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+    }
+    .res4-block .prob-hero-right {
+      padding: 72px clamp(40px, 8vw, 120px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-top: 1px solid #D5CCC0;
+    }
+    .res4-block .prob-hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 3vw, 44px);
+      font-weight: 300;
+      color: #1A1208;
+      line-height: 1.2;
+      margin-bottom: 32px;
+    }
+    .res4-block .prob-hero-title em { font-style: italic; color: #9E2210; }
+    .res4-block .prob-hero-body {
+      font-size: 14px;
+      font-weight: 300;
+      color: #5A5040;
+      line-height: 2;
+      max-width: 52ch;
+    }
+
+    /* Metrics — dark three-column grid */
+    .res4-metrics {
+      background: #0D0D0D;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid #1C1C1C;
+    }
+
+    .res4-metric {
+      padding: 80px 56px 72px;
+      border-right: 1px solid #1C1C1C;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .res4-metric:last-child { border-right: none; }
+
+    .res4-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(72px, 8.5vw, 120px);
+      font-weight: 300;
+      color: #9E2210;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      display: block;
+    }
+
+    .res4-bar-track {
+      width: 100%;
+      height: 1px;
+      background: #222;
+      position: relative;
+    }
+    .res4-bar-fill {
+      position: absolute;
+      top: -1px;
+      left: 0;
+      height: 3px;
+      background: #9E2210;
+      width: 0;
+      transition: width 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+    }
+    .res4-metric.visible .res4-bar-fill {
+      width: var(--bar-w);
+    }
+
+    .res4-metric-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #555048;
+      font-weight: 400;
+      margin-top: -16px;
+    }
+
+    .res4-metric-desc {
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: #7A7060;
+      line-height: 1.9;
+    }
+
+    /* Closing statement */
+    .res4-closing {
+      border-top: 1px solid #D5CCC0;
+      padding: 80px clamp(56px, 12vw, 200px) 100px;
+    }
+    .res4-closing-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(22px, 2.8vw, 38px);
+      font-weight: 300;
+      font-style: italic;
+      color: #1A1208;
+      line-height: 1.5;
+      max-width: 52ch;
+    }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      .res4-block .prob-hero { grid-template-columns: 1fr; }
+      .res4-block .prob-hero-left,
+      .res4-block .prob-hero-right { padding: 48px 28px; }
+      .res4-block .prob-section-number { font-size: 80px; }
+      .res4-metrics { grid-template-columns: 1fr; }
+      .res4-metric { padding: 56px 28px; border-right: none; border-bottom: 1px solid #1C1C1C; }
+      .res4-metric:last-child { border-bottom: none; }
+    }
+
+    /* ============================================
+       IMAGE PLACEHOLDER
+    ============================================ */
+    .image-placeholder {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background-color: var(--app-bg);
+      border: 1px solid rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      margin: 3rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .image-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 39px,
+          rgba(255,255,255,0.02) 39px,
+          rgba(255,255,255,0.02) 40px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 39px,
+          rgba(255,255,255,0.02) 39px,
+          rgba(255,255,255,0.02) 40px
+        );
+    }
+
+    .image-placeholder__label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: rgba(200, 216, 232, 0.4);
+      text-transform: uppercase;
+      z-index: 1;
+    }
+
+    .image-placeholder__desc {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: rgba(200, 216, 232, 0.2);
+      z-index: 1;
+    }
+
+    .image-placeholder--light {
+      background-color: var(--white);
+      border: 1px dashed rgba(0,0,0,0.1);
+    }
+
+    .image-placeholder--light::before {
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 39px,
+          rgba(0,0,0,0.015) 39px,
+          rgba(0,0,0,0.015) 40px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 39px,
+          rgba(0,0,0,0.015) 39px,
+          rgba(0,0,0,0.015) 40px
+        );
+    }
+
+    .image-placeholder--light .image-placeholder__label {
+      color: rgba(0,0,0,0.25);
+    }
+
+    .image-placeholder--light .image-placeholder__desc {
+      color: rgba(0,0,0,0.15);
+    }
+
+    /* For actual images when ready */
+    .image-placeholder img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 2;
+    }
+
+    /* ============================================
+       05. LEARNING SECTION
+    ============================================ */
+    .learn-block {
+      background: var(--cream);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Intro — dark typographic panel con número decorativo de fondo */
+    .learn-intro {
+      background: #0D0D0D;
+      padding: 110px clamp(56px, 10vw, 160px);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+    .learn-intro-eyebrow {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #555048;
+      font-weight: 400;
+    }
+    .learn-intro-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(56px, 8vw, 120px);
+      font-weight: 300;
+      color: #F2EDE4;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      position: relative;
+    }
+    .learn-intro-num {
+      font-style: normal;
+      color: #9E2210;
+    }
+    .learn-intro-bg-num {
+      position: absolute;
+      right: -0.05em;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(300px, 45vw, 600px);
+      font-weight: 300;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.05);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+    .learn-intro-quote {
+      font-family: 'Jost', sans-serif;
+      font-size: clamp(13px, 1.1vw, 16px);
+      font-weight: 300;
+      font-style: italic;
+      color: #7A7060;
+      line-height: 1.8;
+      max-width: 44ch;
+      position: relative;
+    }
+
+    /* Three lessons — tres columnas lado a lado */
+    .learn-lessons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid #D5CCC0;
+    }
+    .learn-lesson {
+      padding: 72px 56px;
+      border-right: 1px solid #D5CCC0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .learn-lesson:last-child { border-right: none; }
+    .learn-lesson-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 80px;
+      font-weight: 300;
+      color: #E8E0D6;
+      line-height: 0.9;
+    }
+    .learn-lesson-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(20px, 1.8vw, 26px);
+      font-weight: 400;
+      color: #1A1208;
+      line-height: 1.2;
+      margin: 0;
+    }
+    .learn-lesson-body {
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: #5A5040;
+      line-height: 1.95;
+    }
+
+    /* Manual — GIF + PDF info panel */
+    .learn-media {
+      display: grid;
+      grid-template-columns: 500px 1fr;
+      border-top: 1px solid #D5CCC0;
+    }
+    .learn-media-gif {
+      border-right: 1px solid #D5CCC0;
+      background: #1b2735;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40
+      px;
+    }
+    .learn-media-gif img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .learn-media-right {
+      padding: 72px 150px 72px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #1A1208;
+    }
+    .learn-media-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #8A7A62;
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+    .learn-media-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(24px, 2.5vw, 36px);
+      font-weight: 300;
+      color: #F2EDE4;
+      line-height: 1.3;
+      margin-bottom: 20px;
+    }
+    .learn-media-desc {
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: #9A8A7A;
+      line-height: 1.9;
+      flex: 1;
+    }
+    .learn-pdf-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 40px;
+      padding: 16px 24px;
+      border: 1px solid #3A3020;
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #F2EDE4;
+      text-decoration: none;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+    .learn-pdf-link:hover {
+      border-color: #9E2210;
+      background: rgba(158,34,16,0.08);
+    }
+
+    /* Closing + Escuela 42 */
+    .learn-closing {
+      padding: 88px clamp(56px, 10vw, 160px) 110px;
+      border-top: 1px solid #D5CCC0;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 80px;
+      align-items: end;
+    }
+    .learn-closing-text {
+      font-family: 'Jost', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: #5A5040;
+      line-height: 2;
+      max-width: 56ch;
+    }
+    .learn-42-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(22px, 2.5vw, 32px);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--black);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: gap 0.3s ease;
+    }
+    .learn-42-link:hover { gap: 24px; }
+    .learn-42-arrow {
+      font-style: normal;
+      color: #9E2210;
+      transition: transform 0.3s ease;
+    }
+    .learn-42-link:hover .learn-42-arrow { transform: translateX(4px); }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      .learn-intro { padding: 72px 28px; }
+      .learn-lessons { grid-template-columns: 1fr; }
+      .learn-lesson { padding: 48px 28px; border-right: none; border-bottom: 1px solid #D5CCC0; }
+      .learn-lesson:last-child { border-bottom: none; }
+      .learn-lesson-num { font-size: 56px; }
+      .learn-media { grid-template-columns: 1fr; }
+      .learn-media-gif { border-right: none; border-bottom: 1px solid #D5CCC0; padding: 40px 28px; }
+      .learn-media-right { padding: 48px 28px; }
+      .learn-closing { grid-template-columns: 1fr; gap: 40px; padding: 56px 28px 72px; }
+    }
+
+    /* ============================================
+       7. CLOSING / FOOTER
+    ============================================ */
+    .closing {
+      background: var(--black);
+      border-top: 1px solid #1C1C1C;
+      position: relative;
+      z-index: 2;
+    }
+
+    .closing-nav {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .closing-nav-item {
+      padding: 72px 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      text-decoration: none;
+      border-bottom: 1px solid #1C1C1C;
+      transition: background 0.35s ease;
+    }
+    .closing-nav-item:first-child { border-right: 1px solid #1C1C1C; }
+    .closing-nav-item:hover { background: rgba(255,255,255,0.025); }
+
+    .closing-nav-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #888;
+      font-weight: 400;
+    }
+
+    .closing-nav-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 4.5vw, 64px);
+      font-weight: 300;
+      color: #F2EDE4;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      transition: opacity 0.3s ease;
+    }
+    .closing-nav-item:last-child .closing-nav-title { color: #9E2210; }
+    .closing-nav-item:hover .closing-nav-title { opacity: 0.75; }
+
+    .closing-nav-arrow {
+      display: inline-block;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .closing-nav-item:hover .closing-nav-arrow { transform: translateX(8px); }
+
+    .closing-bottom {
+      padding: 24px 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .closing-bottom-copy {
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      color: #666;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+    }
+
+    @media (max-width: 600px) {
+      .closing-nav { grid-template-columns: 1fr; }
+      .closing-nav-item { padding: 48px 28px; border-right: none !important; }
+      .closing-bottom { padding: 20px 28px; flex-direction: column; gap: 8px; text-align: center; }
+    }
+
+    /* ============================================
+       DIVIDER — Red diamond between sections
+    ============================================ */
+    /* Todo lo que va después del hero sticky se coloca por encima */
+    .hero-sticky-wrap ~ * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 0;
+      background-color: var(--cream);
+    }
+
+    .section-divider::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--red);
+      transform: rotate(45deg);
+    }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 900px) {
+      .hero__meta {
+        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding: 2rem 1.5rem;
+      }
+
+      .hero::before {
+        left: 1.5rem;
+      }
+
+      .content-wrap {
+        width: 90vw;
+      }
+
+      .image-placeholder {
+        aspect-ratio: 4 / 3;
+      }
+    }
+
+    /* ── SIDE NAV — manita + sobre, fijos en el borde derecho ── */
+    .side-nav {
+      position: fixed;
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      transition: opacity 0.4s ease;
+    }
+
+    /* Tooltip compartido */
+    .back-arrow::before,
+    .contact-envelope::before {
+      content: attr(data-tip);
+      position: absolute;
+      right: calc(100% + 12px);
+      top: 50%;
+      transform: translateY(-50%) translateX(6px);
+      background: var(--black);
+      color: #F2EDE4;
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      padding: 6px 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    .back-arrow:hover::before,
+    .contact-envelope:hover::before {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+
+    .back-arrow {
+      position: relative;
+      width: 72px;
+      opacity: 0.35;
+      transition: opacity 0.3s ease;
+      display: block;
+    }
+    .back-arrow:hover { opacity: 0.85; }
+    .back-arrow img { width: 100%; height: auto; display: block; }
+
+    /* Envelope */
+    .contact-envelope {
+      position: relative;
+      width: 58px;
+      opacity: 0.35;
+      transition: opacity 0.3s ease;
+      display: block;
+      transform: translateX(3px);
+    }
+    .contact-envelope:hover { opacity: 1; }
+    .contact-envelope img { width: 100%; height: auto; display: block; }
+    .contact-envelope .env-open  { display: none; }
+    .contact-envelope:hover .env-closed { display: none; }
+    .contact-envelope:hover .env-open   { display: block; }
+
+    /* ============================================
+       MOBILE — consolidated responsive additions
+    ============================================ */
+
+    /* Back arrow — hidden on mobile (no hover, takes visual space) */
+    @media (max-width: 800px) {
+      .side-nav { display: none; }
+    }
+
+    @media (max-width: 700px) {
+
+      /* ── HERO ── */
+      .hero__meta { gap: 1.5rem; }
+
+      /* ── 02 RESEARCH — stack 2-col header ── */
+      .res-block .prob-hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+      .res-block .prob-hero-left {
+        padding: 48px 28px;
+        border-right: none;
+        border-bottom: 1px solid #D5CCC0;
+      }
+      .res-block .prob-hero-right { padding: 48px 28px; }
+      .res-block .prob-section-number { font-size: 80px; }
+
+      /* ── 03 APPROACH — stack 2-col header ── */
+      .appr-block .prob-hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+      .appr-block .prob-hero-left {
+        padding: 48px 28px;
+        border-right: none;
+        border-bottom: 1px solid #D5CCC0;
+      }
+      .appr-block .prob-hero-right {
+        padding: 48px 28px;
+        border-top: none;
+      }
+      .appr-block .prob-section-number { font-size: 80px; }
+
+      /* ── 05 LEARNING — decorative oversized number hides on mobile ── */
+      .learn-intro-bg-num { display: none; }
+      .learn-intro { padding: 64px 28px; gap: 32px; }
+
+      /* Prevent nowrap overflow in closing link */
+      .learn-42-link { white-space: normal; }
+
+      /* ── EXCEL TABLE — horizontal scroll on narrow screens ── */
+      .prob-excel-inner { overflow-x: auto; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       HERO
+  ============================================ -->
+  <div class="hero-sticky-wrap">
+    <section class="hero">
+      <p class="hero__label">Project 02 &mdash; UX &amp; Process Design</p>
+      <h1 class="hero__title">A program that solved a problem for 2&nbsp;people.</h1>
+      <p class="hero__subtitle">What started as a Python script to organize chaotic Excel files became a lesson in installation design, user autonomy, and what it means to build something that works without&nbsp;you.</p>
+      <div class="hero__meta">
+        <div class="hero__meta-item">
+          <span class="hero__meta-label">Role</span>
+          <span class="hero__meta-value">UX &amp; Process Design</span>
+        </div>
+        <div class="hero__meta-item">
+          <span class="hero__meta-label">Type</span>
+          <span class="hero__meta-value">Desktop Application</span>
+        </div>
+        <div class="hero__meta-item">
+          <span class="hero__meta-label">Stack</span>
+          <span class="hero__meta-value">Python &middot; Executable</span>
+        </div>
+        <div class="hero__meta-item">
+          <span class="hero__meta-label">Status</span>
+          <span class="hero__meta-value">In daily use</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- ============================================
+       01 — THE PROBLEM
+  ============================================ -->
+  <section class="prob-outer">
+  <div class="prob-block">
+
+    <div class="prob-hero reveal">
+      <div class="prob-hero-left">
+        <div class="prob-section-number">01</div>
+        <div class="prob-section-tag">The<br>Problem</div>
+      </div>
+      <div class="prob-hero-right">
+        <h2 class="prob-hero-title">Machines do what machines do.<br><em>Humans should do<br>what humans do.</em></h2>
+        <div class="prob-hero-body">Every week: different Excel file, different structure, different column names. Two employees spent 20 minutes to 3 hours per file on purely mechanical work — matching columns, verifying data, reorganizing. Not specialized work. Just repetition with real consequences.</div>
+      </div>
+    </div>
+
+    <div class="prob-friction">
+      <div class="prob-friction-item reveal">
+        <div class="prob-f-num">01</div>
+        <div class="prob-f-title">Time Drain</div>
+        <div class="prob-f-stat">20 min – 3 hrs per file</div>
+        <div class="prob-f-body">Every week. The same manual process, repeated indefinitely.</div>
+      </div>
+      <div class="prob-friction-item reveal reveal-delay-1">
+        <div class="prob-f-num">02</div>
+        <div class="prob-f-title">Error Risk</div>
+        <div class="prob-f-stat">One misplaced column.</div>
+        <div class="prob-f-body">A failed shipment. The cost of human error was operational, not theoretical.</div>
+      </div>
+      <div class="prob-friction-item reveal reveal-delay-2">
+        <div class="prob-f-num">03</div>
+        <div class="prob-f-title">Mental Overhead</div>
+        <div class="prob-f-stat">Tacit knowledge. Not scalable.</div>
+        <div class="prob-f-body">Not transferable. Entirely dependent on two people.</div>
+      </div>
+    </div>
+
+    <div class="prob-excel-section reveal">
+      <div class="prob-excel-inner">
+      <div class="prob-excel-label-bar">
+        <span class="prob-excel-label">The data</span>
+        <span class="prob-excel-sublabel">Same records. Wrong structure for the supplier.</span>
+      </div>
+      <div class="prob-excel-wrap">
+        <div class="prob-ba-grid">
+          <div class="prob-ba-side">
+            <div class="prob-ba-header">
+              <span class="prob-ba-label">Before</span>
+              <span class="prob-ba-file">PT_ORION_NOV24.xls</span>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th class="bad">Col. A</th><th class="bad">Col. B</th><th class="bad">Col. C</th>
+                  <th class="bad">Col. D</th><th class="bad">Col. E</th><th class="bad">Col. F</th><th class="bad">Col. G</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="td-disorder">Ms</td><td class="td-bad">Carla</td><td class="td-bad">C</td>
+                  <td class="td-bad">Mendes</td><td class="td-disorder">Rua Castilho 50</td><td class="td-disorder">Ed. IQVIA</td><td class="td-bad">1250-096</td>
+                </tr>
+                <tr>
+                  <td class="td-disorder">Dr</td><td class="td-bad">Ana</td><td class="td-bad">A</td>
+                  <td class="td-bad">Ferreira</td><td class="td-disorder">Rua Salitre 195</td><td class="td-disorder"></td><td class="td-bad">1269-063</td>
+                </tr>
+                <tr>
+                  <td class="td-disorder">Mr</td><td class="td-bad">James</td><td class="td-bad">J</td>
+                  <td class="td-bad">Whitfield</td><td class="td-disorder">Av. Liberdade 110</td><td class="td-disorder">Ed. IQVIA</td><td class="td-bad">1250-071</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="prob-arrow-col">
+            <div class="prob-arrow">→</div>
+          </div>
+          <div class="prob-ba-side">
+            <div class="prob-ba-header right">
+              <span class="prob-ba-label">After</span>
+              <span class="prob-ba-file clean">PT_ORION_NOV24.clean.xls</span>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>EnvLine 1</th><th>EnvLine 2</th><th>EnvLine 3</th>
+                  <th>Postcode</th><th>Post Town</th><th>County</th><th>Country</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="td-concat">Ms C. Mendes</td><td class="td-clean">Rua Castilho 50</td><td class="td-clean">Ed. IQVIA</td>
+                  <td class="td-clean">1250-096</td><td class="td-clean">Lisboa</td><td class="td-clean"></td><td class="td-clean">Portugal</td>
+                </tr>
+                <tr>
+                  <td class="td-concat">Dr A. Ferreira</td><td class="td-clean">Rua Salitre 195</td><td class="td-clean"></td>
+                  <td class="td-clean">1269-063</td><td class="td-clean">Lisboa</td><td class="td-clean"></td><td class="td-clean">Portugal</td>
+                </tr>
+                <tr>
+                  <td class="td-concat">Mr J. Whitfield</td><td class="td-clean">Av. Liberdade 110</td><td class="td-clean">Ed. IQVIA</td>
+                  <td class="td-clean">1250-071</td><td class="td-clean">Lisboa</td><td class="td-clean"></td><td class="td-clean">Portugal</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <div class="prob-bottom reveal">
+      <div class="prob-constraint-left">
+        <div>
+          <div class="prob-c-label">The Core Constraint</div>
+          <div class="prob-c-title">Users needed speed. But not at the cost of control.</div>
+          <div class="prob-c-body">They distrusted the technology more than they needed the convenience. The design decision was clear: the program proposes. Users confirm. No black box.</div>
+        </div>
+        <div class="prob-c-rule">The program proposes. Users confirm. No black box.</div>
+      </div>
+      <div class="prob-constraint-right">
+        <div>
+          <div class="prob-flow-label">User flow</div>
+          <div class="prob-flow-step">
+            <div class="prob-flow-box">Select file type<br><span class="prob-flow-hint">Azules / Blancas</span></div>
+            <div class="prob-flow-arrow active">→</div>
+            <div class="prob-flow-box active">Preview duplicates</div>
+          </div>
+          <div class="prob-flow-step">
+            <div class="prob-flow-box active">Merge files</div>
+            <div class="prob-flow-arrow active">→</div>
+            <div class="prob-flow-box active">Export</div>
+          </div>
+          <div class="prob-flow-note">No step executes without user confirmation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </section>
+
+  <!-- ============================================
+       02 — RESEARCH
+  ============================================ -->
+  <section class="res-block">
+
+    <!-- Header — misma estructura que prob-hero -->
+    <div class="prob-hero reveal">
+      <div class="prob-hero-left">
+        <div class="prob-section-number">02</div>
+        <div class="prob-section-tag">Research</div>
+      </div>
+      <div class="prob-hero-right">
+        <h2 class="prob-hero-title">Who I<br>designed for.</h2>
+        <div class="prob-hero-body">Small company, small audience. My users were my colleagues — which meant I could observe the problem daily and ask questions without scheduling a single meeting.</div>
+      </div>
+    </div>
+
+    <!-- Cards de usuario -->
+    <div class="res-cards">
+
+      <div class="res-card reveal">
+        <div class="res-card-image">
+          <img src="assets/images/projects/image.User01.png" alt="The Logistics Lead">
+        </div>
+        <div class="res-card-overlay">
+          <div>
+            <p class="res-user-label">Primary User</p>
+            <h3 class="res-user-name">The Logistics Lead</h3>
+            <ul class="res-bullets">
+              <li>40+. Excel expert, zero programming.</li>
+              <li>Knows the process better than anyone.</li>
+              <li>Relies entirely on manual methods.</li>
+              <li>High tech risk aversion — if something can go wrong, she assumes it will.</li>
+            </ul>
+          </div>
+          <div class="res-needs">
+            <p class="res-needs-label">Needs</p>
+            <p class="res-needs-value">speed + control</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="res-card reveal reveal-delay-1">
+        <div class="res-card-image">
+          <img src="assets/images/projects/image.user02.jpg" alt="The Art Director">
+        </div>
+        <div class="res-card-overlay">
+          <div>
+            <p class="res-user-label">Secondary User</p>
+            <h3 class="res-user-name">The Art Director</h3>
+            <ul class="res-bullets">
+              <li>Hates spreadsheets. Actively avoids them.</li>
+              <li>Similar technical profile, different relationship with the task.</li>
+              <li>Doesn't want to master the process, she wants it gone.</li>
+              <li>High initial distrust, but once convinced: needs to work independently.</li>
+            </ul>
+          </div>
+          <div class="res-needs">
+            <p class="res-needs-label">Needs</p>
+            <p class="res-needs-value">autonomy + documentation</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Key insight — caja horizontal crema -->
+    <div class="res-insight reveal">
+      <p class="res-insight-tag">The Key Insight</p>
+      <div>
+        <p class="res-insight-quote">&ldquo;Make it do it by itself.&rdquo; &ldquo;&hellip;and I need to see what it's doing. And don't delete anything.&rdquo;</p>
+        <p class="res-insight-body">Unanimous answer. Immediately followed by the real constraint. Full automation was the desire — supervised automation was the actual need.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================
+       03 — THE APPROACH
+  ============================================ -->
+  <section class="appr-block">
+
+    <!-- Header — same split-panel pattern as 01 and 02 -->
+    <div class="prob-hero reveal">
+      <div class="prob-hero-left">
+        <div class="prob-section-number">03</div>
+        <div class="prob-section-tag">The<br>Approach</div>
+      </div>
+      <div class="prob-hero-right">
+        <h2 class="prob-hero-title">First a sketch. Then proof.<br><em>Then the product.</em></h2>
+        <div class="prob-hero-body">Five decisions shaped the tool. Each one was a response to something observed, not assumed.</div>
+      </div>
+    </div>
+
+    <!-- Steps — editorial two-column grid -->
+    <div class="appr-steps reveal">
+
+      <div class="appr-step">
+        <div class="appr-step-left">
+          <div class="appr-step-num">01</div>
+          <h3 class="appr-step-title">The Proof-of-Concept</h3>
+        </div>
+        <div class="appr-step-right">
+          <p class="appr-step-body">Wrote a simple Python script that did one thing: reorder columns A and B. Nothing else. Proof that the problem was automatable. It worked: I got the space to develop a real version while keeping my other responsibilities.</p>
+        </div>
+      </div>
+
+      <div class="appr-step">
+        <div class="appr-step-left">
+          <div class="appr-step-num">02</div>
+          <h3 class="appr-step-title">Diagnosis</h3>
+        </div>
+        <div class="appr-step-right">
+          <p class="appr-step-body">Asked users directly: what scares you? What confuses you? What would be ideal? The answers defined both the goal and its limits. They wanted full automation &mdash; but they also needed final say on every output. The program would have to propose, never impose.</p>
+        </div>
+      </div>
+
+      <div class="appr-step">
+        <div class="appr-step-left">
+          <div class="appr-step-num">03</div>
+          <h3 class="appr-step-title">Flow Design</h3>
+        </div>
+        <div class="appr-step-right">
+          <p class="appr-step-body">Two database types required two logics. &ldquo;Blue&rdquo; databases (predictable structure): auto-process in seconds. &ldquo;White&rdquo; databases (variable structure): detect pattern, show preview, wait for user confirmation before executing. Users select the type manually &mdash; not because the program couldn&rsquo;t detect it, but because at that stage, user trust was more reliable than program accuracy.</p>
+        </div>
+      </div>
+
+      <div class="appr-step">
+        <div class="appr-step-left">
+          <div class="appr-step-num">04</div>
+          <h3 class="appr-step-title">Retro Interface</h3>
+        </div>
+        <div class="appr-step-right">
+          <p class="appr-step-body">The Windows-era terminal aesthetic was intentional, not a technical limitation. Users didn&rsquo;t need a sophisticated-looking app. They needed one that felt simple, controllable, predictable. The visual message had to match the task: this is straightforward, you are in control.</p>
+        </div>
+      </div>
+
+      <div class="appr-step">
+        <div class="appr-step-left">
+          <div class="appr-step-num">05</div>
+          <h3 class="appr-step-title">Installation Redesign</h3>
+        </div>
+        <div class="appr-step-right">
+          <p class="appr-step-body">First version required Python and Git, an invisible wall for non-technical users. Nearly killed the project before launch. Redesigned as a one-click executable: no visible dependencies, no terminal, one-page manual. Installation became part of the design, not an afterthought.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Mockup showcase — replicates your Figma layout -->
+    <div class="appr-mockup-section">
+      <div class="appr-mockup-inner">
+
+        <!-- Main app window -->
+        <div class="appr-mockup-main">
+          <div class="appr-mockup-frame">
+            <!-- Replace src with your actual main screen image -->
+            <img src="assets/images/projects/Home.png" alt="Macrodata Refinement — main application screen" id="apprMainImg">
+          </div>
+        </div>
+
+        <!-- Three screen thumbnails -->
+        <div class="appr-mockup-screens">
+          <button class="appr-screen-thumb" data-screen="1" aria-label="Ver pantalla: Preview">
+            <div class="appr-screen-frame">
+              <img src="assets/images/projects/Preview.png" alt="Pantalla de previsualización">
+            </div>
+            <p class="appr-screen-label">02 &middot; Preview</p>
+          </button>
+          <button class="appr-screen-thumb" data-screen="2" aria-label="Ver pantalla: Merge">
+            <div class="appr-screen-frame">
+              <img src="assets/images/projects/UNIR.png" alt="Pantalla de fusión de archivos">
+            </div>
+            <p class="appr-screen-label">03 &middot; Merge</p>
+          </button>
+          <button class="appr-screen-thumb" data-screen="3" aria-label="Ver pantalla: Export">
+            <div class="appr-screen-frame">
+              <img src="assets/images/projects/Exportar.png" alt="Pantalla de exportación">
+            </div>
+            <p class="appr-screen-label">04 &middot; Export</p>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================
+       04 — RESULTS
+  ============================================ -->
+  <section class="res4-block">
+
+    <div class="prob-hero reveal">
+      <div class="prob-hero-left">
+        <div class="prob-section-number">04</div>
+        <div class="prob-section-tag">Results</div>
+      </div>
+      <div class="prob-hero-right">
+        <h2 class="prob-hero-title">The tool became<br>invisible.<br><em>In the best way.</em></h2>
+        <div class="prob-hero-body">Best indicator a system works? It stops being a problem. Database management stopped being office conversation because it stopped being an office issue.</div>
+      </div>
+    </div>
+
+    <div class="res4-metrics">
+
+      <div class="res4-metric">
+        <span class="res4-num" data-prefix="&minus;" data-suffix="%" data-count="95">&minus;0%</span>
+        <div class="res4-bar-track"><div class="res4-bar-fill" style="--bar-w:95%"></div></div>
+        <p class="res4-metric-label">Time reduction</p>
+        <p class="res4-metric-desc">From 20 min&ndash;3 hours per file to under 5 minutes. Merging took seconds.</p>
+      </div>
+
+      <div class="res4-metric">
+        <span class="res4-num">2 &rarr;+</span>
+        <div class="res4-bar-track"><div class="res4-bar-fill" style="--bar-w:62%"></div></div>
+        <p class="res4-metric-label">User adoption</p>
+        <p class="res4-metric-desc">Designed for 2 users. Now used by people who were never trained by the original designer.</p>
+      </div>
+
+      <div class="res4-metric">
+        <span class="res4-num" data-prefix="" data-suffix="" data-count="0">0</span>
+        <div class="res4-bar-track"><div class="res4-bar-fill" style="--bar-w:100%"></div></div>
+        <p class="res4-metric-label">Technical requirements</p>
+        <p class="res4-metric-desc">One-click executable. No Python, no Git, no terminal. It behaves like any other desktop application.</p>
+      </div>
+
+    </div>
+
+    <div class="res4-closing reveal">
+      <p class="res4-closing-text">&ldquo;Best indicator a system works? It stops being a problem. Database management stopped being office conversation because it stopped being an office issue.&rdquo;</p>
+    </div>
+
+  </section>
+
+  <!-- ============================================
+       05 — THE LEARNING
+  ============================================ -->
+  <section class="learn-block">
+
+    <!-- Intro — panel oscuro con cita grande -->
+    <div class="learn-intro reveal">
+      <span class="learn-intro-bg-num" aria-hidden="true">05</span>
+      <h2 class="learn-intro-title"><em class="learn-intro-num">05</em> The<br>Learning.</h2>
+      <p class="learn-intro-quote">&ldquo;The hardest part wasn&rsquo;t building the program. It was making it work on someone&rsquo;s computer who didn&rsquo;t ask for it. Installation is design.&rdquo;</p>
+    </div>
+
+    <!-- Three lessons — tres columnas -->
+    <div class="learn-lessons">
+
+      <div class="learn-lesson reveal">
+        <div class="learn-lesson-num">01</div>
+        <h2 class="learn-lesson-title">Architecture first,<br>code second.</h2>
+        <p class="learn-lesson-body">I learned Python solving each bug as it appeared, without a clear logic structure underneath. If I did it again, I&rsquo;d talk to someone who knows programming before writing the first line &mdash; not to delegate, but to build on a better foundation.</p>
+      </div>
+
+      <div class="learn-lesson reveal reveal-delay-1">
+        <div class="learn-lesson-num">02</div>
+        <h2 class="learn-lesson-title">Installation<br>is design.</h2>
+        <p class="learn-lesson-body">Making it installable was almost harder than making it work. The first version required Git management &mdash; something completely outside my users&rsquo; scope. That nearly killed the project. The printed manual, the one-click executable, the walkthrough session &mdash; all of that was design work, not afterthought.</p>
+      </div>
+
+      <div class="learn-lesson reveal reveal-delay-2">
+        <div class="learn-lesson-num">03</div>
+        <h2 class="learn-lesson-title">Build a maintenance<br>channel from the start.</h2>
+        <p class="learn-lesson-body">I no longer work at the company. The tool is still in daily use, but I have no control over feedback or future changes. If I could redo the project, I&rsquo;d build a maintenance channel from the start &mdash; a way for the tool to evolve without depending on my presence.</p>
+      </div>
+
+    </div>
+
+    <!-- Manual — GIF + PDF panel -->
+    <div class="learn-media reveal">
+      <div class="learn-media-gif">
+        <img src="assets/images/projects/manual.gif" alt="Walkthrough del manual de instalación">
+      </div>
+      <div class="learn-media-right">
+        <div>
+          <p class="learn-media-label">Artefact</p>
+          <p class="learn-media-title">Manual de Procedimiento Operativo.</p>
+          <p class="learn-media-desc">A printed booklet designed so that anyone in the office could install and run the program without calling me. Bureaucratic tone, deliberate structure, zero ambiguity. Part of the design process, not separate from it.</p>
+        </div>
+        <a href="manual.pdf" target="_blank" rel="noopener" class="learn-pdf-link">&#8595;&nbsp; Download PDF</a>
+      </div>
+    </div>
+
+    <!-- Closing + Escuela 42 -->
+    <div class="learn-closing reveal">
+      <p class="learn-closing-text">This project taught me that programming is problem-solving that lasts. You build something once, and it keeps working when you&rsquo;re gone. That was interesting enough to study formally.</p>
+      <a href="https://42madrid.com" target="_blank" rel="noopener" class="learn-42-link">
+        Escuela 42 <span class="learn-42-arrow">&rarr;</span>
+      </a>
+    </div>
+
+  </section>
+
+  <!-- ============================================
+       CLOSING
+  ============================================ -->
+  <footer class="closing">
+    <div class="closing-nav">
+      <a href="index.html#work" class="closing-nav-item reveal">
+        <span class="closing-nav-label">← Portfolio</span>
+        <span class="closing-nav-title">Back to work</span>
+      </a>
+      <a href="contact.html" class="closing-nav-item reveal reveal-delay-1">
+        <span class="closing-nav-label">Get in touch</span>
+        <span class="closing-nav-title">Contact <span class="closing-nav-arrow">→</span></span>
+      </a>
+    </div>
+    <div class="closing-bottom">
+      <span class="closing-bottom-copy">Aroa — UX &amp; Process Design</span>
+      <span class="closing-bottom-copy">Macrodata Refinement · 2024</span>
+    </div>
+  </footer>
+
+
+  <!-- ============================================
+       SCROLL REVEAL JS
+  ============================================ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const reveals = document.querySelectorAll('.reveal');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      reveals.forEach(el => observer.observe(el));
+
+      /* ── Results metrics — bar fill + counter animation ── */
+      const res4Metrics = document.querySelectorAll('.res4-metric');
+      if (res4Metrics.length) {
+        const metricObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('visible');
+
+            const numEl = entry.target.querySelector('.res4-num[data-count]');
+            if (numEl) {
+              const target = parseInt(numEl.dataset.count);
+              const prefix = numEl.dataset.prefix || '';
+              const suffix = numEl.dataset.suffix || '';
+              if (target === 0) { numEl.innerHTML = prefix + '0' + suffix; return; }
+              const duration = 1400;
+              let startTs = null;
+              const tick = (ts) => {
+                if (!startTs) startTs = ts;
+                const progress = Math.min((ts - startTs) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 4);
+                const val = Math.round(eased * target);
+                numEl.innerHTML = prefix + val + suffix;
+                if (progress < 1) requestAnimationFrame(tick);
+              };
+              requestAnimationFrame(tick);
+            }
+            metricObserver.unobserve(entry.target);
+          });
+        }, { threshold: 0.3 });
+        res4Metrics.forEach(m => metricObserver.observe(m));
+      }
+
+      /* ── Approach thumbnails — swap main image with fade ── */
+      const mainImg = document.getElementById('apprMainImg');
+      if (mainImg) {
+        const swapImage = (src, alt) => {
+          mainImg.style.opacity = '0';
+          setTimeout(() => {
+            mainImg.src = src;
+            mainImg.alt = alt;
+            mainImg.style.opacity = '1';
+          }, 220);
+        };
+
+        document.querySelectorAll('.appr-screen-thumb').forEach(thumb => {
+          thumb.addEventListener('click', () => {
+            const img = thumb.querySelector('img');
+            if (img && img.src) swapImage(img.src, img.alt || 'Application screen');
+          });
+        });
+
+        /* Reset to Home when the mockup section leaves the viewport */
+        const mockupSection = document.querySelector('.appr-mockup-section');
+        if (mockupSection) {
+          new IntersectionObserver((entries) => {
+            if (!entries[0].isIntersecting) {
+              swapImage('Home.png', 'Macrodata Refinement — main application screen');
+            }
+          }, { threshold: 0 }).observe(mockupSection);
+        }
+      }
+
+      // Ocultar side-nav cuando el footer es visible
+      const sideNav = document.querySelector('.side-nav');
+      const footer  = document.querySelector('.closing');
+      if (sideNav && footer) {
+        new IntersectionObserver((entries) => {
+          sideNav.style.opacity  = entries[0].isIntersecting ? '0' : '';
+          sideNav.style.pointerEvents = entries[0].isIntersecting ? 'none' : '';
+        }, { threshold: 0 }).observe(footer);
+      }
+    });
+  </script>
+
+
+  <!-- FLECHA VOLVER — fija esquina derecha, lleva al index -->
+  <nav class="side-nav" aria-label="Quick navigation">
+
+    <a href="index.html" class="back-arrow" aria-label="Back to home" data-tip="Back">
+      <img src="assets/images/ui/Back-Hand.png" alt="">
+    </a>
+
+    <a href="contact.html" class="contact-envelope" aria-label="Go to contact" data-tip="Write me">
+      <img class="env-closed" src="assets/images/ui/sobre_cerrado.png" alt="">
+      <img class="env-open"   src="assets/images/ui/sobre_abierto.png" alt="">
+    </a>
+
+  </nav>
+
+</body>
+</html>
