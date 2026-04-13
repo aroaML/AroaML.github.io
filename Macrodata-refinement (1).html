@@ -813,7 +813,7 @@
         position: static;
         transform: none;
         transition: none;
-        padding: 24px 0;
+        padding: 20px 16px;
         background: transparent;
       }
       .res-insight { grid-template-columns: 1fr; gap: 24px; padding: 40px 24px; }
@@ -1589,7 +1589,7 @@
 
     @media (max-width: 600px) {
       .hero {
-        padding: 2rem 1.5rem;
+        padding: 2rem 1.5rem 2rem 3.5rem;
       }
 
       .hero::before {
@@ -1721,8 +1721,17 @@
       /* Prevent nowrap overflow in closing link */
       .learn-42-link { white-space: normal; }
 
-      /* ── EXCEL TABLE — horizontal scroll on narrow screens ── */
-      .prob-excel-inner { overflow-x: auto; }
+      /* ── EXCEL TABLE — horizontal scroll + legibility on narrow screens ── */
+      .prob-excel-inner {
+        overflow-x: auto;
+        max-width: calc(100vw - 48px);
+        -webkit-overflow-scrolling: touch;
+      }
+      .prob-block th { color: #5A9AAC; white-space: normal; }
+      .prob-block th.bad { color: #8A7A58; }
+      .prob-block .td-bad { color: #6A9BAD; }
+      .prob-block .td-disorder { color: #8A7A58; }
+      .prob-block .prob-ba-label { color: #6AAABB; }
     }
 
   </style>
@@ -2012,7 +2021,7 @@
           <h3 class="appr-step-title">Diagnosis</h3>
         </div>
         <div class="appr-step-right">
-          <p class="appr-step-body">Asked users directly: what scares you? What confuses you? What would be ideal? The answers defined both the goal and its limits. They wanted full automation &mdash; but they also needed final say on every output. The program would have to propose, never impose.</p>
+          <p class="appr-step-body">Asked users directly: what scares you? What confuses you? What would be ideal? The answers defined both the goal and its limits. They wanted full automation, but they also needed final say on every output. The program would have to propose, never impose.</p>
         </div>
       </div>
 
@@ -2022,7 +2031,7 @@
           <h3 class="appr-step-title">Flow Design</h3>
         </div>
         <div class="appr-step-right">
-          <p class="appr-step-body">Two database types required two logics. &ldquo;Blue&rdquo; databases (predictable structure): auto-process in seconds. &ldquo;White&rdquo; databases (variable structure): detect pattern, show preview, wait for user confirmation before executing. Users select the type manually &mdash; not because the program couldn&rsquo;t detect it, but because at that stage, user trust was more reliable than program accuracy.</p>
+          <p class="appr-step-body">Two database types required two logics. &ldquo;Blue&rdquo; databases (predictable structure): auto-process in seconds. &ldquo;White&rdquo; databases (variable structure): detect pattern, show preview, wait for user confirmation before executing. Users select the type manually, not because the program couldn&rsquo;t detect it, but because at that stage, user trust was more reliable than program accuracy.</p>
         </div>
       </div>
 
