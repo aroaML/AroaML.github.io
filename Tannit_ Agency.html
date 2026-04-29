@@ -1,0 +1,3312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tannit Agency — Brand Identity Case Study</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================
+       RESET & TOKENS
+    ============================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      /* Portfolio */
+      --cream:      #F4F0EB;
+      --black:      #0E0D0B;
+      --red:        #9E2210;
+      --gray-text:  #5A5550;
+      --gray-light: #999999;
+      --white:      #FFFFFF;
+      --line:       #D4CFC8;
+
+      /* Tannit brand colours — appear as content, not portfolio identity */
+      --t-purple:   #8A6E9A;
+      --t-purple-dk:#4A3260;
+      --t-purple-hero: #2A1838;
+      --t-teal:     #6AA8A4;
+      --t-teal-dk:  #2E5E5A;
+      --t-cream:    #F8F0E3;
+      --t-cream-2:  #F2EDE4;
+
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'Jost', 'Helvetica Neue', sans-serif;
+      --font-mono:    'IBM Plex Mono', 'Courier New', monospace;
+
+      --section-gap:    clamp(96px, 11vw, 152px);
+      --content-width:  min(72rem, 88vw);
+      --narrow-width:   min(44rem, 84vw);
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body { font-family: var(--font-body); color: var(--black); background: var(--cream); line-height: 1.65; overflow-x: hidden; }
+    ::selection { background: var(--red); color: var(--cream); }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ============================================
+       SCROLL REVEAL
+    ============================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left  { transform: translateX(-32px); }
+    .reveal-right { transform: translateX(32px); }
+    .reveal-left.visible, .reveal-right.visible { transform: translateX(0); }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+    .reveal-d5 { transition-delay: 0.5s; }
+
+    /* ============================================
+       HERO
+    ============================================ */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 680px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #9a7db8 0%, #c2a8cc 45%, #e4d8e8 100%);
+    }
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('tannit-grid.svg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.55;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Cream panel — starts collapsed, JS triggers the slide-in */
+    .hero-cream-panel {
+      position: absolute;
+      inset: 0;
+      background: var(--cream);
+      clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%);
+      transition: clip-path 1.3s cubic-bezier(0.77, 0, 0.18, 1);
+      z-index: 1;
+    }
+    .hero-cream-panel.active {
+      clip-path: polygon(0 0, 56% 0, 43% 100%, 0 100%);
+    }
+
+    /* Diagonal animated draw */
+    .hero-diagonal-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .hero-diagonal-line svg {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      inset: 0;
+    }
+    .hero-diagonal-line path {
+      stroke: rgba(255,255,255,0.14);
+      stroke-width: 1;
+      fill: none;
+      stroke-dasharray: 2000;
+      stroke-dashoffset: 2000;
+      animation: drawDiag 0.9s 2.6s cubic-bezier(0.77,0,0.18,1) forwards;
+    }
+    @keyframes drawDiag {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* Cinematic triangle overlay — full-screen purple + strokes */
+    .hero-cinematic-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 12;
+      pointer-events: none;
+      background: linear-gradient(135deg, #9a7db8 0%, #c2a8cc 45%, #e4d8e8 100%);
+      opacity: 1;
+      transition: opacity 0.9s ease;
+    }
+    .hero-cinematic-overlay.done { opacity: 0; transition: opacity 0.45s ease !important; }
+    .hero-cinematic-overlay svg { width: 100%; height: 100%; display: block; }
+    #ovAnimSquare { pointer-events: none; }
+
+    /* Red vertical accent line */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: clamp(2.5rem, 3vw, 3rem);
+      width: 1px;
+      height: 0;
+      background: var(--red);
+      z-index: 10;
+      animation: lineGrow 2s 2.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes lineGrow { to { height: 42%; } }
+
+    /* Content layout inside hero */
+    .hero-inner {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 0% 1fr;
+      z-index: 5;
+      transition: grid-template-columns 1.3s cubic-bezier(0.77, 0, 0.18, 1);
+    }
+    .hero-inner.active {
+      grid-template-columns: 52% 1fr;
+    }
+
+    /* LEFT — cream side text */
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: clamp(2rem, 5vw, 4.5rem) clamp(2rem, 6vw, 6rem) clamp(9rem, 14vw, 12rem) max(6vw, calc((100vw - 72rem) / 2));
+    }
+
+    .hero__label {
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 3.0s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    .hero__title {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(3rem, 6.5vw, 5.5rem);
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: var(--black);
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 3.2s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    .hero__body {
+      font-family: var(--font-body);
+      font-size: clamp(0.9rem, 1.1vw, 1rem);
+      font-weight: 300;
+      line-height: 1.72;
+      color: var(--gray-text);
+      max-width: 38ch;
+      opacity: 0;
+      animation: fadeUp 0.9s 3.45s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    /* RIGHT — dark brand composition */
+    .hero-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(2rem, 4vw, 4rem);
+      position: relative;
+    }
+
+    /* Teal square — half cap-height, sits on baseline */
+    .hero-title-sq {
+      display: inline-block;
+      width: 0.22em;
+      height: 0.22em;
+      background: #22bbb8;
+      margin-left: 0.15em;
+      vertical-align: baseline;
+      opacity: 0;
+      transform: scale(0);
+      transform-origin: center bottom;
+      transition: opacity 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.5s cubic-bezier(0.22,1,0.36,1);
+    }
+    .hero-title-sq.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .hero-animation-wrap {
+      width: 70%;
+    }
+
+    .hero-animation-wrap svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .hero-composition {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+    }
+
+    .hero-comp-img {
+      width: 100%;
+      border-radius: 2px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s 1.1s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    .hero-comp-logo {
+      position: absolute;
+      bottom: -16px;
+      left: -24px;
+      background: var(--t-purple-dk);
+      padding: 14px 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s 1.25s cubic-bezier(0.22,1,0.36,1) forwards;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    .hero-comp-logo img { height: 22px; filter: brightness(0) invert(1); opacity: 0.9; }
+
+    .hero-comp-tag {
+      position: absolute;
+      top: -14px;
+      right: -16px;
+      background: var(--t-teal);
+      padding: 8px 14px;
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #fff;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s 1.35s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    /* META BAR */
+    .hero-meta {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 6;
+      display: flex;
+      gap: 0;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      opacity: 0;
+      animation: fadeUp 0.8s 1.4s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    .hero-meta-item {
+      flex: 1;
+      padding: 18px clamp(1.5rem, 3vw, 3rem);
+      border-right: 1px solid rgba(0,0,0,0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .hero-meta-item:last-child { border-right: none; }
+
+    .hero-meta-label {
+      font-family: var(--font-body);
+      font-size: 0.58rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(17,17,17,0.5);
+    }
+
+    .hero-meta-value {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: var(--gray-text);
+    }
+
+    /* Meta bar: explicit background split mirroring hero */
+    .hero-meta-item.on-cream              { background: var(--cream); }
+    .hero-meta-item:not(.on-cream)        { background: #d8c5e2; }
+    .hero-meta-item.on-cream:nth-child(2) { border-right: 1px solid rgba(0,0,0,0.12); }
+    .hero-meta-item.on-cream .hero-meta-label { color: rgba(14,13,11,0.4); }
+    .hero-meta-item.on-cream .hero-meta-value { color: var(--gray-text); }
+    .hero-meta-item:not(.on-cream) .hero-meta-label { color: rgba(60,30,80,0.55); }
+    .hero-meta-item:not(.on-cream) .hero-meta-value { color: rgba(40,20,60,0.8); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+/* ============================================
+       SECTION SKELETON
+    ============================================ */
+    .s-wrap {
+      width: var(--content-width);
+      margin: 0 auto;
+    }
+
+    .s-label {
+      font-family: var(--font-body);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1.6rem;
+    }
+
+    .s-num {
+      font-family: var(--font-display);
+      font-size: clamp(100px, 14vw, 180px);
+      font-weight: 300;
+      color: #D5CCC0;
+      line-height: 0.85;
+      letter-spacing: -0.02em;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .s-num--dark { color: rgba(255,255,255,0.06); }
+
+    .s-headline {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+      font-weight: 300;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      color: var(--black);
+    }
+    .s-headline em { font-style: italic; color: var(--t-purple); }
+    .s-headline--light { color: #F2EDE4; }
+
+    .s-body {
+      font-family: var(--font-body);
+      font-size: clamp(0.9rem, 1.1vw, 1rem);
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--gray-text);
+      max-width: 52ch;
+    }
+    .s-body + .s-body { margin-top: 1.1rem; }
+    .s-body--light { color: rgba(242,237,228,0.65); }
+
+    .s-divider {
+      display: flex; align-items: center; justify-content: center;
+      padding: 3rem 0; background: var(--cream);
+      position: relative;
+    }
+    .s-divider::before {
+      content: ''; width: 8px; height: 8px;
+      background: var(--red); transform: rotate(45deg);
+      position: relative; z-index: 1;
+    }
+    .s-divider::after {
+      content: '';
+      position: absolute;
+      left: clamp(24px, 7vw, 140px);
+      right: clamp(24px, 7vw, 140px);
+      top: 50%; height: 1px;
+      background: var(--line);
+      z-index: 0;
+    }
+    .s-divider--dark { background: #0E0D0B; }
+    .s-divider--hero-fade {
+      background: linear-gradient(to right, var(--cream) 40%, #ecdde8 100%);
+    }
+    .s-divider--hero-fade::after { background: rgba(150,100,180,0.15); }
+    .s-divider--dark::before { background: rgba(255,255,255,0.15); }
+    .s-divider--dark::after  { background: rgba(255,255,255,0.07); }
+
+    /* ============================================
+       01 — THE PROBLEM
+    ============================================ */
+    .prob {
+      background: var(--cream);
+      position: relative;
+      z-index: 1;
+    }
+    .prob::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, #d4bee0 0%, #e4d8ec 60%, #ecdde8 100%);
+      clip-path: polygon(43% 0, 100% 0, 100% 100%, var(--prob-diag-bottom, 30%) 100%);
+      z-index: -1;
+    }
+
+    .prob-header {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      align-items: start;
+      padding: var(--section-gap) 0 var(--section-gap);
+      gap: clamp(40px, 6vw, 80px);
+    }
+
+    .prob-header-left { padding-top: 8px; }
+
+    .prob-body-block {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+      padding-top: 1.2rem;
+      padding-left: max(0px, calc(43vw - 260px - clamp(40px, 6vw, 80px) - max((100vw - 72rem) / 2, 6vw) + clamp(1rem, 2vw, 2rem)));
+    }
+
+    /* ── Two audiences — inside the purple zone of .prob ── */
+    .audiences {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: clamp(2rem, 3.5vw, 3rem);
+    }
+
+    .audience-card {
+      padding: clamp(24px, 3vw, 36px) clamp(20px, 2.5vw, 32px);
+      position: relative;
+      overflow: hidden;
+      background: rgba(255,255,255,0.22);
+      border: 1px solid rgba(255,255,255,0.45);
+      border-top: 2px solid rgba(255,255,255,0.45);
+    }
+
+    /* Top accent overrides the shared border-top */
+    .audience-card--pharma { border-top-color: var(--t-purple); }
+    .audience-card--agency { border-top-color: var(--t-teal); }
+
+    /* Ghost number */
+    .audience-card__num {
+      position: absolute;
+      top: -0.1em;
+      right: clamp(12px, 2vw, 24px);
+      font-family: var(--font-display);
+      font-size: clamp(72px, 9vw, 110px);
+      font-weight: 300;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -0.04em;
+      color: rgba(80,30,110,0.08);
+    }
+    .audience-card--agency .audience-card__num { color: rgba(46,94,90,0.1); }
+
+    /* Label */
+    .audience-card__label {
+      font-family: var(--font-body);
+      font-size: 0.56rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .audience-card__label::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      flex-shrink: 0;
+    }
+    .audience-card__label--purple { color: var(--t-purple); }
+    .audience-card__label--purple::before { background: var(--t-purple); }
+    .audience-card__label--teal   { color: var(--t-teal-dk); }
+    .audience-card__label--teal::before   { background: var(--t-teal); }
+
+    /* Title */
+    .audience-card__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.25rem, 1.8vw, 1.7rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #1a072a;
+      margin-bottom: 0.9rem;
+      line-height: 1.2;
+      max-width: 20ch;
+    }
+
+    /* Body */
+    .audience-card__body {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 300;
+      line-height: 1.78;
+      color: rgba(26,7,42,0.62);
+      max-width: 32ch;
+    }
+
+    /* Keywords */
+    .audience-card__keywords {
+      margin-top: 1.4rem;
+      font-family: var(--font-body);
+      font-size: 0.54rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      line-height: 2.2;
+    }
+    .audience-card--pharma .audience-card__keywords { color: var(--t-purple-dk); }
+    .audience-card--agency .audience-card__keywords  { color: var(--t-teal-dk); }
+    .audience-card__keywords .kw-dot {
+      display: inline-block;
+      width: 4px; height: 4px;
+      background: currentColor;
+      transform: rotate(45deg) translateY(-2px);
+      margin: 0 8px;
+      opacity: 0.5;
+    }
+
+    /* Before/After Slider */
+    .ba-section {
+      position: relative;
+      background: #1A1010;
+    }
+
+    .ba-header {
+      padding: clamp(40px, 5vw, 64px) clamp(32px, 6vw, 80px) clamp(24px, 3vw, 36px);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .ba-kicker {
+      font-family: var(--font-body);
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+    }
+
+    .ba-note {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.3);
+      font-style: italic;
+    }
+
+    .ba-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 7;
+      overflow: hidden;
+      user-select: none;
+      cursor: ew-resize;
+    }
+
+    .ba-before, .ba-after {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ba-before {
+      background: #1E1010;
+    }
+
+    .ba-after {
+      clip-path: inset(0 0 0 50%);
+      transition: clip-path 0s;
+      background: #0A1018;
+    }
+
+    .ba-image-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .ba-placeholder-label {
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .ba-placeholder-label--before { color: rgba(255,255,255,0.18); }
+    .ba-placeholder-label--after  { color: var(--t-teal); opacity: 0.7; }
+
+    .ba-placeholder-desc {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 2.5vw, 2.4rem);
+      font-weight: 300;
+      text-align: center;
+      max-width: 28ch;
+      line-height: 1.25;
+    }
+    .ba-placeholder-desc--before { color: rgba(255,255,255,0.18); }
+    .ba-placeholder-desc--after  { color: rgba(255,255,255,0.55); }
+
+    /* The BEFORE side shows the old brand feel */
+    .ba-before-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      opacity: 0.25;
+      filter: saturate(0);
+    }
+    .ba-old-block {
+      width: min(340px, 60%);
+      height: 8px;
+      background: linear-gradient(90deg, #888, #aaa, #666);
+      border-radius: 2px;
+    }
+    .ba-old-block-sm { width: min(240px, 40%); height: 8px; background: #555; border-radius: 2px; }
+    .ba-old-circles {
+      display: flex;
+      gap: 12px;
+    }
+    .ba-old-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #666;
+    }
+
+    /* The AFTER side shows the new brand */
+    .ba-after-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 40px;
+    }
+
+    .ba-new-logo img {
+      height: 32px;
+      filter: brightness(0) invert(1);
+      opacity: 0.9;
+    }
+
+    .ba-new-palette {
+      display: flex;
+      gap: 8px;
+    }
+
+    .ba-new-swatch {
+      width: 40px;
+      height: 40px;
+      border-radius: 3px;
+    }
+
+    .ba-new-text {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 300;
+      color: var(--t-cream-2);
+      letter-spacing: -0.01em;
+    }
+
+    /* Divider handle */
+    .ba-handle {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: var(--red);
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .ba-handle::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 32px;
+      height: 32px;
+      background: var(--red);
+      border-radius: 50%;
+    }
+
+    .ba-handle::after {
+      content: '◀ ▶';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 8px;
+      color: #fff;
+      white-space: nowrap;
+      letter-spacing: 2px;
+    }
+
+    .ba-labels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .ba-label {
+      padding: 16px clamp(24px, 4vw, 64px);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .ba-label:last-child { text-align: right; color: var(--t-teal); opacity: 0.7; }
+
+    /* ============================================
+       02 — THE SYMBOL
+    ============================================ */
+    .symbol {
+      background: var(--cream);
+      padding: clamp(4rem, 7vw, 7rem) 0;
+    }
+
+    .symbol-inner {
+      width: var(--content-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: clamp(40px, 6vw, 88px);
+      align-items: start;
+    }
+
+    .symbol-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    /* Logo Grid — desktop */
+    .logo-grid {
+      display: grid;
+      grid-template-columns: 1.7fr 1fr;
+      grid-template-rows: auto auto;
+      gap: clamp(5px, 0.7vw, 8px);
+    }
+
+    .logo-cell--primary {
+      grid-column: 1;
+      grid-row: 1 / 3;
+      aspect-ratio: unset;
+      min-height: clamp(260px, 28vw, 420px);
+      align-self: center;
+    }
+
+    .logo-cell {
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(20px, 2.5vw, 36px);
+      position: relative;
+      cursor: pointer;
+      border-radius: 5px;
+      overflow: hidden;
+      transition: background 0.4s ease;
+    }
+
+    .logo-cell--primary { background: #F8F0E3; }
+    .logo-cell--primary:hover { background: #180F20; }
+
+    .logo-cell--isotype { background: #B4D5D3; }
+    .logo-cell--isotype:hover { background: #C9B5D8; }
+
+    /* Two stacked images — crossfade on hover */
+    .logo-cell img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      object-fit: contain;
+      transition: opacity 0.4s ease;
+    }
+
+    .logo-cell--primary .logo-default { width: 76%; max-height: 60%; opacity: 1; }
+    .logo-cell--primary .logo-hover   { width: 76%; max-height: 60%; opacity: 0; }
+    .logo-cell--isotype .logo-default { width: 62%; max-height: 62%; opacity: 1; }
+    .logo-cell--isotype .logo-hover   { width: 62%; max-height: 62%; opacity: 0; }
+
+    /* Duo cell: crossfade, real colors */
+    .logo-cell--duo { background: #C9B5D8; cursor: pointer; }
+    .logo-cell--duo:hover { background: #4A3260; }
+    .logo-cell--duo .logo-default { width: 74%; max-height: 65%; opacity: 1; }
+    .logo-cell--duo .logo-hover   { width: 74%; max-height: 65%; opacity: 0; }
+
+    .logo-cell:hover .logo-default { opacity: 0; }
+    .logo-cell:hover .logo-hover   { opacity: 1; }
+
+    .logo-cell__caption {
+      position: absolute;
+      bottom: clamp(10px, 1.4vw, 16px);
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: clamp(0.48rem, 0.6vw, 0.56rem);
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(14,13,11,0.3);
+      transition: color 0.4s ease;
+    }
+    .logo-cell--primary:hover .logo-cell__caption { color: rgba(255,255,255,0.35); }
+    .logo-cell--isotype .logo-cell__caption       { color: rgba(74,50,96,0.35); }
+    .logo-cell--isotype:hover .logo-cell__caption { color: rgba(74,50,96,0.4); }
+    .logo-cell--duo:hover .logo-cell__caption     { color: rgba(255,255,255,0.35); }
+
+    /* Mobile logo grid — all states visible, no hover needed */
+    .logo-grid--mobile { display: none; }
+
+    @media (hover: none), (max-width: 680px) {
+      .symbol-inner { grid-template-columns: 1fr; }
+      .logo-grid--desktop { display: none; }
+      .logo-grid--mobile {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: clamp(5px, 1.5vw, 8px);
+      }
+      .logo-grid--mobile .logo-cell {
+        aspect-ratio: 1 / 1;
+        padding: clamp(16px, 4vw, 28px);
+      }
+      .logo-grid--mobile .logo-cell img {
+        position: static;
+        width: 78%;
+        max-height: 72%;
+        object-fit: contain;
+      }
+      .logo-grid--mobile .logo-cell--isotype-b img,
+      .logo-grid--mobile .logo-cell--duo-b img { filter: brightness(0) invert(1); }
+    }
+
+    /* ============================================
+       03 — THE PALETTE
+    ============================================ */
+    .palette {
+      background: var(--cream);
+      padding: clamp(4rem, 7vw, 7rem) 0;
+    }
+
+    .palette-inner {
+      width: var(--content-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: clamp(40px, 6vw, 88px);
+      align-items: start;
+    }
+
+    .palette-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      position: sticky;
+      top: clamp(80px, 10vw, 120px);
+    }
+
+    .palette-visuals {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(6px, 0.9vw, 10px);
+    }
+
+    /* Two primary swatches */
+    .palette-primaries {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(6px, 0.9vw, 10px);
+    }
+
+    .palette-primary {
+      aspect-ratio: 3/2;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: clamp(12px, 1.4vw, 18px);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .palette-primary.visible { opacity: 1; transform: translateY(0); }
+
+    .pp-name {
+      font-family: var(--font-body);
+      font-size: clamp(0.56rem, 0.75vw, 0.64rem);
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .pp-hex {
+      font-family: var(--font-mono);
+      font-size: clamp(0.5rem, 0.62vw, 0.56rem);
+      letter-spacing: 0.1em;
+      opacity: 0.55;
+      margin-top: 2px;
+    }
+
+    /* Expanded palette row */
+    .palette-expanded {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: clamp(4px, 0.6vw, 8px);
+    }
+
+    .palette-swatch {
+      aspect-ratio: 1/1.2;
+      border-radius: 3px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: clamp(5px, 0.6vw, 8px);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .palette-swatch.visible { opacity: 1; transform: translateY(0); }
+
+    .ps-hex {
+      font-family: var(--font-mono);
+      font-size: clamp(0.38rem, 0.48vw, 0.44rem);
+      letter-spacing: 0.04em;
+      opacity: 0.5;
+      white-space: nowrap;
+    }
+
+    /* Proportions bar */
+    .palette-proportions {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+    }
+    .palette-proportions.visible { opacity: 1; transform: translateY(0); }
+
+    .prop-bar {
+      height: clamp(22px, 2.8vw, 34px);
+      border-radius: 5px;
+      background: linear-gradient(
+        to right,
+        #F8F0E3 0%,
+        #F8F0E3 48%,
+        #8A6E9A 58%,
+        #8A6E9A 73%,
+        #6AA8A4 83%,
+        #6AA8A4 100%
+      );
+      box-shadow: inset 0 0 0 1px rgba(74,50,96,0.1);
+    }
+
+    .prop-labels {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .prop-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-body);
+      font-size: clamp(0.52rem, 0.68vw, 0.62rem);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink);
+      opacity: 0.5;
+    }
+    .prop-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ============================================
+       04 — ICONOGRAPHY
+    ============================================ */
+    .iconography {
+      background: var(--cream);
+      padding: clamp(4rem, 7vw, 7rem) 0;
+    }
+
+    .icon-layout {
+      width: var(--content-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: clamp(40px, 6vw, 88px);
+      align-items: start;
+    }
+
+    .icon-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .icon-right {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(12px, 1.8vw, 20px);
+    }
+
+    /* Grid completo de iconos */
+    .icon-wall {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: clamp(4px, 0.7vw, 8px);
+    }
+
+    /* Cada celda: dos imágenes superpuestas */
+    .icon-cell {
+      position: relative;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(14,13,11,0.035);
+      border-radius: 4px;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.55s cubic-bezier(0.16,1,0.3,1),
+                  background 0.25s ease;
+    }
+
+    .icon-cell.visible { opacity: 1; transform: translateY(0); }
+    .icon-cell:hover   { background: rgba(138,110,154,0.1); }
+
+    .icon-cell img {
+      position: absolute;
+      width: 54%;
+      height: 54%;
+      object-fit: contain;
+      transition: opacity 0.35s ease;
+    }
+
+    .icon-purple { opacity: 0; }
+    .icon-cell:hover .icon-purple { opacity: 1; }
+    .icon-cell:hover .icon-blue   { opacity: 0; }
+
+    /* Hint line */
+    .icon-wall-hint {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .icon-wall-hint-label {
+      font-family: var(--font-body);
+      font-size: clamp(0.48rem, 0.6vw, 0.54rem);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(14,13,11,0.3);
+    }
+
+    .icon-wall-hint-count {
+      font-family: var(--font-display);
+      font-size: clamp(0.62rem, 0.8vw, 0.72rem);
+      font-weight: 300;
+      color: rgba(14,13,11,0.25);
+    }
+
+    /* ============================================
+       05 — ILLUSTRATION
+    ============================================ */
+    .illus {
+      background: var(--cream);
+      padding: clamp(4rem, 7vw, 7rem) 0;
+    }
+
+    .illus-layout {
+      width: var(--content-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: clamp(40px, 6vw, 88px);
+      align-items: start;
+    }
+
+    .illus-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      position: sticky;
+      top: clamp(80px, 10vw, 120px);
+    }
+
+    .illus-right {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, 2vw, 24px);
+    }
+
+    .illus-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(8px, 1.2vw, 16px);
+    }
+
+    .illus-figure {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    /* Contenedor con las dos imágenes superpuestas */
+    .illus-img-wrap {
+      aspect-ratio: 3 / 4;
+      position: relative;
+      background: #EDE8E1;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .illus-img-wrap img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: clamp(16px, 3vw, 32px);
+      transition: opacity 0.5s ease;
+    }
+
+    /* Pastel encima, invisible por defecto */
+    .illus-img-pastel {
+      opacity: 0;
+    }
+
+    /* Al hover del figure, el pastel aparece */
+    .illus-figure:hover .illus-img-pastel  { opacity: 1; }
+    .illus-figure:hover .illus-img-color   { opacity: 0; }
+
+    /* Computer illustration — reduce padding so it reads larger */
+    .illus-figure--computer .illus-img-pastel { padding: 0; }
+
+    .illus-caption {
+      font-family: var(--font-body);
+      font-size: 0.58rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(14,13,11,0.35);
+      transition: color 0.3s ease;
+    }
+
+    .illus-figure:hover .illus-caption { color: rgba(14,13,11,0.55); }
+
+    /* Honest note — inline dentro de illus-text */
+    .honest-note {
+      border-left: 2px solid rgba(138,110,154,0.4);
+      padding: clamp(14px, 1.8vw, 20px) clamp(16px, 2vw, 24px);
+      background: rgba(138,110,154,0.04);
+      border-radius: 0 3px 3px 0;
+    }
+
+    .honest-note p {
+      font-family: var(--font-body);
+      font-size: clamp(0.72rem, 0.9vw, 0.8rem);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--gray-text);
+    }
+
+    .honest-note strong {
+      font-weight: 500;
+      color: var(--black);
+    }
+
+    /* ============================================
+       06 — TWO AUDIENCES
+    ============================================ */
+    .two-audiences {
+      position: relative;
+    }
+
+    .ta-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: clamp(520px, 65vw, 780px);
+      position: relative;
+    }
+
+    .ta-panel {
+      padding: clamp(40px, 5vw, 72px) clamp(32px, 4vw, 56px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .ta-panel--purple {
+      background-image: url("assets/Bcakgrounds/A4 - 4.png");
+      background-size: cover;
+      background-position: center;
+    }
+    .ta-panel--teal {
+      background-image: url("assets/Bcakgrounds/A4 - 5.png");
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Dramatic slide-in overrides for split panels */
+    .ta-panel.reveal-left  { transform: translateX(-100px); }
+    .ta-panel.reveal-right { transform: translateX(100px); }
+    .ta-panel.reveal-left.visible,
+    .ta-panel.reveal-right.visible { transform: translateX(0); }
+
+    /* Floating document mockup */
+    .ta-doc {
+      width: min(360px, 85%);
+      background: #F4F0E7;
+      box-shadow: 37px 39px 70px rgba(0,0,0,0.25);
+      transform: rotate(-2deg);
+      overflow: visible;
+      position: relative;
+      transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    .ta-panel--teal .ta-doc { transform: rotate(2deg); }
+    .ta-doc:hover { transform: rotate(0) scale(1.02); }
+    .ta-doc::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.055;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+      mix-blend-mode: multiply;
+    }
+
+    .ta-doc-header {
+      height: 8px;
+    }
+    .ta-panel--purple .ta-doc-header { background: var(--t-purple); }
+    .ta-panel--teal .ta-doc-header   { background: var(--t-teal); }
+
+    .ta-doc-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ta-doc-logo { height: 16px; margin-bottom: 8px; }
+    .ta-doc-line { height: 5px; background: #E0D8CE; border-radius: 2px; }
+    .ta-doc-line--short { width: 60%; }
+    .ta-doc-line--accent-purple { background: var(--t-purple); width: 40%; height: 3px; }
+    .ta-doc-line--accent-teal   { background: var(--t-teal); width: 40%; height: 3px; }
+
+    .ta-doc-label {
+      margin-top: 8px;
+      font-family: var(--font-body);
+      font-size: 0.55rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .ta-panel--purple .ta-doc-label { color: var(--t-purple); }
+    .ta-panel--teal   .ta-doc-label { color: var(--t-teal); }
+
+    /* Panel annotation */
+    .ta-annotation {
+      position: absolute;
+      bottom: clamp(20px, 3vw, 36px);
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(30,20,40,0.35);
+    }
+
+    /* Headline across both panels */
+    .ta-headline-bar {
+      background: transparent;
+      padding: clamp(48px, 6vw, 72px) var(--content-width);
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .ta-headline-wrap {
+      text-align: center;
+      padding: clamp(40px, 5vw, 64px) clamp(24px, 4vw, 48px);
+      background: #111;
+    }
+
+    .ta-headline-wrap .s-headline--light {
+      font-size: clamp(1.4rem, 2.8vw, 2.4rem);
+      margin-bottom: 0.6rem;
+    }
+
+    .ta-body-wrap {
+      background: var(--cream);
+      padding: clamp(40px, 5vw, 64px) 0;
+    }
+
+    .ta-body-inner {
+      width: var(--narrow-width);
+      margin: 0 auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .ta-body-inner .s-body { max-width: 54ch; text-align: center; }
+
+    /* ============================================
+       07 — SYSTEM IN USE
+    ============================================ */
+    .system {
+      background: var(--cream);
+      padding: var(--section-gap) 0;
+    }
+
+    .system-layout {
+      width: var(--content-width);
+      margin: 0 auto;
+    }
+
+    .system-header {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: clamp(40px, 5vw, 72px);
+      align-items: start;
+      margin-bottom: clamp(48px, 6vw, 72px);
+    }
+
+    .system-mockups {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(24px, 3vw, 40px);
+      margin-bottom: clamp(40px, 5vw, 60px);
+    }
+
+    .system-mockup {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .system-mockup-img {
+      background: #1A1218;
+      aspect-ratio: 16 / 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .system-mockup-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #1A1218;
+    }
+
+    .system-mockup-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 32px;
+    }
+
+    .system-mockup-placeholder-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+    }
+
+    .system-mockup-caption {
+      font-family: var(--font-body);
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #aaa;
+    }
+
+    .system-text {
+      max-width: var(--narrow-width);
+      margin: 0 auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    /* ============================================
+       08 — WHAT I LEARNED
+    ============================================ */
+    .learned {
+      background: #111;
+      padding: var(--section-gap) 0;
+      position: relative;
+    }
+
+    .learned-inner {
+      width: min(52rem, 84vw);
+      margin: 0 auto;
+    }
+
+    .learned-num {
+      font-family: var(--font-display);
+      font-size: clamp(80px, 12vw, 140px);
+      font-weight: 300;
+      color: rgba(255,255,255,0.04);
+      line-height: 0.85;
+      margin-bottom: clamp(32px, 4vw, 48px);
+    }
+
+    .learned-headline {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.6rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #F2EDE4;
+      line-height: 1.2;
+      margin-bottom: clamp(28px, 3.5vw, 40px);
+      max-width: 28ch;
+    }
+
+    .learned-body {
+      font-family: var(--font-body);
+      font-size: clamp(0.9rem, 1.1vw, 1rem);
+      font-weight: 300;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.4);
+      max-width: 52ch;
+    }
+
+    .learned-body + .learned-body { margin-top: 1.2rem; }
+
+    /* ============================================
+       CLOSING
+    ============================================ */
+    .closing-statement {
+      background: var(--cream);
+      padding: var(--section-gap) 0 clamp(48px, 6vw, 72px);
+      text-align: center;
+    }
+
+    .closing-statement-inner {
+      width: min(52ch, 84vw);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .closing-quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--black);
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .closing-quote strong {
+      font-style: normal;
+      font-weight: 400;
+      color: var(--red);
+    }
+
+    .cta-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 28px;
+      border: 1px solid currentColor;
+      color: var(--black);
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    .cta-back:hover { background: var(--black); color: var(--cream); }
+
+    .cta-arrow {
+      display: inline-block;
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1);
+    }
+    .cta-back:hover .cta-arrow { transform: translateX(-5px); }
+
+    /* Footer closing nav */
+    .closing {
+      background: var(--black);
+      border-top: 1px solid #1C1C1C;
+      position: relative;
+      z-index: 2;
+    }
+    .closing-nav {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .closing-nav-item {
+      padding: 72px 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      text-decoration: none;
+      border-bottom: 1px solid #1C1C1C;
+      transition: background 0.35s ease;
+    }
+    .closing-nav-item:first-child { border-right: 1px solid #1C1C1C; }
+    .closing-nav-item:hover { background: rgba(255,255,255,0.025); }
+    .closing-nav-label {
+      font-family: var(--font-body);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #888;
+      font-weight: 400;
+    }
+    .closing-nav-title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4.5vw, 64px);
+      font-weight: 300;
+      color: #F2EDE4;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      transition: opacity 0.3s ease;
+    }
+    .closing-nav-item:last-child .closing-nav-title { color: var(--red); }
+    .closing-nav-item:hover .closing-nav-title { opacity: 0.75; }
+    .closing-nav-arrow {
+      display: inline-block;
+      transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+    }
+    .closing-nav-item:hover .closing-nav-arrow { transform: translateX(8px); }
+    .closing-bottom {
+      padding: 24px 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .closing-bottom-copy {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: #666;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+    }
+
+    /* ============================================
+       SIDE NAV
+    ============================================ */
+    .side-nav {
+      position: fixed;
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      transition: opacity 0.4s ease;
+    }
+    .back-arrow::before, .contact-envelope::before {
+      content: attr(data-tip);
+      position: absolute;
+      right: calc(100% + 12px);
+      top: 50%;
+      transform: translateY(-50%) translateX(6px);
+      background: var(--black);
+      color: #F2EDE4;
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      padding: 6px 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    .back-arrow:hover::before, .contact-envelope:hover::before {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+    .back-arrow {
+      position: relative;
+      width: 72px;
+      opacity: 0.35;
+      transition: opacity 0.3s ease;
+      display: block;
+    }
+    .back-arrow:hover { opacity: 0.85; }
+    .back-arrow img { width: 100%; height: auto; display: block; }
+    .contact-envelope {
+      position: relative;
+      width: 58px;
+      opacity: 0.35;
+      transition: opacity 0.3s ease;
+      display: block;
+      transform: translateX(3px);
+    }
+    .contact-envelope:hover { opacity: 1; }
+    .contact-envelope img { width: 100%; height: auto; display: block; }
+    .contact-envelope .env-open  { display: none; }
+    .contact-envelope:hover .env-closed { display: none; }
+    .contact-envelope:hover .env-open   { display: block; }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-cream-panel { clip-path: polygon(0 0, 100% 0, 100% 55%, 0 65%); }
+      .hero-right { display: none; }
+      .hero-left { justify-content: flex-end; padding-bottom: 0; }
+      .hero-meta { position: relative; grid-template-columns: 1fr 1fr; }
+      .hero-meta-item.on-cream { display: none; }
+
+      .prob-header { grid-template-columns: 1fr; }
+      .prob-body-block { padding-left: 0; }
+      .audiences { grid-template-columns: 1fr; }
+      .audiences { grid-template-columns: 1fr; }
+      .audience-card--pharma { border-right: none; }
+      .audience-card__num { font-size: clamp(80px, 18vw, 120px); }
+      .audience-card__title { max-width: none; }
+
+      .palette-inner { grid-template-columns: 1fr; }
+      .palette-text { position: static; }
+      .palette-expanded { grid-template-columns: repeat(4, 1fr); }
+
+      .icon-layout { grid-template-columns: 1fr; }
+      .icon-text { position: static; }
+      .icon-wall { grid-template-columns: repeat(7, 1fr); }
+
+      .illus-layout { grid-template-columns: 1fr; }
+      .illus-text { position: static; }
+
+      .ta-split { grid-template-columns: 1fr; }
+
+      .system-mockups { grid-template-columns: 1fr; }
+      .symbol-inner { grid-template-columns: 1fr; }
+
+      .closing-nav { grid-template-columns: 1fr; }
+      .closing-nav-item { padding: 48px 28px; border-right: none !important; }
+      .closing-bottom { padding: 20px 28px; flex-direction: column; gap: 8px; text-align: center; }
+    }
+
+    @media (max-width: 800px) { .side-nav { display: none; } }
+
+    @media (max-width: 600px) {
+      .hero-meta { flex-direction: column; }
+      .ba-container { aspect-ratio: 16 / 10; }
+    }
+
+    /* ============================================
+       SCROLL PROGRESS (left edge red line)
+    ============================================ */
+    .scroll-progress {
+      position: fixed;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      z-index: 200;
+      pointer-events: none;
+    }
+    .scroll-progress-track {
+      position: absolute; inset: 0;
+      background: rgba(158, 34, 16, 0.1);
+    }
+    .scroll-progress-fill {
+      position: absolute; left: 0; top: 0; right: 0;
+      height: 0%;
+      background: var(--red);
+      transition: height 0.1s linear;
+    }
+
+    /* ============================================
+       TEXT WIPE REVEAL (clip-path headline reveal)
+    ============================================ */
+    .reveal-wipe {
+      overflow: hidden;
+    }
+    .reveal-wipe .wipe-inner {
+      display: block;
+      clip-path: inset(0 101% 0 0);
+      transition: clip-path 1.1s cubic-bezier(0.77, 0, 0.18, 1);
+    }
+    .reveal-wipe.wipe-d1 .wipe-inner { transition-delay: 0.12s; }
+    .reveal-wipe.wipe-d2 .wipe-inner { transition-delay: 0.24s; }
+    .reveal-wipe.visible .wipe-inner  { clip-path: inset(0 0% 0 0); }
+
+    /* ============================================
+       BA-SECTION CINEMATIC ENTRANCE
+    ============================================ */
+    .ba-entrance {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s cubic-bezier(0.22,1,0.36,1),
+                  transform 1s cubic-bezier(0.22,1,0.36,1);
+    }
+    .ba-entrance.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================
+       CHAPTER LABEL (editorial numbered header)
+    ============================================ */
+    .s-chapter {
+      display: flex;
+      align-items: baseline;
+      gap: 0.7rem;
+      margin-bottom: 1.4rem;
+    }
+    .s-chapter-num {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--red);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .s-chapter .s-label { margin-bottom: 0; }
+
+    /* prefers-reduced-motion: disable wipe, fall back to fade */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-wipe .wipe-inner { clip-path: none; transition: none; opacity: 0; }
+      .reveal-wipe.visible .wipe-inner { opacity: 1; }
+      .ba-entrance { transition: opacity 0.4s ease; transform: none; }
+      .scroll-progress { display: none; }
+    }
+
+    /* ============================================
+       PROCESO SECTION
+    ============================================ */
+    .proceso {
+      background: var(--cream);
+      padding: clamp(4rem, 7vw, 7rem) 0;
+    }
+    .proceso-inner {
+      width: var(--content-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: clamp(40px, 6vw, 88px);
+      align-items: start;
+    }
+    .proceso-left {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    /* Decision rows */
+    .proceso-decisions {
+      display: flex;
+      flex-direction: column;
+      margin-top: clamp(1.5rem, 2.5vw, 2.5rem);
+    }
+    .proceso-card {
+      display: grid;
+      grid-template-columns: 2.4rem 1fr;
+      gap: 0 1rem;
+      padding: clamp(14px, 1.8vw, 22px) 0;
+      border-top: 1px solid rgba(14,13,11,0.08);
+    }
+    .proceso-card:last-child { border-bottom: 1px solid rgba(14,13,11,0.08); }
+    .proceso-card__num {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      font-weight: 400;
+      color: rgba(14,13,11,0.25);
+      letter-spacing: 0.1em;
+      padding-top: 3px;
+    }
+    .proceso-card__content { display: flex; flex-direction: column; gap: 4px; }
+    .proceso-card__title {
+      font-family: var(--font-body);
+      font-size: clamp(0.82rem, 1vw, 0.92rem);
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: 0.01em;
+    }
+    .proceso-card__verdict {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      color: #6AA8A4;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Typography specimen — right column */
+    .proceso-typo {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(24px, 3vw, 36px);
+    }
+    .typo-block {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(12px, 1.5vw, 18px);
+    }
+    .typo-block-label {
+      font-family: var(--font-body);
+      font-size: 0.56rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(14,13,11,0.3);
+    }
+    .typo-specimen-primary {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: var(--ink);
+    }
+    .typo-specimen-weights {
+      display: flex;
+      gap: clamp(12px, 2vw, 24px);
+    }
+    .typo-weight {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(0.7rem, 0.9vw, 0.82rem);
+      color: rgba(14,13,11,0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .typo-weight span:first-child { color: var(--ink); font-size: clamp(0.9rem, 1.2vw, 1.1rem); }
+    .typo-weight-600 { font-weight: 600; }
+    .typo-weight-700 { font-weight: 700; }
+    .typo-weight-800 { font-weight: 800; }
+
+    .typo-specimen-secondary {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      line-height: 1;
+      color: var(--ink);
+    }
+    .typo-specimen-secondary-sub {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: clamp(0.72rem, 0.9vw, 0.82rem);
+      color: rgba(14,13,11,0.4);
+      margin-top: 4px;
+    }
+
+    /* Type scale table */
+    .typo-scale {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid rgba(14,13,11,0.08);
+    }
+    .typo-scale-row {
+      display: grid;
+      grid-template-columns: 2.5rem 1fr auto;
+      gap: 0 1rem;
+      padding: clamp(8px, 1vw, 12px) 0;
+      border-bottom: 1px solid rgba(14,13,11,0.06);
+      align-items: baseline;
+    }
+    .ts-tag {
+      font-family: var(--font-mono);
+      font-size: 0.52rem;
+      color: rgba(14,13,11,0.25);
+      letter-spacing: 0.06em;
+      padding-top: 2px;
+    }
+    .ts-sample { color: var(--ink); line-height: 1.2; }
+    .ts-meta {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      color: rgba(14,13,11,0.25);
+      letter-spacing: 0.04em;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 768px) {
+      .proceso-inner { grid-template-columns: 1fr; }
+      .proceso-decisions { margin-top: 0; }
+    }
+
+    /* ============================================
+       07 — APPLIED SECTION (unified)
+    ============================================ */
+    .applied { background: var(--cream); padding: var(--section-gap) 0; }
+
+    .applied-intro {
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      margin-bottom: clamp(3rem, 5vw, 5rem);
+    }
+
+    .applied-intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 5vw, 5rem);
+      align-items: start;
+      margin-top: 1.6rem;
+    }
+
+    /* ── Mosaic wall — Neobrutalist ── */
+    .mockup-wall {
+      max-width: var(--content-width);
+      margin: clamp(4rem, 6vw, 6rem) auto 0;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      display: grid;
+      /* 5 asymmetric columns for editorial irregularity */
+      grid-template-columns: 1.1fr 1fr 0.15fr 1.4fr 1fr;
+      grid-template-rows: auto auto auto;
+      gap: clamp(8px, 1vw, 14px);
+    }
+
+    /*
+      Layout map (5 cols):
+      Row 1:  card-b(1)  |  pitch(2–4)  |  card-p(5)
+      Row 2:  papel-1(1–3)              |  papel-2(4–5)
+      Row 3:  guide(1–5)
+    */
+    .mw-card-b  { grid-column: 1;     grid-row: 1; }
+    .mw-pitch   { grid-column: 2 / 5; grid-row: 1; }
+    .mw-card-p  { grid-column: 5;     grid-row: 1; }
+    .mw-papel-1 { grid-column: 1 / 4; grid-row: 2; }
+    .mw-papel-2 { grid-column: 4 / 6; grid-row: 2; }
+    .mw-guide   { grid-column: 1 / 6; grid-row: 3; }
+
+    /* Cell base */
+    .mw-item {
+      overflow: hidden;
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.7s cubic-bezier(0.22,1,0.36,1),
+                  box-shadow 0.3s ease;
+      box-shadow: 0 2px 12px rgba(14,13,11,0.08);
+    }
+    .mw-item.visible { opacity: 1; transform: translateY(0); }
+    .mw-item:hover   { box-shadow: 0 8px 32px rgba(14,13,11,0.14); }
+
+    /* Stagger */
+    .mw-card-b  { transition-delay: 0.05s; }
+    .mw-pitch   { transition-delay: 0s;    }
+    .mw-card-p  { transition-delay: 0.12s; }
+    .mw-papel-1 { transition-delay: 0.2s;  }
+    .mw-papel-2 { transition-delay: 0.26s; }
+    .mw-guide   { transition-delay: 0.32s; }
+
+    .mw-item img {
+      width: 100%; height: 100%;
+      display: block;
+      transition: transform 0.8s cubic-bezier(0.22,1,0.36,1);
+    }
+    .mw-item:hover img { transform: scale(1.025); }
+
+    /* Sizing */
+    .mw-card-b,
+    .mw-card-p  { aspect-ratio: 2 / 3; }
+    .mw-pitch   { aspect-ratio: 7 / 5; }
+    .mw-papel-1,
+    .mw-papel-2 { aspect-ratio: 4 / 5; }
+    .mw-guide   { aspect-ratio: 16 / 4; background: #0E0D0B; }
+
+    /* Backgrounds + object-fit */
+    .mw-card-b              { background: #c8e8f0; }
+    .mw-card-b img          { object-fit: cover; }
+    .mw-card-p              { background: #f0dce8; }
+    .mw-card-p img          { object-fit: cover; }
+    .mw-pitch               { background: var(--cream); }
+    .mw-pitch img           { object-fit: contain; }
+    .mw-papel-1,
+    .mw-papel-2             { background: var(--cream); }
+    .mw-papel-1 img,
+    .mw-papel-2 img         { object-fit: contain; }
+
+    /* Caption — revealed on hover */
+    .mw-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 1.4rem 1rem 0.9rem;
+      background: linear-gradient(to top, rgba(14,13,11,0.65) 0%, transparent 100%);
+      display: flex; flex-direction: column; gap: 2px;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      pointer-events: none;
+    }
+    .mw-item:hover .mw-caption { opacity: 1; transform: translateY(0); }
+    .mw-caption-title {
+      font-family: var(--font-body);
+      font-size: 0.6rem; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.92);
+    }
+    .mw-caption-desc {
+      font-family: var(--font-body);
+      font-size: 0.72rem; font-weight: 300;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* Placeholder (brand guidelines) */
+    .mw-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.8rem; padding: 2rem;
+      background: #0E0D0B;
+    }
+    .mw-placeholder-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem; letter-spacing: 0.16em;
+      text-transform: uppercase; color: rgba(244,240,235,0.2);
+    }
+    .mw-placeholder-sub {
+      font-family: var(--font-body); font-style: italic;
+      font-size: 0.66rem; color: rgba(244,240,235,0.1);
+    }
+
+
+    @media (max-width: 768px) {
+      .mockup-wall {
+        grid-template-columns: 1fr 1fr;
+        padding: 0 1rem;
+      }
+      .mw-card-b  { grid-column: 1;     grid-row: 1; aspect-ratio: 2/3; }
+      .mw-card-p  { grid-column: 2;     grid-row: 1; aspect-ratio: 2/3; }
+      .mw-pitch   { grid-column: 1 / 3; grid-row: 2; aspect-ratio: 7/5; }
+      .mw-papel-1 { grid-column: 1;     grid-row: 3; aspect-ratio: 4/5; }
+      .mw-papel-2 { grid-column: 2;     grid-row: 3; aspect-ratio: 4/5; }
+      .mw-guide   { grid-column: 1 / 3; grid-row: 4; aspect-ratio: 16/4; }
+    }
+
+    @media (max-width: 640px) {
+      .applied-intro-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================
+       LIFESTYLE SECTION — images only, Pentagram style (kept for reference)
+    ============================================ */
+    .lifestyle { padding: var(--section-gap) 0; background: var(--cream); }
+
+    .lifestyle-intro {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      margin-bottom: clamp(2rem, 4vw, 4rem);
+    }
+
+    /* Full-bleed hero image */
+    .lf-hero {
+      width: 100%;
+      height: clamp(320px, 52vw, 680px);
+      overflow: hidden;
+      margin-bottom: 3px;
+    }
+    .lf-hero img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.9s cubic-bezier(0.22,1,0.36,1);
+    }
+    .lf-hero:hover img { transform: scale(1.022); }
+    .lf-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.8rem;
+    }
+    .lf-placeholder--cards  { background: linear-gradient(160deg, #2e1c42, #4a3260); }
+    .lf-placeholder--folder { background: #ddd6cb; }
+    .lf-placeholder--web    { background: linear-gradient(160deg, #1a2e3a, #2e5e5a); }
+    .lf-placeholder-label {
+      font-family: var(--font-body);
+      font-size: 0.65rem; font-weight: 400;
+      letter-spacing: 0.2em; text-transform: uppercase;
+    }
+    .lf-placeholder--cards  .lf-placeholder-label { color: rgba(255,255,255,0.25); }
+    .lf-placeholder--folder .lf-placeholder-label { color: rgba(74,50,96,0.3); }
+    .lf-placeholder--web    .lf-placeholder-label { color: rgba(255,255,255,0.2); }
+
+    /* 2-col grid */
+    .lf-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      margin-bottom: 3px;
+    }
+    .lf-cell {
+      overflow: hidden;
+      aspect-ratio: 4/3;
+    }
+    .lf-cell img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.9s cubic-bezier(0.22,1,0.36,1);
+    }
+    .lf-cell:hover img { transform: scale(1.028); }
+    .lf-cell .lf-placeholder {
+      aspect-ratio: 4/3;
+      height: 100%;
+    }
+
+    /* Caption strip below the image block */
+    .lf-caption-row {
+      max-width: var(--content-width);
+      margin: 1.2rem auto 0;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .lf-caption {
+      font-family: var(--font-body);
+      font-size: 0.65rem; font-weight: 400;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gray-light);
+    }
+    .lf-caption-right {
+      font-family: var(--font-display);
+      font-style: italic; font-size: 0.88rem;
+      color: var(--gray-light);
+    }
+
+    @media (max-width: 560px) {
+      .lf-grid { grid-template-columns: 1fr; }
+      .lf-cell { aspect-ratio: 3/2; }
+    }
+
+    /* ============================================
+       APLICACIONES (grid inside system section)
+    ============================================ */
+    .aplic-grid {
+      max-width: var(--content-width);
+      margin: clamp(2rem, 4vw, 4rem) auto 0;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(0.75rem, 1.5vw, 1.5rem);
+    }
+    .aplic-item { display: flex; flex-direction: column; gap: 0.75rem; }
+    .aplic-img {
+      width: 100%; aspect-ratio: 3/2;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 37px 39px 70px rgba(0,0,0,0.25);
+    }
+    .aplic-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.055;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+      mix-blend-mode: multiply;
+    }
+    .aplic-img img {
+      width: 100%; height: 100%; object-fit: cover; object-position: top; display: block;
+      transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+    }
+    .aplic-img:hover img { transform: scale(1.04); }
+    .aplic-img-placeholder {
+      width: 100%; height: 100%;
+      background: rgba(255,255,255,0.03);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.6rem;
+    }
+    .aplic-placeholder-label {
+      font-family: var(--font-body);
+      font-size: 0.62rem; letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.18); text-align: center;
+    }
+    .aplic-item-label {
+      font-family: var(--font-body);
+      font-size: 0.65rem; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(244,240,235,0.38);
+    }
+    .aplic-item-desc {
+      font-family: var(--font-body);
+      font-size: 0.8rem; font-weight: 300;
+      line-height: 1.6; color: rgba(244,240,235,0.28);
+    }
+    @media (max-width: 768px) { .aplic-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .aplic-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll progress line (left edge) -->
+  <div class="scroll-progress" aria-hidden="true">
+    <div class="scroll-progress-track"></div>
+    <div class="scroll-progress-fill" id="progressFill"></div>
+  </div>
+
+  <!-- ============================================
+       HERO
+  ============================================ -->
+  <section class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-cream-panel"></div>
+
+    <!-- Subtle diagonal line SVG -->
+    <div class="hero-diagonal-line">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path d="M 56 0 L 43 100"/>
+      </svg>
+    </div>
+
+    <!-- Cinematic full-screen intro -->
+    <div class="hero-cinematic-overlay" id="heroCinematicOverlay">
+      <!--
+        viewBox="-150 40 700 430": ~45% logo size, centered on purple.
+        Mark lives y:110-310, text y:350-420 — all in original SVG space.
+      -->
+      <svg viewBox="-150 40 700 430" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Clip wipe: reveals only the triangle mark (y:70 → y:315) -->
+          <clipPath id="ovLogoClip">
+            <rect id="ovLogoRect" x="-150" y="70" width="700" height="0"/>
+          </clipPath>
+          <!-- TANNIT text clip — full width initially, narrowed by dot sweep -->
+          <clipPath id="ovClipTannit">
+            <rect id="ovClipTannitRect" x="80" y="350" width="240" height="80"/>
+          </clipPath>
+          <!-- MADE IT SIMPLE clip — starts closed -->
+          <clipPath id="ovClipMade">
+            <rect id="ovClipMadeRect" x="80" y="330" width="0" height="80"/>
+          </clipPath>
+        </defs>
+
+        <!-- Triangle mark — revealed by clip wipe -->
+        <g clip-path="url(#ovLogoClip)">
+          <polygon fill="#744d82" points="336.58 310.63 316.09 310.63 300.08 281.96 288.63 261.48 272.62 232.8 214.34 128.48 224.58 110.14 293.1 232.8 309.11 261.48 320.56 281.96 336.58 310.63"/>
+          <polygon fill="#000000" points="316.09 310.63 34.75 310.63 50.77 281.96 300.08 281.96 316.09 310.63"/>
+          <path fill="#000000" d="M349.23,281.96l-11.45-20.48-16.02-28.67-82.85-148.33-14.34-25.67-14.34,25.67-10.24,18.34-14.34,25.67-58.28,104.33h-20.48l68.52-122.66,14.34-25.67,10.24-18.34,14.34-25.66-.15-.27h-28.38l-.15.27-10.24,18.33-14.34,25.67-82.86,148.33-16.02,28.67h226.42l-16.02-28.67-58.27-104.33,10.24-18.34,68.52,122.66,16.02,28.67,11.45,20.48,16.02,28.67h28.67l-16.02-28.67ZM243.94,232.8h-87.88l43.95-78.67,43.94,78.67Z"/>
+        </g>
+
+        <!-- TANNIT agency — hidden until square appears, then swept away -->
+        <g id="ovTannitText" clip-path="url(#ovClipTannit)" style="opacity:0">
+          <text x="200" y="395" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="500" font-size="46" letter-spacing="4" fill="#000000">TANNIT</text>
+          <text x="200" y="418" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="400" font-size="13" letter-spacing="8" fill="#000000">agency</text>
+        </g>
+
+        <!-- MADE IT SIMPLE — revealed by dot sweep -->
+        <g id="ovMadeText" clip-path="url(#ovClipMade)" style="opacity:0">
+          <text x="200" y="365" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="32" letter-spacing="1" fill="#000000">MADE IT</text>
+          <text x="200" y="395" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="32" letter-spacing="1" fill="#000000">SIMPLE</text>
+        </g>
+
+        <!-- Teal square dot -->
+        <rect id="ovAnimSquare" x="200" y="322" width="12" height="12" fill="#22bbb8" opacity="0"/>
+      </svg>
+    </div>
+
+    <div class="hero-inner">
+      <!-- LEFT: cream side -->
+      <div class="hero-left">
+        <span class="hero__label">Brand Identity · Design System</span>
+        <h1 class="hero__title">Tannit<br>Agency<span class="hero-title-sq" id="heroTitleSq"></span></h1>
+        <p class="hero__body">The brief came over dinner. Two founders, serious experience in pharma logistics and direct marketing, and a brand that said a lot less than the work behind it. They wanted to evolve it, carefully.</p>
+      </div>
+
+      <!-- RIGHT: animated logo -->
+      <div class="hero-right">
+        <div class="hero-animation-wrap">
+          <svg id="tannitLogoSvg" viewBox="0 70 400 390" xmlns="http://www.w3.org/2000/svg">
+            <polygon fill="#744d82" points="336.58 310.63 316.09 310.63 300.08 281.96 288.63 261.48 272.62 232.8 214.34 128.48 224.58 110.14 293.1 232.8 309.11 261.48 320.56 281.96 336.58 310.63"/>
+            <polygon fill="#000000" points="316.09 310.63 34.75 310.63 50.77 281.96 300.08 281.96 316.09 310.63"/>
+            <path fill="#000000" d="M349.23,281.96l-11.45-20.48-16.02-28.67-82.85-148.33-14.34-25.67-14.34,25.67-10.24,18.34-14.34,25.67-58.28,104.33h-20.48l68.52-122.66,14.34-25.67,10.24-18.34,14.34-25.66-.15-.27h-28.38l-.15.27-10.24,18.33-14.34,25.67-82.86,148.33-16.02,28.67h226.42l-16.02-28.67-58.27-104.33,10.24-18.34,68.52,122.66,16.02,28.67,11.45,20.48,16.02,28.67h28.67l-16.02-28.67ZM243.94,232.8h-87.88l43.95-78.67,43.94,78.67Z"/>
+            <text x="200" y="395" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="500" font-size="46" letter-spacing="4" fill="#000000">TANNIT</text>
+            <text x="200" y="418" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="400" font-size="13" letter-spacing="8" fill="#000000">agency</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- META BAR -->
+    <div class="hero-meta">
+      <div class="hero-meta-item on-cream">
+        <span class="hero-meta-label">Role</span>
+        <span class="hero-meta-value">Brand &amp; Identity Design</span>
+      </div>
+      <div class="hero-meta-item on-cream">
+        <span class="hero-meta-label">Timeline</span>
+        <span class="hero-meta-value">January 2024</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Tools</span>
+        <span class="hero-meta-value">Figma · Illustrator · Photoshop</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Status</span>
+        <span class="hero-meta-value">Active system, in daily use</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       01 — THE PROBLEM
+  ============================================ -->
+  <section class="prob">
+    <div class="s-wrap">
+      <div class="prob-header">
+        <div class="prob-header-left reveal">
+          <div class="s-num">01</div>
+          <div class="s-chapter" style="margin-top: 1rem; margin-bottom: 0;">
+            <span class="s-chapter-num">(01)</span>
+            <span class="s-label">The Problem</span>
+          </div>
+        </div>
+        <div class="prob-body-block">
+          <h2 class="s-headline reveal-wipe wipe-d1"><span class="wipe-inner"><em>Heavy brand.</em><br>Light promise.</span></h2>
+          <p class="s-body reveal reveal-d2">Tannit is one vendor for design, production, and delivery. The identity didn't reflect that. Dense illustrations, muted colors, visual layers that said a lot without landing anywhere.</p>
+          <p class="s-body reveal reveal-d3">Three things had to happen at once: clean up the noise, protect what already felt right (the triangle, the tone, the earned equity), and build one system that could speak to two completely different audiences.</p>
+
+          <!-- Two Audiences — anchored to the purple zone -->
+          <div class="audiences reveal">
+            <div class="audience-card audience-card--pharma">
+              <span class="audience-card__num" aria-hidden="true">01</span>
+              <div class="audience-card__label audience-card__label--purple">Pharma Clients</div>
+              <div class="audience-card__title">Rigour, traceability,<br>institutional tone.</div>
+              <p class="audience-card__body">These clients work inside regulatory frameworks and long approval chains. The brand needed to read as seriously as the materials it supports: data-first, no decorative noise.</p>
+              <p class="audience-card__keywords">Institutional<span class="kw-dot"></span>Data-first<span class="kw-dot"></span>Rigorous</p>
+            </div>
+            <div class="audience-card audience-card--agency">
+              <span class="audience-card__num" aria-hidden="true">02</span>
+              <div class="audience-card__label audience-card__label--teal">Agencies</div>
+              <div class="audience-card__title">A partner that works<br>behind the client's brand.</div>
+              <p class="audience-card__body">These clients want white-label execution. Tannit handles everything, the agency takes the credit. The brand needed to read as capable and quiet.</p>
+              <p class="audience-card__keywords">White-label<span class="kw-dot"></span>Frictionless<span class="kw-dot"></span>Invisible</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="s-divider"></div>
+
+
+  <!-- ============================================
+       02 — PROCESO: HOW WE GOT THERE
+  ============================================ -->
+  <section class="proceso">
+    <div class="proceso-inner">
+
+      <!-- Left: chapter + headline + decisions -->
+      <div class="proceso-left">
+        <div class="s-chapter reveal">
+          <span class="s-chapter-num">(02)</span>
+          <span class="s-label">Process</span>
+        </div>
+        <h2 class="s-headline reveal-wipe wipe-d1"><span class="wipe-inner">Three decisions,<br>each with a reason.</span></h2>
+        <p class="s-body reveal reveal-d2">Each choice came from something specific: a problem, an audience, something the system had to protect.</p>
+
+        <div class="proceso-decisions reveal reveal-d3">
+          <div class="proceso-card">
+            <span class="proceso-card__num">01</span>
+            <div class="proceso-card__content">
+              <span class="proceso-card__title">Reduce visual noise</span>
+              <span class="proceso-card__verdict">→ 4 colours · 2 illustrations</span>
+            </div>
+          </div>
+          <div class="proceso-card">
+            <span class="proceso-card__num">02</span>
+            <div class="proceso-card__content">
+              <span class="proceso-card__title">Keep what already works</span>
+              <span class="proceso-card__verdict">→ Refined from what existed</span>
+            </div>
+          </div>
+          <div class="proceso-card">
+            <span class="proceso-card__num">03</span>
+            <div class="proceso-card__content">
+              <span class="proceso-card__title">One system, two tones</span>
+              <span class="proceso-card__verdict">→ One system · zero compromise</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: typography specimen -->
+      <div class="proceso-typo reveal reveal-d2">
+
+        <!-- Primary: Montserrat -->
+        <div class="typo-block">
+          <span class="typo-block-label">Primary · Headings</span>
+          <div class="typo-specimen-primary">Montserrat</div>
+          <div class="typo-specimen-weights">
+            <div class="typo-weight typo-weight-600">
+              <span>SemiBold</span>
+              <span>600</span>
+            </div>
+            <div class="typo-weight typo-weight-700">
+              <span>Bold</span>
+              <span>700</span>
+            </div>
+            <div class="typo-weight typo-weight-800">
+              <span>ExtraBold</span>
+              <span>800</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary: Helvetica -->
+        <div class="typo-block">
+          <span class="typo-block-label">Secondary · Body Copy</span>
+          <div class="typo-specimen-secondary">Helvetica</div>
+          <div class="typo-specimen-secondary-sub">Regular 400 · Medium 500 · Bold 700 · System font</div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <div class="s-divider"></div>
+
+
+  <!-- ============================================
+       03 — THE SYMBOL
+  ============================================ -->
+  <section class="symbol">
+    <div class="symbol-inner">
+
+      <!-- Left: text -->
+      <div class="symbol-text">
+        <div class="s-chapter reveal">
+          <span class="s-chapter-num">(03)</span>
+          <span class="s-label">The Symbol</span>
+        </div>
+        <h2 class="s-headline reveal-wipe wipe-d1"><span class="wipe-inner">One fixed point:<br><em>the triangle.</em></span></h2>
+        <p class="s-body reveal reveal-d2">The symbol references the Phoenician goddess Tanit, the one element the founders chose from the start. A second inner triangle and a diagonal purple line came later, breaking symmetry and encoding the three women behind the agency into the mark.</p>
+      </div>
+
+      <!-- Right: desktop hover grid -->
+      <div class="logo-grid logo-grid--desktop">
+        <div class="logo-cell logo-cell--primary reveal">
+          <img class="logo-default" src="assets/TANNIT 2026/Logos/SVG/Primary logo - Black - Blue.svg" alt="Primary logo — colour">
+          <img class="logo-hover"   src="assets/TANNIT 2026/Logos/SVG/Primary Logo - White - Purpple.svg" alt="">
+          <span class="logo-cell__caption">Primary Logo</span>
+        </div>
+        <div class="logo-cell logo-cell--isotype reveal reveal-d1">
+          <img class="logo-default" src="assets/TANNIT 2026/Logos/SVG/Isotype- Square- purpple.svg" alt="Isotype">
+          <img class="logo-hover"   src="assets/TANNIT 2026/Logos/SVG/Isotype - square-  white - purpple.svg" alt="">
+          <span class="logo-cell__caption">Isotype</span>
+        </div>
+        <div class="logo-cell logo-cell--duo reveal reveal-d2">
+          <img class="logo-default" src="assets/TANNIT 2026/Logos/PNG/TANNIT logo-12.png" alt="Tannit logo 12">
+          <img class="logo-hover"   src="assets/TANNIT 2026/Logos/PNG/TANNIT logo-16.png" alt="Tannit logo 16">
+        </div>
+      </div>
+
+      <!-- Mobile: flat grid — all states visible -->
+      <div class="logo-grid logo-grid--mobile">
+        <div class="logo-cell" style="background:#F8F0E3;">
+          <img src="assets/TANNIT 2026/Logos/SVG/Primary logo - Black - Blue.svg" alt="Primary logo light">
+        </div>
+        <div class="logo-cell" style="background:#180F20;">
+          <img src="assets/TANNIT 2026/Logos/SVG/Primary Logo - White - Purpple.svg" alt="Primary logo dark">
+        </div>
+        <div class="logo-cell" style="background:#B4D5D3;">
+          <img src="assets/TANNIT 2026/Logos/SVG/Isotype- Square- purpple.svg" alt="Isotype teal">
+        </div>
+        <div class="logo-cell" style="background:#C9B5D8;">
+          <img src="assets/TANNIT 2026/Logos/SVG/Isotype - square-  white - purpple.svg" alt="Isotype lilac">
+        </div>
+        <div class="logo-cell" style="background:#C9B5D8;">
+          <img src="assets/TANNIT 2026/Logos/PNG/TANNIT logo-12.png" alt="Logo 12">
+        </div>
+        <div class="logo-cell" style="background:#4A3260;">
+          <img src="assets/TANNIT 2026/Logos/PNG/TANNIT logo-16.png" alt="Logo 16" style="filter:brightness(0) invert(1);">
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="s-divider"></div>
+
+
+  <!-- ============================================
+       03 — THE PALETTE
+  ============================================ -->
+  <section class="palette">
+    <div class="palette-inner">
+
+      <!-- Left: text -->
+      <div class="palette-text">
+        <div class="s-chapter reveal">
+          <span class="s-chapter-num">(04)</span>
+          <span class="s-label">The Palette</span>
+        </div>
+        <h2 class="s-headline reveal-wipe wipe-d1"><span class="wipe-inner">A palette<br>with more reach.</span></h2>
+        <p class="s-body reveal reveal-d2">The original palette had eight or more colors, most of them underused. The new system needed more presence, while staying calm enough for pharmaceutical clients in the room.</p>
+      </div>
+
+      <!-- Right: all visuals -->
+      <div class="palette-visuals">
+
+        <!-- Primary colors -->
+        <div class="palette-primaries">
+          <div class="palette-primary" style="background:#8A6E9A; color:#F8F0E3;">
+            <span class="pp-name">Violet</span>
+            <span class="pp-hex">#8A6E9A</span>
+          </div>
+          <div class="palette-primary" style="background:#6AA8A4; color:#F8F0E3;">
+            <span class="pp-name">Teal</span>
+            <span class="pp-hex">#6AA8A4</span>
+          </div>
+        </div>
+
+        <!-- Expanded palette -->
+        <div class="palette-expanded">
+          <div class="palette-swatch" style="background:#180F20; color:#F8F0E3;">
+            <span class="ps-hex">#180F20</span>
+          </div>
+          <div class="palette-swatch" style="background:#4A3260; color:#F8F0E3;">
+            <span class="ps-hex">#4A3260</span>
+          </div>
+          <div class="palette-swatch" style="background:#C9B5D8; color:#180F20;">
+            <span class="ps-hex">#C9B5D8</span>
+          </div>
+          <div class="palette-swatch" style="background:#E8E3ED; color:#4A3260;">
+            <span class="ps-hex">#E8E3ED</span>
+          </div>
+          <div class="palette-swatch" style="background:#B4D5D3; color:#180F20;">
+            <span class="ps-hex">#B4D5D3</span>
+          </div>
+          <div class="palette-swatch" style="background:#E8F4F3; color:#4A3260;">
+            <span class="ps-hex">#E8F4F3</span>
+          </div>
+          <div class="palette-swatch" style="background:#F2E8D4; color:#4A3260;">
+            <span class="ps-hex">#F2E8D4</span>
+          </div>
+          <div class="palette-swatch" style="background:#F8F0E3; color:#4A3260; box-shadow: inset 0 0 0 1px rgba(74,50,96,0.12);">
+            <span class="ps-hex">#F8F0E3</span>
+          </div>
+        </div>
+
+        <!-- Proportions bar -->
+        <div class="palette-proportions">
+          <div class="prop-bar"></div>
+          <div class="prop-labels">
+            <span class="prop-label"><span class="prop-dot" style="background:#F8F0E3; border: 1px solid rgba(74,50,96,0.2);"></span>Warm White · 55%</span>
+            <span class="prop-label"><span class="prop-dot" style="background:#8A6E9A;"></span>Violet · 25%</span>
+            <span class="prop-label"><span class="prop-dot" style="background:#6AA8A4;"></span>Teal · 20%</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <div class="s-divider"></div>
+
+
+  <!-- ============================================
+       04 — ICONOGRAPHY
+  ============================================ -->
+  <section class="iconography">
+    <div class="icon-layout">
+
+      <div class="icon-text">
+        <div class="s-chapter reveal">
+          <span class="s-chapter-num">(05)</span>
+          <span class="s-label">Iconography</span>
+        </div>
+        <h2 class="s-headline reveal-wipe wipe-d1"><span class="wipe-inner">28 icons.<br>Two variants each.</span></h2>
+        <p class="s-body reveal reveal-d2">Built for decks, one-pagers, and email headers. Consistent stroke weight, clear at any size. Hover to switch from teal to violet.</p>
+      </div>
+
+      <div class="icon-right">
+        <div class="icon-wall reveal">
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Briefing - Color=Azul, Dark=True.svg"        alt="Briefing">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Briefing - Color=Morado, Dark=True.svg"      alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Design - Colores=Blue, Size=BIg.svg"          alt="Design">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Design - Colores=Morado, Size=BIg.svg"        alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Document Certification -Color = Blue.svg"         alt="Certification">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Document Certification - Property 1=Variant2.svg" alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Production - Size=Big, Color=Blue, Property 3=Default.svg"   alt="Production">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Production - Size=Big, Color=Purple, Property 3=Defaul.svg"  alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Shipping - Color=Blue, Size=Big.svg"          alt="Shipping">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Shipping - Color=Purple, Size=Big.svg"        alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Check - Color = Blue.svg"                     alt="Check">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Check - Color =  Purpple.svg"                 alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Email marketing - Color=Blue.svg"             alt="Email marketing">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Email marketing - Color=Purpple.svg"          alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Email Contact - Color=Blue 1, Size=Big.svg"   alt="Email contact">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Email Contact - Color=Purpple, Size=Big.svg"  alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Certified Email - Color=Purple 2.svg"         alt="Certified email">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Certified Email - Color=Purple 1.svg"         alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Printing - Color=Blue 1.svg"                  alt="Printing">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Printing - Color=Purple 1.svg"                alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Database - SIze=Big, Color=Blue.svg"          alt="Database">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Database - SIze=Big, Color=Purple.svg"        alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Analytic - Color = Blue.svg"                  alt="Analytics">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Analytic - Color = Blue.svg"                  alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Automation -Color=Blue.svg"                   alt="Automation">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Automation -Color=Purplle.svg"                alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Translation - Color=Blue 1.svg"               alt="Translation">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Translation - Color=Purpple 2.svg"            alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Global Worldwide - Color=Blue 1.svg"          alt="Global">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Global Worldwide - Color=Purple 1.svg"        alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Location - Color=Blue 1.svg"                  alt="Location">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Location - Color=Purple 1.svg"                alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Calendar - Color=Blue, size=Big.svg"          alt="Calendar">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Calendar - Color=Purple 1, size=Big.svg"      alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Phone Blue.svg"                               alt="Phone">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Phone Purple.svg"                             alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/LinkedIn - Color=Blue.svg"                    alt="LinkedIn">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/LinkedIn - Color=Purple 1.svg"                alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Landing Pages - Color=Blue 1.svg"             alt="Landing pages">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Landing Pages - Color=Purple 1.svg"           alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Web Hosting - Color=Blue.svg"                 alt="Web hosting">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Web Hosting - Property 1=Purplle.svg"         alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Hospital - Color = Blue.svg"                  alt="Hospital">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Hospital - Color = Purpple.svg"               alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Team Collaboration - Color=Blue 1.svg"        alt="Team">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Team Collaboration - Color=Blue 2.svg"        alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Info - Color=Blue.svg"                        alt="Info">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Info - Color=Purple.svg"                      alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Warning Alert - Color=Blue 1.svg"             alt="Warning">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Warning Alert - Color=Purple 1.svg"           alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Close Exit - Color=Blue.svg"                  alt="Close">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Close Exit - Color=Purple 1.svg"              alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Certified ISO - Color=Blue 1.svg"             alt="ISO">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Certified ISO - Color=Purple 1.svg"           alt="">
+      </div>
+      <div class="icon-cell">
+        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Quality Control - Color=Blue 2.svg"           alt="Quality control">
+        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Quality Control - Color=Purple 1.svg"         alt="">
+      </div>
+    </div><!-- /icon-wall -->
+        <div class="icon-wall-hint reveal">
+          <span class="icon-wall-hint-label">Hover to switch variant · Teal / Violet</span>
+          <span class="icon-wall-hint-count">28 icons · 2 variants · 56 files</span>
+        </div>
+      </div><!-- /icon-right -->
+
+    </div><!-- /icon-layout -->
+  </section>
+
+  <div class="s-divider"></div>
+
+
+  <!-- ============================================
+       05 — ILLUSTRATION
+  ============================================ -->
+  <section class="illus">
+    <div class="illus-layout">
+
+      <div class="illus-text">
+        <div class="s-chapter reveal">
+          <span class="s-chapter-num">(06)</span>
+          <span class="s-label">Illustration</span>
+        </div>
+        <h2 class="s-headline reveal-wipe wipe-d1"><span class="wipe-inner">Two delivered.<br>A third on the way.</span></h2>
+        <p class="s-body reveal reveal-d2">Two illustrations, each with a color and monochrome variant: clean lines, palette restricted to system colors, placed with intention across decks and one-pagers.</p>
+        <div class="honest-note reveal reveal-d3">
+          <p><strong>One honest note.</strong> A third illustration is taking longer than expected. Past a certain point, forcing it beyond your current skill produces less than bringing in a specialist. A system built around transferable files outlasts whoever made it.</p>
+        </div>
+      </div>
+
+      <div class="illus-right">
+        <div class="illus-grid">
+          <figure class="illus-figure reveal">
+            <div class="illus-img-wrap">
+              <img class="illus-img-color"  src="assets/TANNIT 2026/Illustration/Medica - Color.png"       alt="Medica — colour variant">
+              <img class="illus-img-pastel" src="assets/TANNIT 2026/Illustration/Medica Color Pastel.png"  alt="Medica — pastel variant">
+            </div>
+            <figcaption class="illus-caption">Medica · Pharma contexts</figcaption>
+          </figure>
+          <figure class="illus-figure illus-figure--computer reveal reveal-d2">
+            <div class="illus-img-wrap">
+              <img class="illus-img-color"  src="assets/TANNIT 2026/Illustration/Illustratoion - computer.png"       alt="Computer — colour variant">
+              <img class="illus-img-pastel" src="assets/TANNIT 2026/Illustration/Illustration- Computer pastel.png"  alt="Computer — pastel variant">
+            </div>
+            <figcaption class="illus-caption">Computer · Agency contexts</figcaption>
+          </figure>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="s-divider"></div>
+
+
+  <!-- ============================================
+       07 — THE BRAND, APPLIED
+  ============================================ -->
+  <section class="applied">
+
+    <!-- Header -->
+    <div class="applied-intro s-wrap">
+      <div class="s-chapter reveal">
+        <span class="s-chapter-num">(07)</span>
+        <span class="s-label">The Brand, Applied</span>
+      </div>
+      <div class="applied-intro-grid">
+        <h2 class="s-headline reveal-wipe wipe-d1"><span class="wipe-inner">The real test:<br><em>the founders use it on their own.</em></span></h2>
+        <p class="s-body reveal reveal-d2">The pitch deck has a fixed structure and swappable content. The founders update cases and numbers each time, the layout stays. One grid, same typefaces and colors, two completely different conversations.</p>
+      </div>
+    </div>
+
+    <!-- Two audiences split -->
+    <div class="ta-split">
+      <div class="ta-panel ta-panel--purple reveal reveal-left">
+        <div class="ta-doc">
+          <img src="assets/One page- pharma.jpg" alt="Tannit one-pager for pharma clients" style="width:100%;height:auto;display:block;">
+        </div>
+        <span class="ta-annotation">Pharma clients</span>
+      </div>
+      <div class="ta-panel ta-panel--teal reveal reveal-right">
+        <div class="ta-doc">
+          <img src="assets/Onepage - Agencias.jpg" alt="Tannit one-pager for agency clients" style="width:100%;height:auto;display:block;">
+        </div>
+        <span class="ta-annotation">Agency clients</span>
+      </div>
+    </div>
+
+    <div class="ta-body-wrap">
+      <div class="ta-body-inner">
+        <p class="s-body reveal" style="text-align:center;">The pharma version leads with compliance, traceability, and rigor. The agency version leads with white-label execution and process clarity. The underlying system is the same.</p>
+      </div>
+    </div>
+
+    <!-- Mockup wall -->
+    <div class="mockup-wall">
+
+      <!-- Business card — blue textured -->
+      <div class="mw-item mw-card-b reveal">
+        <img src="assets/textured paper and backgroun-blue.png" alt="Tannit business card — blue textured">
+        <div class="mw-caption">
+          <span class="mw-caption-title">Business Card · Blue</span>
+          <span class="mw-caption-desc">Textured paper · Teal gradient</span>
+        </div>
+      </div>
+
+      <!-- Business card — pink -->
+      <div class="mw-item mw-card-p reveal">
+        <img src="assets/pale background- purple.png" alt="Tannit business card — pink">
+        <div class="mw-caption">
+          <span class="mw-caption-title">Business Card · Pink</span>
+          <span class="mw-caption-desc">Pale background · Purple gradient</span>
+        </div>
+      </div>
+
+      <!-- Pitch deck -->
+      <div class="mw-item mw-pitch reveal">
+        <img src="assets/pitch deck 2.png" alt="Tannit pitch deck 2026">
+        <div class="mw-caption">
+          <span class="mw-caption-title">Pitch Deck</span>
+          <span class="mw-caption-desc">Fixed structure, variable content</span>
+        </div>
+      </div>
+
+      <!-- Papel 1 -->
+      <div class="mw-item mw-papel-1 reveal">
+        <img src="assets/Papel. 1.jpg" alt="Tannit papel mockup 1">
+        <div class="mw-caption">
+          <span class="mw-caption-title">Stationery · Sheet 1</span>
+          <span class="mw-caption-desc">Branded paper · Corporate identity</span>
+        </div>
+      </div>
+
+      <!-- Papel 2 -->
+      <div class="mw-item mw-papel-2 reveal">
+        <img src="assets/papel 2.jpg" alt="Tannit papel mockup 2">
+        <div class="mw-caption">
+          <span class="mw-caption-title">Stationery · Sheet 2</span>
+          <span class="mw-caption-desc">Branded paper · Corporate identity</span>
+        </div>
+      </div>
+
+      <!-- Brand guidelines placeholder -->
+      <div class="mw-item mw-guide reveal">
+        <div class="mw-placeholder">
+          <img src="assets/TANNIT 2026/Logos/SVG/Horizontal - Monochrome.- White.svg" alt="TANNIT" style="height:18px;filter:brightness(0) invert(1);opacity:0.18;">
+          <span class="mw-placeholder-label">Brand Guidelines · 2026</span>
+          <span class="mw-placeholder-sub">→ PDF preview coming</span>
+        </div>
+        <div class="mw-caption">
+          <span class="mw-caption-title">Brand Guidelines</span>
+          <span class="mw-caption-desc">PDF + interactive HTML</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="s-divider s-divider--dark"></div>
+
+
+  <!-- ============================================
+       08 — WHAT I LEARNED
+  ============================================ -->
+  <section class="learned">
+    <div class="learned-inner">
+      <div class="learned-num reveal">08</div>
+      <h2 class="learned-headline reveal reveal-d1">Where the time went,<br>and where it should have gone.</h2>
+      <p class="learned-body reveal reveal-d2">I spent real hours building animated versions of the illustrations, for social media and presentations. Tannit generates few contexts for either, and none of that production time turned into something the founders actually use.</p>
+      <p class="learned-body reveal reveal-d3">Those hours would have gone further into presentation and email templates, tools the founders still use every week without a clean system. Next time: templates before animation.</p>
+      <p class="learned-body reveal reveal-d4">The same applies to illustration. Knowing when to bring in a specialist is a design decision too. A system built around one person's availability has a shelf life. Transferable files outlast whoever made them.</p>
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       CLOSING
+  ============================================ -->
+  <section class="closing-statement">
+    <div class="closing-statement-inner">
+      <p class="closing-quote reveal">Tannit left with <strong>a full toolkit, digital brand guidelines,</strong> and a clearer picture of who they are visually.</p>
+    </div>
+  </section>
+
+  <footer class="closing">
+    <div class="closing-nav">
+      <a href="index.html#work" class="closing-nav-item reveal">
+        <span class="closing-nav-label">← Portfolio</span>
+        <span class="closing-nav-title">Back to work</span>
+      </a>
+      <a href="contact.html" class="closing-nav-item reveal reveal-d1">
+        <span class="closing-nav-label">Get in touch</span>
+        <span class="closing-nav-title">Contact <span class="closing-nav-arrow">→</span></span>
+      </a>
+    </div>
+    <div class="closing-bottom">
+      <span class="closing-bottom-copy">Aroa — UX &amp; Brand Design</span>
+      <span class="closing-bottom-copy">Tannit Agency · 2024</span>
+    </div>
+  </footer>
+
+
+  <!-- SIDE NAV -->
+  <nav class="side-nav" aria-label="Quick navigation">
+    <a href="index.html" class="back-arrow" aria-label="Back to home" data-tip="Back">
+      <img src="assets/images/ui/Back-Hand.png" alt="">
+    </a>
+    <a href="contact.html" class="contact-envelope" aria-label="Go to contact" data-tip="Write me">
+      <img class="env-closed" src="assets/images/ui/sobre_cerrado.png" alt="">
+      <img class="env-open"   src="assets/images/ui/sobre_abierto.png" alt="">
+    </a>
+  </nav>
+
+
+  <!-- ============================================
+       SCRIPTS
+  ============================================ -->
+  <script>
+    /* ── Cinematic hero sequence ── */
+    (function () {
+      var overlay    = document.getElementById('heroCinematicOverlay');
+      var ovLogoRect = document.getElementById('ovLogoRect');
+      var ovTannit   = document.getElementById('ovTannitText');
+      var ovMade     = document.getElementById('ovMadeText');
+      var ovSquare   = document.getElementById('ovAnimSquare');
+      var ovClipTR   = document.getElementById('ovClipTannitRect');
+      var ovClipMR   = document.getElementById('ovClipMadeRect');
+      var creamPanel = document.querySelector('.hero-cream-panel');
+      var heroInner  = document.querySelector('.hero-inner');
+      var titleSq    = document.getElementById('heroTitleSq');
+
+      if (!overlay || !ovLogoRect || !creamPanel) return;
+
+      function eio(t)  { return t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
+      function eout(t) { return 1-Math.pow(1-t,3); }
+      function back(t) { var u=1-t; return 1-u*u*(2.4*u-1.4); }
+      function lerp(f,f0,f1,v0,v1,ease) {
+        var t=Math.min(1,Math.max(0,(f-f0)/(f1-f0)));
+        return v0+(v1-v0)*(ease?ease(t):t);
+      }
+
+      /* ── Timing ── */
+      var DELAY     = 350;
+      var DUR_WIPE  = 900;   /* logo mark clip wipe */
+      var LOGO_H    = 245;   /* reveals y:70→y:315 (mark only) */
+      var HOLD1     = 400;   /* hold on triangle before dot */
+
+      var DOT_START = DUR_WIPE + HOLD1;  /* ~1.3s */
+      /* Original dot animation constants */
+      var TL=80, TR=320, SQ_SIZE=12;
+      var SQ_IX=200, SQ_IY=322, SQ_SX=66, SQ_EX=328, SQ_FX=276, SQ_FY=383;
+      var T_HOLD=8, T_PREP=20, T_SWEEP=60, T_SETTLE=82, T_TS=70, T_TE=110;
+      var DOT_FPS=38, DOT_END=115;
+      var DOT_DUR=(DOT_END/DOT_FPS)*1000;  /* ~3.03s */
+      var HOLD2     = 450;
+
+      var REVEAL_AT = DOT_START + DOT_DUR + HOLD2;  /* ~4.78s */
+      var OVERLAY_FADE_DELAY = 1050;  /* overlay fades when cream is ~80% done */
+
+      var t0=null, revealDone=false, dotStarted=false;
+
+      function tick(ts) {
+        if (!t0) t0=ts;
+        var e=ts-t0-DELAY;
+        if (e<0) { requestAnimationFrame(tick); return; }
+
+        /* Phase 1 — logo mark clip wipe top→bottom */
+        ovLogoRect.setAttribute('height', eio(Math.min(1,e/DUR_WIPE))*LOGO_H);
+
+        /* Phase 2 — dot animation + text */
+        if (e>=DOT_START) {
+          if (!dotStarted) {
+            dotStarted=true;
+            /* Square and TANNIT text appear together */
+            ovSquare.setAttribute('opacity','1');
+            ovTannit.style.transition='opacity 0.35s ease';
+            ovTannit.style.opacity='1';
+          }
+          var frame=Math.min(DOT_END,((e-DOT_START)/1000)*DOT_FPS);
+          var sx,sy;
+          if      (frame<=T_HOLD)   { sx=SQ_IX; sy=SQ_IY; }
+          else if (frame<=T_PREP)   { sx=lerp(frame,T_HOLD,T_PREP,SQ_IX,SQ_SX,eio); sy=SQ_IY; }
+          else if (frame<=T_SWEEP)  { sx=lerp(frame,T_PREP,T_SWEEP,SQ_SX,SQ_EX,eio); sy=SQ_IY; }
+          else if (frame<=T_SETTLE) {
+            sx=lerp(frame,T_SWEEP,T_SETTLE,SQ_EX,SQ_FX,back);
+            sy=lerp(frame,T_SWEEP,T_SETTLE,SQ_IY,SQ_FY,eout);
+          } else { sx=SQ_FX; sy=SQ_FY; }
+
+          var cx=frame<=T_PREP ? TL : (frame<=T_SWEEP ? sx+SQ_SIZE+2 : TR);
+          var cw=frame<=T_PREP ? TR-TL : (frame<=T_SWEEP ? Math.max(0,TR-cx) : 0);
+
+          ovSquare.setAttribute('x',sx); ovSquare.setAttribute('y',sy);
+          ovClipTR.setAttribute('x',cx); ovClipTR.setAttribute('width',cw);
+          ovTannit.style.opacity=lerp(frame,T_SWEEP-4,T_SWEEP+8,1,0,null);
+          ovClipMR.setAttribute('width',lerp(frame,T_TS,T_TE,0,TR-TL,eout));
+          ovMade.style.opacity=lerp(frame,T_TS,T_TS+12,0,1,null);
+        }
+
+        /* Phase 3 — hero reveal */
+        if (!revealDone && e>=REVEAL_AT) {
+          revealDone=true;
+          creamPanel.classList.add('active');
+          if (heroInner) heroInner.classList.add('active');
+          /* Overlay waits for cream to settle, then pops off */
+          setTimeout(function(){ overlay.classList.add('done'); }, OVERLAY_FADE_DELAY);
+          /* Title square on left after overlay gone */
+          if (titleSq) setTimeout(function(){ titleSq.classList.add('visible'); }, OVERLAY_FADE_DELAY+500);
+        }
+
+        if (!revealDone || e<REVEAL_AT+200) requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    })();
+
+    /* ── Prob section diagonal — continues hero's slope exactly ── */
+    (function () {
+      function setProbDiag() {
+        var prob = document.querySelector('.prob');
+        if (!prob) return;
+        var probH = prob.offsetHeight;
+        var vh    = window.innerHeight;
+        var bottomX = 43 - 13 * (probH / vh);
+        prob.style.setProperty('--prob-diag-bottom', bottomX.toFixed(2) + '%');
+      }
+      setProbDiag();
+      window.addEventListener('resize', setProbDiag);
+    })();
+
+    /* ── Scroll Reveal (fade-up + wipe) ── */
+    const revealEls = document.querySelectorAll('.reveal, .reveal-wipe');
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealObs.observe(el));
+
+
+    /* ── Scroll Progress Line ── */
+    const progressFill = document.getElementById('progressFill');
+    if (progressFill) {
+      const updateProgress = () => {
+        const docH = document.documentElement.scrollHeight - window.innerHeight;
+        const pct  = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+        progressFill.style.height = pct + '%';
+      };
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      updateProgress();
+    }
+
+    /* ── Before/After section cinematic entrance ── */
+    const baSection = document.getElementById('baSection');
+    if (baSection) {
+      const baObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            baObs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.08 });
+      baObs.observe(baSection);
+    }
+
+    /* ── Palette stagger ── */
+    const paletteStaggerObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.querySelectorAll('.palette-primary, .palette-swatch, .palette-proportions').forEach((s, i) => {
+          setTimeout(() => s.classList.add('visible'), i * 60);
+        });
+        paletteStaggerObs.unobserve(e.target);
+      });
+    }, { threshold: 0.15 });
+    const paletteInner = document.querySelector('.palette-inner');
+    if (paletteInner) paletteStaggerObs.observe(paletteInner);
+
+    /* ── Icon wall stagger ── */
+    const iconWall = document.querySelector('.icon-wall');
+    if (iconWall) {
+      const iconObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          const cells = e.target.querySelectorAll('.icon-cell');
+          cells.forEach((cell, i) => {
+            setTimeout(() => cell.classList.add('visible'), i * 35);
+          });
+          iconObs.unobserve(e.target);
+        });
+      }, { threshold: 0.1 });
+      iconObs.observe(iconWall);
+    }
+
+    /* ── Before/After drag slider ── */
+    const container = document.getElementById('baContainer');
+    const after = document.getElementById('baAfter');
+    const handle = document.getElementById('baHandle');
+
+    let dragging = false;
+
+    function setPosition(x) {
+      const rect = container.getBoundingClientRect();
+      let pct = ((x - rect.left) / rect.width) * 100;
+      pct = Math.min(Math.max(pct, 5), 95);
+      after.style.clipPath = `inset(0 0 0 ${pct}%)`;
+      handle.style.left = `${pct}%`;
+    }
+
+    container.addEventListener('mousedown',  e => { dragging = true; setPosition(e.clientX); });
+    container.addEventListener('touchstart', e => { dragging = true; setPosition(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('mousemove',  e => { if (dragging) setPosition(e.clientX); });
+    window.addEventListener('touchmove',  e => { if (dragging) setPosition(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('mouseup',  () => dragging = false);
+    window.addEventListener('touchend', () => dragging = false);
+
+    /* ── Tannit Logo Hero Animation ── */
+    (function () {
+      var square   = document.getElementById('heroAnimSquare');
+      var clipTR   = document.getElementById('heroClipTannitRect');
+      var tannitG  = document.getElementById('heroTannitText');
+      var clipMR   = document.getElementById('heroClipMadeRect');
+      var madeG    = document.getElementById('heroMadeText');
+      if (!square) return;
+
+      var SQ_SIZE = 12, TL = 80, TR = 320;
+      var SQ_IX = 200, SQ_IY = 322;
+      var SQ_SX = 66, SQ_EX = 328, SQ_FX = 276, SQ_FY = 383;
+      var T_HOLD = 8, T_PREP = 20, T_SWEEP = 60, T_SETTLE = 82;
+      var T_TS = 70, T_TE = 110;
+
+      function polyInOut(n, t) {
+        return t < 0.5 ? Math.pow(t * 2, n) / 2 : 1 - Math.pow((1 - t) * 2, n) / 2;
+      }
+      function polyOut(n, t) { return 1 - Math.pow(1 - t, n); }
+      function backOut(s, t)  { var u = 1 - t; return 1 - u * u * ((s + 1) * u - s); }
+
+      function lerp(f, f0, f1, v0, v1, ease) {
+        var t = Math.min(1, Math.max(0, (f - f0) / (f1 - f0)));
+        if (ease) t = ease(t);
+        return v0 + (v1 - v0) * t;
+      }
+
+      var titleSq  = document.getElementById('heroTitleSq');
+      var sqDone   = false;
+
+      var t0 = null;
+      function tick(ts) {
+        if (!t0) t0 = ts;
+        var frame = Math.min(((ts - t0) / 1000) * 30, 270);
+
+        if (!sqDone && frame >= T_TE) {
+          if (titleSq) titleSq.classList.add('visible');
+          sqDone = true;
+        }
+
+        var sx, sy;
+        if (frame <= T_HOLD) {
+          sx = SQ_IX; sy = SQ_IY;
+        } else if (frame <= T_PREP) {
+          sx = lerp(frame, T_HOLD, T_PREP, SQ_IX, SQ_SX, function(t){ return polyInOut(4, t); });
+          sy = SQ_IY;
+        } else if (frame <= T_SWEEP) {
+          sx = lerp(frame, T_PREP, T_SWEEP, SQ_SX, SQ_EX, function(t){ return polyInOut(5, t); });
+          sy = SQ_IY;
+        } else if (frame <= T_SETTLE) {
+          sx = lerp(frame, T_SWEEP, T_SETTLE, SQ_EX, SQ_FX, function(t){ return backOut(1.4, t); });
+          sy = lerp(frame, T_SWEEP, T_SETTLE, SQ_IY, SQ_FY, function(t){ return polyOut(4, t); });
+        } else {
+          sx = SQ_FX; sy = SQ_FY;
+        }
+
+        var cx, cw;
+        if (frame <= T_PREP) {
+          cx = TL; cw = TR - TL;
+        } else if (frame <= T_SWEEP) {
+          cx = sx + SQ_SIZE + 2; cw = Math.max(0, TR - cx);
+        } else {
+          cx = TR; cw = 0;
+        }
+
+        square.setAttribute('x', sx);
+        square.setAttribute('y', sy);
+        clipTR.setAttribute('x', cx);
+        clipTR.setAttribute('width', cw);
+        tannitG.style.opacity = lerp(frame, T_SWEEP - 4, T_SWEEP + 8, 1, 0, null);
+        clipMR.setAttribute('width', lerp(frame, T_TS, T_TE, 0, TR - TL, function(t){ return polyOut(4, t); }));
+        madeG.style.opacity  = lerp(frame, T_TS, T_TS + 12, 0, 1, null);
+
+        if (frame < 270) requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    })();
+
+    /* ── Prob section diagonal — continues hero's slope exactly ── */
+    (function () {
+      function setProbDiag() {
+        var prob = document.querySelector('.prob');
+        if (!prob) return;
+        var probH = prob.offsetHeight;
+        var vh    = window.innerHeight;
+        // Hero diagonal: 56% (top) → 43% (bottom) over 100vh → slope = −13% per 100vh
+        var bottomX = 43 - 13 * (probH / vh);
+        prob.style.setProperty('--prob-diag-bottom', bottomX.toFixed(2) + '%');
+      }
+      setProbDiag();
+      window.addEventListener('resize', setProbDiag);
+    })();
+
+    /* ── Hide side-nav when footer is visible ── */
+    const sideNav = document.querySelector('.side-nav');
+    const footer  = document.querySelector('.closing');
+    if (sideNav && footer) {
+      new IntersectionObserver((entries) => {
+        sideNav.style.opacity = entries[0].isIntersecting ? '0' : '';
+        sideNav.style.pointerEvents = entries[0].isIntersecting ? 'none' : '';
+      }, { threshold: 0 }).observe(footer);
+    }
+  </script>
+
+</body>
+</html>

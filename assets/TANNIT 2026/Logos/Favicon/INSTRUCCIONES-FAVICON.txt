@@ -1,0 +1,42 @@
+TANNIT — Favicon Package
+========================
+
+ARCHIVOS INCLUIDOS
+──────────────────
+favicon.svg        Isotype blanco sobre fondo morado oscuro (#4a3260)  ← RECOMENDADO
+favicon-teal.svg   Isotype blanco sobre fondo teal (#6aa8a4)           ← alternativa
+
+Los SVG son suficientes para la mayoría de navegadores modernos.
+Para compatibilidad completa, generar también los PNG/ICO:
+
+
+CÓMO GENERAR LOS ARCHIVOS RESTANTES
+──────────────────────────────────────
+1. Ve a https://realfavicongenerator.net
+2. Sube favicon.svg
+3. Descarga el paquete completo — incluye:
+     favicon.ico           (16×16 + 32×32, para IE y pestaña del navegador)
+     favicon-32x32.png
+     favicon-16x16.png
+     apple-touch-icon.png  (180×180, para iPhone/iPad al guardar en pantalla de inicio)
+     android-chrome-192x192.png
+     android-chrome-512x512.png
+     site.webmanifest      (archivo de configuración para PWA/Android)
+
+
+CÓDIGO HTML PARA EL DISEÑADOR WEB
+──────────────────────────────────────
+Pegar en el <head> de todas las páginas:
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#4a3260">
+
+
+NOTA
+──────────────────────────────────────
+El SVG es suficiente para Chrome, Firefox, Edge y Safari modernos.
+El .ico solo es necesario para soporte de IE11 y navegadores muy antiguos.

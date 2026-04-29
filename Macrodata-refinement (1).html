@@ -762,6 +762,14 @@
       display: block;
     }
 
+    /* Research insight — second quote voice */
+    .res-insight-quote + .res-insight-quote {
+      font-size: clamp(1.3rem, 2.2vw, 2rem);
+      color: var(--gray-text);
+      margin-top: 16px;
+      margin-bottom: 0;
+    }
+
     /* Key insight — caja horizontal crema */
     .res-insight {
       display: grid;
@@ -1367,8 +1375,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 40
-      px;
+      padding: 40px;
     }
     .learn-media-gif img {
       width: 100%;
@@ -1680,6 +1687,44 @@
       .side-nav { display: none; }
     }
 
+    /* ============================================
+       ACCESSIBILITY — prefers-reduced-motion
+    ============================================ */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+      .reveal-left,
+      .reveal-right {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+      .hero__label,
+      .hero__title,
+      .hero__subtitle,
+      .hero__meta {
+        opacity: 1;
+        animation: none;
+        transform: none;
+      }
+      .hero::before {
+        animation: none;
+        height: 38%;
+      }
+      .res-card-overlay {
+        transition: none;
+      }
+      .appr-screen-thumb {
+        transition: none;
+      }
+      .res4-bar-fill {
+        transition: none;
+      }
+    }
+
     @media (max-width: 700px) {
 
       /* ── HERO ── */
@@ -1734,9 +1779,51 @@
       .prob-block .prob-ba-label { color: #6AAABB; }
     }
 
+    /* ============================================
+       MOTION-DRIVEN STORYTELLING
+    ============================================ */
+
+    /* Scroll progress — narrative arc tracker */
+    .scroll-progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: var(--red);
+      width: 0%;
+      z-index: 9999;
+      pointer-events: none;
+      will-change: width;
+    }
+
+    /* Directional reveals — split panel storytelling */
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-36px);
+      transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(36px);
+      transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* Extended stagger delays */
+    .reveal-delay-5 { transition-delay: 0.45s; }
+    .reveal-delay-6 { transition-delay: 0.6s; }
+
+    /* Parallax layer performance hint */
+    .parallax-layer { will-change: transform; }
+
   </style>
 </head>
 <body>
+
+  <div class="scroll-progress-bar" id="scrollProgressBar" aria-hidden="true"></div>
 
   <!-- ============================================
        HERO
@@ -1774,12 +1861,12 @@
   <section class="prob-outer">
   <div class="prob-block">
 
-    <div class="prob-hero reveal">
-      <div class="prob-hero-left">
+    <div class="prob-hero">
+      <div class="prob-hero-left reveal-left">
         <div class="prob-section-number">01</div>
         <div class="prob-section-tag">The<br>Problem</div>
       </div>
-      <div class="prob-hero-right">
+      <div class="prob-hero-right reveal-right reveal-delay-1">
         <h2 class="prob-hero-title">Machines do what machines do.<br><em>Humans should do<br>what humans do.</em></h2>
         <div class="prob-hero-body">Every week: different Excel file, different structure, different column names. Two employees spent 20 minutes to 3 hours per file on purely mechanical work. Matching columns, verifying data, reorganizing. Not specialized work. Just repetition with real consequences.</div>
       </div>
@@ -1914,12 +2001,12 @@
   <section class="res-block">
 
     <!-- Header — misma estructura que prob-hero -->
-    <div class="prob-hero reveal">
-      <div class="prob-hero-left">
+    <div class="prob-hero">
+      <div class="prob-hero-left reveal-left">
         <div class="prob-section-number">02</div>
         <div class="prob-section-tag">Research</div>
       </div>
-      <div class="prob-hero-right">
+      <div class="prob-hero-right reveal-right reveal-delay-1">
         <h2 class="prob-hero-title">Who I<br>designed for.</h2>
         <div class="prob-hero-body">Small company, small audience. My users were my colleagues, which meant I could observe the problem daily and ask questions without scheduling a single meeting.</div>
       </div>
@@ -1930,7 +2017,7 @@
 
       <div class="res-card reveal">
         <div class="res-card-image">
-          <img src="assets/images/projects/image.User01.png" alt="The Logistics Lead">
+          <img src="assets/images/projects/image.User01.png" alt="The Logistics Lead" loading="lazy">
         </div>
         <div class="res-card-overlay">
           <div>
@@ -1952,7 +2039,7 @@
 
       <div class="res-card reveal reveal-delay-1">
         <div class="res-card-image">
-          <img src="assets/images/projects/image.user02.jpg" alt="The Art Director">
+          <img src="assets/images/projects/image.user02.jpg" alt="The Art Director" loading="lazy">
         </div>
         <div class="res-card-overlay">
           <div>
@@ -1978,7 +2065,8 @@
     <div class="res-insight reveal">
       <p class="res-insight-tag">The Key Insight</p>
       <div>
-        <p class="res-insight-quote">&ldquo;Make it do it by itself.&rdquo; &ldquo;&hellip;and I need to see what it's doing. And don't delete anything.&rdquo;</p>
+        <p class="res-insight-quote">&ldquo;Make it do it by itself.&rdquo;</p>
+        <p class="res-insight-quote">&ldquo;&hellip;And I need to see what it&rsquo;s doing. And don&rsquo;t delete anything.&rdquo;</p>
         <p class="res-insight-body">Unanimous answer. Immediately followed by the real constraint. They wanted it automatic. They also wanted to see every step.</p>
       </div>
     </div>
@@ -1991,66 +2079,66 @@
   <section class="appr-block">
 
     <!-- Header — same split-panel pattern as 01 and 02 -->
-    <div class="prob-hero reveal">
-      <div class="prob-hero-left">
+    <div class="prob-hero">
+      <div class="prob-hero-left reveal-left">
         <div class="prob-section-number">03</div>
         <div class="prob-section-tag">The<br>Approach</div>
       </div>
-      <div class="prob-hero-right">
+      <div class="prob-hero-right reveal-right reveal-delay-1">
         <h2 class="prob-hero-title">First a sketch. Then proof.<br><em>Then the product.</em></h2>
         <div class="prob-hero-body">Five decisions shaped the tool. Each one was a response to something observed, not assumed.</div>
       </div>
     </div>
 
     <!-- Steps — editorial two-column grid -->
-    <div class="appr-steps reveal">
+    <div class="appr-steps">
 
       <div class="appr-step">
-        <div class="appr-step-left">
+        <div class="appr-step-left reveal-left">
           <div class="appr-step-num">01</div>
           <h3 class="appr-step-title">The Proof-of-Concept</h3>
         </div>
-        <div class="appr-step-right">
+        <div class="appr-step-right reveal-right reveal-delay-1">
           <p class="appr-step-body">Wrote a simple Python script that did one thing: reorder columns A and B. Nothing else. Proof that the problem was automatable. It worked: I got the space to develop a real version while keeping my other responsibilities.</p>
         </div>
       </div>
 
       <div class="appr-step">
-        <div class="appr-step-left">
+        <div class="appr-step-left reveal-left">
           <div class="appr-step-num">02</div>
           <h3 class="appr-step-title">Diagnosis</h3>
         </div>
-        <div class="appr-step-right">
+        <div class="appr-step-right reveal-right reveal-delay-1">
           <p class="appr-step-body">Asked users directly: what scares you? What confuses you? What would be ideal? The answers defined both the goal and its limits. They wanted full automation, but they also needed final say on every output. The program would have to propose, never impose.</p>
         </div>
       </div>
 
       <div class="appr-step">
-        <div class="appr-step-left">
+        <div class="appr-step-left reveal-left">
           <div class="appr-step-num">03</div>
           <h3 class="appr-step-title">Flow Design</h3>
         </div>
-        <div class="appr-step-right">
+        <div class="appr-step-right reveal-right reveal-delay-1">
           <p class="appr-step-body">Two database types required two logics. &ldquo;Blue&rdquo; databases (predictable structure): auto-process in seconds. &ldquo;White&rdquo; databases (variable structure): detect pattern, show preview, wait for user confirmation before executing. Users select the type manually, not because the program couldn&rsquo;t detect it, but because at that stage, user trust was more reliable than program accuracy.</p>
         </div>
       </div>
 
       <div class="appr-step">
-        <div class="appr-step-left">
+        <div class="appr-step-left reveal-left">
           <div class="appr-step-num">04</div>
           <h3 class="appr-step-title">Retro Interface</h3>
         </div>
-        <div class="appr-step-right">
+        <div class="appr-step-right reveal-right reveal-delay-1">
           <p class="appr-step-body">The Windows-era terminal aesthetic was intentional, not a technical limitation. Users didn&rsquo;t need a sophisticated-looking app. They needed one that felt simple, controllable, predictable. The visual message had to match the task: this is straightforward, you are in control.</p>
         </div>
       </div>
 
       <div class="appr-step">
-        <div class="appr-step-left">
+        <div class="appr-step-left reveal-left">
           <div class="appr-step-num">05</div>
           <h3 class="appr-step-title">Installation Redesign</h3>
         </div>
-        <div class="appr-step-right">
+        <div class="appr-step-right reveal-right reveal-delay-1">
           <p class="appr-step-body">First version required Python and Git, an invisible wall for non-technical users. Nearly killed the project before launch. Redesigned as a one-click executable: no visible dependencies, no terminal, one-page manual. Installation became part of the design, not an afterthought.</p>
         </div>
       </div>
@@ -2065,7 +2153,7 @@
         <div class="appr-mockup-main">
           <div class="appr-mockup-frame">
             <!-- Replace src with your actual main screen image -->
-            <img src="assets/images/projects/Home.png" alt="Macrodata Refinement — main application screen" id="apprMainImg">
+            <img src="assets/images/projects/Home.png" alt="Macrodata Refinement — main application screen" id="apprMainImg" loading="lazy">
           </div>
         </div>
 
@@ -2073,19 +2161,19 @@
         <div class="appr-mockup-screens">
           <button class="appr-screen-thumb" data-screen="1" aria-label="Ver pantalla: Preview">
             <div class="appr-screen-frame">
-              <img src="assets/images/projects/Preview.png" alt="Pantalla de previsualización">
+              <img src="assets/images/projects/Preview.png" alt="Preview screen" loading="lazy">
             </div>
             <p class="appr-screen-label">02 &middot; Preview</p>
           </button>
           <button class="appr-screen-thumb" data-screen="2" aria-label="Ver pantalla: Merge">
             <div class="appr-screen-frame">
-              <img src="assets/images/projects/UNIR.png" alt="Pantalla de fusión de archivos">
+              <img src="assets/images/projects/UNIR.png" alt="Merge files screen" loading="lazy">
             </div>
             <p class="appr-screen-label">03 &middot; Merge</p>
           </button>
           <button class="appr-screen-thumb" data-screen="3" aria-label="Ver pantalla: Export">
             <div class="appr-screen-frame">
-              <img src="assets/images/projects/Exportar.png" alt="Pantalla de exportación">
+              <img src="assets/images/projects/Exportar.png" alt="Export screen" loading="lazy">
             </div>
             <p class="appr-screen-label">04 &middot; Export</p>
           </button>
@@ -2101,12 +2189,12 @@
   ============================================ -->
   <section class="res4-block">
 
-    <div class="prob-hero reveal">
-      <div class="prob-hero-left">
+    <div class="prob-hero">
+      <div class="prob-hero-left reveal-left">
         <div class="prob-section-number">04</div>
         <div class="prob-section-tag">Results</div>
       </div>
-      <div class="prob-hero-right">
+      <div class="prob-hero-right reveal-right reveal-delay-1">
         <h2 class="prob-hero-title">The tool became<br>invisible.<br><em>In the best way.</em></h2>
         <div class="prob-hero-body">Best indicator a system works? It stops being a problem. Database management stopped being office conversation because it stopped being an office issue.</div>
       </div>
@@ -2138,7 +2226,7 @@
     </div>
 
     <div class="res4-closing reveal">
-      <p class="res4-closing-text">&ldquo;Best indicator a system works? It stops being a problem. Database management stopped being office conversation because it stopped being an office issue.&rdquo;</p>
+      <p class="res4-closing-text">&ldquo;It stopped being a topic of conversation. Not because it was forgotten &mdash; because it had done exactly what it was supposed to do.&rdquo;</p>
     </div>
 
   </section>
@@ -2150,7 +2238,7 @@
 
     <!-- Intro — panel oscuro con cita grande -->
     <div class="learn-intro reveal">
-      <span class="learn-intro-bg-num" aria-hidden="true">05</span>
+      <span class="learn-intro-bg-num parallax-layer" aria-hidden="true">05</span>
       <h2 class="learn-intro-title"><em class="learn-intro-num">05</em> The<br>Learning.</h2>
       <p class="learn-intro-quote">&ldquo;The hardest part wasn&rsquo;t building the program. It was making it work on someone&rsquo;s computer who didn&rsquo;t ask for it. Installation is design.&rdquo;</p>
     </div>
@@ -2160,19 +2248,19 @@
 
       <div class="learn-lesson reveal">
         <div class="learn-lesson-num">01</div>
-        <h2 class="learn-lesson-title">Architecture first,<br>code second.</h2>
+        <h3 class="learn-lesson-title">Architecture first,<br>code second.</h3>
         <p class="learn-lesson-body">I learned Python solving each bug as it appeared, without a clear logic structure underneath. If I did it again, I&rsquo;d talk to someone who knows programming before writing the first line &mdash; not to delegate, but to build on a better foundation.</p>
       </div>
 
       <div class="learn-lesson reveal reveal-delay-1">
         <div class="learn-lesson-num">02</div>
-        <h2 class="learn-lesson-title">Installation<br>is design.</h2>
-        <p class="learn-lesson-body">Making it installable was almost harder than making it work. The first version required Git management something completely outside my users&rsquo; scope. That nearly killed the project. The printed manual, the one-click executable, the walkthrough session all of that was design work, not afterthought.</p>
+        <h3 class="learn-lesson-title">Installation<br>is design.</h3>
+        <p class="learn-lesson-body">Making it installable was almost harder than making it work. The first version required Git management &mdash; something completely outside my users&rsquo; scope. That nearly killed the project. The printed manual, the one-click executable, the walkthrough session &mdash; all of that was design work, not afterthought.</p>
       </div>
 
       <div class="learn-lesson reveal reveal-delay-2">
         <div class="learn-lesson-num">03</div>
-        <h2 class="learn-lesson-title">Build a maintenance<br>channel from the start.</h2>
+        <h3 class="learn-lesson-title">Build a maintenance<br>channel from the start.</h3>
         <p class="learn-lesson-body">I no longer work at the company. The tool is still in daily use, but I have no control over feedback or future changes. If I could redo the project, I&rsquo;d build a maintenance channel from the start &mdash; a way for the tool to evolve without depending on my presence.</p>
       </div>
 
@@ -2181,7 +2269,7 @@
     <!-- Manual — GIF + PDF panel -->
     <div class="learn-media reveal">
       <div class="learn-media-gif">
-        <img src="assets/images/projects/manual.gif" alt="Walkthrough del manual de instalación">
+        <img src="assets/images/projects/manual.gif" alt="Installation manual walkthrough" loading="lazy">
       </div>
       <div class="learn-media-right">
         <div>
@@ -2229,7 +2317,22 @@
   ============================================ -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const reveals = document.querySelectorAll('.reveal');
+
+      /* ── Scroll progress bar ── */
+      const progressBar = document.getElementById('scrollProgressBar');
+      if (progressBar) {
+        const updateProgress = () => {
+          const docH = document.body.scrollHeight - window.innerHeight;
+          progressBar.style.width = docH > 0
+            ? (window.scrollY / docH * 100) + '%'
+            : '0%';
+        };
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        updateProgress();
+      }
+
+      /* ── Scroll reveal — all variants ── */
+      const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
 
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -2296,7 +2399,6 @@
           });
         });
 
-        /* Reset to Home when the mockup section leaves the viewport */
         const mockupSection = document.querySelector('.appr-mockup-section');
         if (mockupSection) {
           new IntersectionObserver((entries) => {
@@ -2307,7 +2409,7 @@
         }
       }
 
-      // Ocultar side-nav cuando el footer es visible
+      /* ── Side nav — hide when footer visible ── */
       const sideNav = document.querySelector('.side-nav');
       const footer  = document.querySelector('.closing');
       if (sideNav && footer) {
@@ -2316,6 +2418,21 @@
           sideNav.style.pointerEvents = entries[0].isIntersecting ? 'none' : '';
         }, { threshold: 0 }).observe(footer);
       }
+
+      /* ── Parallax: decorative bg number in learning section ── */
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const bgNum = document.querySelector('.learn-intro-bg-num');
+      if (bgNum && !prefersReducedMotion) {
+        const learnIntro = bgNum.closest('.learn-intro');
+        window.addEventListener('scroll', () => {
+          const rect = learnIntro.getBoundingClientRect();
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            const t = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+            bgNum.style.transform = `translateY(calc(-50% + ${t * 80 - 40}px))`;
+          }
+        }, { passive: true });
+      }
+
     });
   </script>
 

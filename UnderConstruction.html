@@ -115,6 +115,7 @@
     @media (max-width: 640px) {
       .nav-top, .nav-bottom { padding: 0 20px; }
       #figure-img { height: clamp(200px, 44vh, 340px); }
+      #cable-label { font-size: 14px; }
     }
   </style>
 </head>
@@ -205,8 +206,12 @@
 
       // Place label just to the right of the image, at cable height
       const fs = parseFloat(getComputedStyle(labelEl).fontSize);
-      labelEl.style.left = (r.right + 20) + 'px';
+      const idealLeft = r.right + 20;
+      labelEl.style.left = idealLeft + 'px';
       labelEl.style.top  = (fY - fs - 10) + 'px';
+      // Clamp so label never overflows the viewport
+      const overflow = idealLeft + labelEl.offsetWidth - window.innerWidth + 8;
+      if (overflow > 0) labelEl.style.left = (idealLeft - overflow) + 'px';
     }
 
     /* ──────────────────────────────────────────────────────

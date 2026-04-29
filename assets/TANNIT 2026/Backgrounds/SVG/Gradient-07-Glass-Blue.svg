@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <defs>
+    <!-- Deep blue base -->
+    <linearGradient id="base" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#0A00C0"/>
+      <stop offset="100%" stop-color="#050080"/>
+    </linearGradient>
+    <!-- Diagonal warm light sweep -->
+    <linearGradient id="sweep" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#0A00C0"  stop-opacity="0"/>
+      <stop offset="30%"  stop-color="#C87060"  stop-opacity="0"/>
+      <stop offset="48%"  stop-color="#F0A888"  stop-opacity="0.75"/>
+      <stop offset="55%"  stop-color="#F8C8B0"  stop-opacity="0.9"/>
+      <stop offset="62%"  stop-color="#E090A0"  stop-opacity="0.6"/>
+      <stop offset="75%"  stop-color="#8040C0"  stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#050080"  stop-opacity="0"/>
+    </linearGradient>
+    <!-- Dark vignette edges -->
+    <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+      <stop offset="0%"   stop-color="#0A00C0" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#020040" stop-opacity="0.6"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1000" height="1000" fill="url(#base)"/>
+  <rect width="1000" height="1000" fill="url(#sweep)"/>
+  <rect width="1000" height="1000" fill="url(#vignette)"/>
+</svg>

@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tannit Agency — Marketing Deliverables</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --teal:       #6AA8A4;
+      --teal-dk:    #2E5E5A;
+      --purple:     #8A6E9A;
+      --purple-dk:  #4A3260;
+      --purple-hero:#2A1838;
+      --cream:      #F8F0E3;
+      --cream-2:    #F2EDE4;
+      --black:      #0E0D0B;
+      --gray:       #5A5550;
+      --gray-lt:    #9A9490;
+
+      --font-title: 'Montserrat', sans-serif;
+      --font-body:  Helvetica Neue, Helvetica, Arial, sans-serif;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body { background: #EDEAE5; font-family: var(--font-body); color: var(--black); overflow-x: hidden; }
+
+    /* ── PAGE HEADER ─────────────────────────────── */
+    .page-header {
+      text-align: center;
+      padding: 80px 24px 64px;
+    }
+    .page-kicker {
+      font-family: var(--font-title);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--teal-dk);
+      margin-bottom: 1rem;
+    }
+    .page-title {
+      font-family: var(--font-title);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      color: var(--black);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .page-sub {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--gray);
+      max-width: 48ch;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── SECTION LABELS ──────────────────────────── */
+    .section-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(1.5rem, 5vw, 4rem) 100px;
+    }
+    .section-label {
+      font-family: var(--font-title);
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gray-lt);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-label::before {
+      content: '';
+      width: 32px; height: 1px;
+      background: var(--gray-lt);
+      display: block;
+    }
+
+    /* ── REVEAL ──────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.7s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+
+    /* ════════════════════════════════════════════════
+       SECTION 1 — EMAIL TEMPLATE
+    ════════════════════════════════════════════════ */
+    .email-device {
+      background: #2C2C2E;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.35), 0 8px 24px rgba(0,0,0,0.2);
+      max-width: 1060px;
+      margin: 0 auto;
+    }
+
+    /* Browser chrome */
+    .email-chrome {
+      background: #3A3A3C;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .chrome-dots { display: flex; gap: 6px; }
+    .chrome-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+    }
+    .chrome-dot--red    { background: #FF5F57; }
+    .chrome-dot--yellow { background: #FFBD2E; }
+    .chrome-dot--green  { background: #28CA41; }
+    .chrome-url {
+      flex: 1;
+      background: rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.35);
+      text-align: center;
+    }
+
+    /* Email client layout */
+    .email-client {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: 680px;
+    }
+
+    /* Sidebar */
+    .email-sidebar {
+      background: #1C1C1E;
+      padding: 20px 0;
+      border-right: 1px solid rgba(255,255,255,0.06);
+    }
+    .sidebar-section {
+      padding: 6px 16px;
+      font-family: var(--font-title);
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      margin-top: 12px;
+    }
+    .sidebar-item {
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .sidebar-item--active { background: rgba(106,168,164,0.15); }
+    .sidebar-icon {
+      width: 16px; height: 16px;
+      opacity: 0.35;
+      flex-shrink: 0;
+    }
+    .sidebar-item--active .sidebar-icon { opacity: 0.8; }
+    .sidebar-text {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .sidebar-item--active .sidebar-text { color: rgba(255,255,255,0.85); }
+    .sidebar-badge {
+      margin-left: auto;
+      background: var(--teal);
+      color: white;
+      font-family: var(--font-title);
+      font-size: 0.55rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 99px;
+    }
+    .inbox-items { margin-top: 8px; }
+    .inbox-row {
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      cursor: pointer;
+    }
+    .inbox-row--active { background: rgba(106,168,164,0.1); border-left: 2px solid var(--teal); }
+    .inbox-sender {
+      font-family: var(--font-title);
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 3px;
+    }
+    .inbox-row--active .inbox-sender { color: var(--teal); }
+    .inbox-preview {
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.28);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Email content pane */
+    .email-pane {
+      background: #F2F2F7;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .email-pane-header {
+      background: #1C1C1E;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .email-subject-display {
+      font-family: var(--font-title);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.8);
+    }
+    .email-date-display {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.3);
+    }
+    .email-scroll-area {
+      flex: 1;
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* ── THE EMAIL ITSELF ─────────────────────────── */
+    .email-body {
+      width: 100%;
+      max-width: 600px;
+      background: #ffffff;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      font-family: var(--font-body);
+    }
+
+    .email-header {
+      background: linear-gradient(135deg, #2E5E5A 0%, #4A3260 100%);
+      padding: 40px 48px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .email-header-mark {
+      position: absolute;
+      right: -20px;
+      bottom: -30px;
+      width: 140px;
+      opacity: 0.08;
+    }
+    .email-logo {
+      height: 22px;
+      filter: brightness(0) invert(1);
+      opacity: 0.92;
+      margin-bottom: 28px;
+      display: block;
+    }
+    .email-header-kicker {
+      font-family: var(--font-title);
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 12px;
+    }
+    .email-header-title {
+      font-family: var(--font-title);
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+    .email-header-title span { color: var(--teal); }
+
+    .email-section { padding: 36px 48px; }
+    .email-section + .email-section { border-top: 1px solid #F0EDE8; }
+
+    .email-intro {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: #3A3530;
+    }
+    .email-name { font-weight: 600; color: var(--black); }
+
+    /* Metrics */
+    .email-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 28px 0;
+    }
+    .email-metric {
+      background: var(--cream);
+      border-top: 3px solid var(--teal);
+      padding: 20px 16px;
+      text-align: center;
+    }
+    .email-metric--purple { border-top-color: var(--purple); }
+    .email-metric--dk     { border-top-color: var(--teal-dk); }
+    .email-metric-num {
+      font-family: var(--font-title);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--black);
+      line-height: 1;
+      margin-bottom: 6px;
+      letter-spacing: -0.03em;
+    }
+    .email-metric-label {
+      font-family: var(--font-title);
+      font-size: 0.56rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+
+    .email-summary-title {
+      font-family: var(--font-title);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal-dk);
+      margin-bottom: 14px;
+    }
+    .email-summary-body {
+      font-size: 0.88rem;
+      line-height: 1.8;
+      color: #3A3530;
+    }
+
+    /* Results list */
+    .email-results-list {
+      list-style: none;
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .email-results-list li {
+      font-size: 0.85rem;
+      color: #3A3530;
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.55;
+    }
+    .email-results-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 7px;
+      width: 6px; height: 6px;
+      background: var(--teal);
+      transform: rotate(45deg);
+    }
+
+    /* CTA */
+    .email-cta-wrap {
+      text-align: center;
+      padding: 32px 48px 36px;
+      background: #FAFAF8;
+      border-top: 1px solid #F0EDE8;
+    }
+    .email-cta-text {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .email-cta-btn {
+      display: inline-block;
+      background: var(--teal-dk);
+      color: #fff;
+      font-family: var(--font-title);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 14px 36px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .email-cta-btn:hover { background: var(--teal); }
+
+    /* Footer */
+    .email-footer {
+      background: #1A1614;
+      padding: 28px 48px;
+      text-align: center;
+    }
+    .email-footer-logo {
+      height: 16px;
+      filter: brightness(0) invert(1);
+      opacity: 0.35;
+      margin: 0 auto 16px;
+      display: block;
+    }
+    .email-footer-text {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.3);
+      line-height: 1.8;
+    }
+    .email-footer-text a { color: rgba(255,255,255,0.45); text-decoration: underline; }
+    .email-footer-divider {
+      width: 32px; height: 1px;
+      background: rgba(255,255,255,0.12);
+      margin: 14px auto;
+    }
+
+    /* ════════════════════════════════════════════════
+       SECTION 2 — SOCIAL MEDIA POSTS
+    ════════════════════════════════════════════════ */
+    .social-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 0.75fr;
+      gap: clamp(1.5rem, 3vw, 2.5rem);
+      align-items: start;
+    }
+
+    .social-item { display: flex; flex-direction: column; gap: 16px; }
+    .social-platform-label {
+      font-family: var(--font-title);
+      font-size: 0.56rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray-lt);
+    }
+
+    /* ── PHONE FRAME ──────────────────────────────── */
+    .phone-frame {
+      background: #1C1C1E;
+      border-radius: 44px;
+      padding: 14px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.08);
+      position: relative;
+    }
+    .phone-notch {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px; height: 26px;
+      background: #1C1C1E;
+      border-radius: 0 0 16px 16px;
+      z-index: 10;
+    }
+    .phone-screen {
+      background: #000;
+      border-radius: 32px;
+      overflow: hidden;
+    }
+
+    /* Instagram app chrome */
+    .ig-chrome {
+      background: #fff;
+      padding: 40px 12px 0;
+    }
+    .ig-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4px 10px;
+      border-bottom: 1px solid #EFEFEF;
+    }
+    .ig-username {
+      font-family: var(--font-title);
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #000;
+    }
+    .ig-icons { display: flex; gap: 14px; }
+    .ig-icon {
+      width: 18px; height: 18px;
+      opacity: 0.85;
+    }
+
+    /* Post: Instagram square */
+    .ig-post {
+      width: 100%;
+      aspect-ratio: 1;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(145deg, #2E5E5A 0%, #6AA8A4 60%, #4A3260 100%);
+    }
+    .ig-post-mark {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.06;
+    }
+    .ig-post-mark svg { width: 85%; height: 85%; }
+    .ig-post-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(16px, 4vw, 28px);
+    }
+    .ig-post-logo { height: 14px; filter: brightness(0) invert(1); opacity: 0.7; }
+    .ig-post-center { display: flex; flex-direction: column; gap: 4px; }
+    .ig-post-num {
+      font-family: var(--font-title);
+      font-size: clamp(2.8rem, 8vw, 4.5rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+    .ig-post-label {
+      font-family: var(--font-title);
+      font-size: clamp(0.5rem, 1.2vw, 0.68rem);
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+    }
+    .ig-post-footer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .ig-post-claim {
+      font-family: var(--font-title);
+      font-size: clamp(0.5rem, 1.1vw, 0.62rem);
+      font-weight: 500;
+      color: rgba(255,255,255,0.55);
+      max-width: 16ch;
+      line-height: 1.5;
+    }
+    .ig-post-tag {
+      font-family: var(--font-body);
+      font-size: clamp(0.45rem, 0.9vw, 0.55rem);
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* Post actions */
+    .ig-post-actions {
+      background: #fff;
+      padding: 8px 12px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .ig-action-icon { width: 20px; height: 20px; opacity: 0.7; }
+    .ig-action-icon--bookmark { margin-left: auto; }
+    .ig-post-likes {
+      background: #fff;
+      padding: 0 12px 4px;
+      font-family: var(--font-title);
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #000;
+    }
+    .ig-post-caption {
+      background: #fff;
+      padding: 2px 12px 12px;
+      font-size: 0.62rem;
+      color: #3A3530;
+      line-height: 1.5;
+    }
+    .ig-caption-user { font-weight: 700; }
+
+    /* ── LINKEDIN FRAME ───────────────────────────── */
+    .linkedin-frame {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.18), 0 4px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .linkedin-chrome {
+      background: #F3F2EF;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #E0DDD8;
+    }
+    .li-dots { display: flex; gap: 5px; }
+    .li-dot { width: 10px; height: 10px; border-radius: 50%; background: #C8C5C0; }
+    .li-url {
+      flex: 1;
+      background: #fff;
+      border: 1px solid #D8D5D0;
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 0.62rem;
+      color: #888;
+    }
+    .linkedin-topbar {
+      background: #fff;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #E0DDD8;
+    }
+    .li-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .li-logo-icon {
+      width: 28px; height: 28px;
+      background: #0A66C2;
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .li-logo-icon span {
+      font-family: var(--font-title);
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .li-search {
+      flex: 1;
+      background: #EEF3F8;
+      border: 1px solid #D8E2EE;
+      border-radius: 4px;
+      padding: 6px 12px;
+      font-size: 0.65rem;
+      color: #666;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    /* LinkedIn post */
+    .linkedin-feed { padding: 16px; background: #F3F2EF; }
+    .li-post {
+      background: #fff;
+      border: 1px solid #E0DDD8;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .li-post-header {
+      padding: 14px 16px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .li-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal-dk), var(--purple-dk));
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .li-avatar img { width: 28px; filter: brightness(0) invert(1); opacity: 0.8; }
+    .li-poster-name {
+      font-family: var(--font-title);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #000;
+    }
+    .li-poster-role {
+      font-size: 0.62rem;
+      color: #666;
+      margin-top: 1px;
+      line-height: 1.4;
+    }
+    .li-post-time {
+      font-size: 0.58rem;
+      color: #888;
+      margin-top: 2px;
+    }
+    .li-post-text {
+      padding: 0 16px 14px;
+      font-size: 0.78rem;
+      line-height: 1.65;
+      color: #1A1A1A;
+    }
+    .li-post-text strong { font-weight: 700; color: #000; }
+
+    /* LinkedIn visual card */
+    .li-post-visual {
+      background: linear-gradient(135deg, #F8F4EE 0%, #EDE8E0 100%);
+      border-top: 1px solid #E8E4DE;
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .li-visual-stripe {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 5px;
+      background: linear-gradient(to bottom, var(--teal), var(--purple));
+    }
+    .li-visual-mark {
+      position: absolute;
+      right: -10px; bottom: -10px;
+      width: 100px;
+      opacity: 0.05;
+    }
+    .li-visual-kicker {
+      font-family: var(--font-title);
+      font-size: 0.52rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal-dk);
+      margin-bottom: 12px;
+      padding-left: 14px;
+    }
+    .li-visual-headline {
+      font-family: var(--font-title);
+      font-size: clamp(1rem, 2.2vw, 1.4rem);
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      padding-left: 14px;
+    }
+    .li-visual-headline span { color: var(--teal-dk); }
+    .li-metrics {
+      display: flex;
+      gap: 0;
+      padding-left: 14px;
+    }
+    .li-metric {
+      flex: 1;
+      padding: 12px 16px 12px 0;
+      border-right: 1px solid rgba(14,13,11,0.1);
+    }
+    .li-metric:last-child { border-right: none; }
+    .li-metric-num {
+      font-family: var(--font-title);
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      font-weight: 800;
+      color: var(--black);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+    .li-metric-label {
+      font-family: var(--font-title);
+      font-size: 0.52rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-top: 4px;
+    }
+    .li-post-actions {
+      padding: 10px 16px;
+      display: flex;
+      gap: 0;
+      border-top: 1px solid #E0DDD8;
+    }
+    .li-action {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 6px 0;
+      font-family: var(--font-title);
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: #666;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .li-action:hover { background: #F3F2EF; }
+    .li-action-icon { width: 16px; height: 16px; opacity: 0.6; }
+
+    /* ── INSTAGRAM STORY ──────────────────────────── */
+    .story-phone .phone-screen {
+      background: #000;
+    }
+    .ig-story {
+      aspect-ratio: 9/16;
+      background: linear-gradient(160deg, var(--purple-hero) 0%, var(--purple-dk) 40%, #3A2050 100%);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .story-progress {
+      display: flex;
+      gap: 3px;
+      padding: 40px 12px 6px;
+    }
+    .story-bar {
+      flex: 1;
+      height: 2px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 2px;
+    }
+    .story-bar--active {
+      background: rgba(255,255,255,0.85);
+    }
+    .story-topbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px 10px;
+    }
+    .story-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dk));
+      border: 2px solid rgba(255,255,255,0.6);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .story-avatar img { width: 16px; filter: brightness(0) invert(1); }
+    .story-handle {
+      font-family: var(--font-title);
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    .story-time {
+      font-size: 0.55rem;
+      color: rgba(255,255,255,0.45);
+      margin-left: 4px;
+    }
+    .story-mark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -52%);
+      width: 75%;
+      opacity: 0.05;
+    }
+    .story-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0 clamp(16px, 4vw, 24px);
+      text-align: center;
+      gap: clamp(10px, 2vw, 16px);
+      position: relative;
+      z-index: 1;
+    }
+    .story-kicker {
+      font-family: var(--font-title);
+      font-size: clamp(0.45rem, 1vw, 0.58rem);
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal);
+    }
+    .story-question {
+      font-family: var(--font-title);
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+    .story-question span { color: var(--teal); }
+    .story-body {
+      font-family: var(--font-body);
+      font-size: clamp(0.55rem, 1.1vw, 0.68rem);
+      font-weight: 300;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+      max-width: 24ch;
+    }
+    .story-cta {
+      background: var(--teal);
+      color: #fff;
+      font-family: var(--font-title);
+      font-size: clamp(0.52rem, 1vw, 0.62rem);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 24px);
+      border-radius: 2px;
+      margin-top: 4px;
+    }
+    .story-web {
+      font-family: var(--font-body);
+      font-size: clamp(0.45rem, 0.9vw, 0.55rem);
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.06em;
+    }
+    .story-footer {
+      padding: clamp(8px, 2vw, 16px) clamp(12px, 3vw, 20px) clamp(20px, 4vw, 32px);
+      display: flex;
+      justify-content: center;
+    }
+    .story-reply {
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 99px;
+      padding: 6px 16px;
+      font-size: 0.58rem;
+      color: rgba(255,255,255,0.4);
+      font-family: var(--font-body);
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────── */
+    @media (max-width: 900px) {
+      .email-client { grid-template-columns: 1fr; }
+      .email-sidebar { display: none; }
+      .social-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+    }
+    @media (max-width: 560px) {
+      .email-section { padding: 24px; }
+      .email-header { padding: 28px 24px; }
+      .email-cta-wrap { padding: 24px; }
+      .email-footer { padding: 20px 24px; }
+      .email-metrics { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header reveal">
+    <p class="page-kicker">Tannit Agency · Marketing Deliverables</p>
+    <h1 class="page-title">Email Template &amp;<br>Social Media</h1>
+    <p class="page-sub">Piezas de comunicación diseñadas con el sistema de identidad de Tannit — listas para producción.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 1 — EMAIL TEMPLATE
+  ════════════════════════════════════════════ -->
+  <div class="section-wrap">
+    <p class="section-label reveal">01 — Email template</p>
+
+    <div class="email-device reveal reveal-d1">
+
+      <!-- Browser chrome -->
+      <div class="email-chrome">
+        <div class="chrome-dots">
+          <div class="chrome-dot chrome-dot--red"></div>
+          <div class="chrome-dot chrome-dot--yellow"></div>
+          <div class="chrome-dot chrome-dot--green"></div>
+        </div>
+        <div class="chrome-url">mail.google.com — Tannit Agency</div>
+      </div>
+
+      <!-- Email client -->
+      <div class="email-client">
+
+        <!-- Sidebar -->
+        <div class="email-sidebar">
+          <div class="sidebar-section">Bandeja</div>
+          <div class="sidebar-item sidebar-item--active">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <span class="sidebar-text">Recibidos</span>
+            <span class="sidebar-badge">3</span>
+          </div>
+          <div class="sidebar-item">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M5 3l14 9-14 9V3z"/></svg>
+            <span class="sidebar-text">Enviados</span>
+          </div>
+          <div class="sidebar-item">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            <span class="sidebar-text">Borradores</span>
+          </div>
+
+          <div class="sidebar-section" style="margin-top:20px;">Recientes</div>
+          <div class="inbox-items">
+            <div class="inbox-row inbox-row--active">
+              <div class="inbox-sender">TANNIT Agency</div>
+              <div class="inbox-preview">Tu campaña, entregada. Aquí…</div>
+            </div>
+            <div class="inbox-row">
+              <div class="inbox-sender">Laboratorios Rovi</div>
+              <div class="inbox-preview">Re: Briefing campaña Q2…</div>
+            </div>
+            <div class="inbox-row">
+              <div class="inbox-sender">Agencia McCann Health</div>
+              <div class="inbox-preview">Confirmación producción…</div>
+            </div>
+            <div class="inbox-row">
+              <div class="inbox-sender">TANNIT Agency</div>
+              <div class="inbox-preview">Propuesta campaña neu…</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email pane -->
+        <div class="email-pane">
+          <div class="email-pane-header">
+            <span class="email-subject-display">Tu campaña, entregada. Aquí están los resultados.</span>
+            <span class="email-date-display">Hoy, 09:42</span>
+          </div>
+
+          <div class="email-scroll-area">
+            <div class="email-body">
+
+              <!-- Header -->
+              <div class="email-header">
+                <div class="email-header-mark">
+                  <svg viewBox="0 0 60 60" fill="none">
+                    <polygon points="30,2 58,54 2,54" stroke="white" stroke-width="2" fill="none"/>
+                    <polygon points="30,14 48,46 12,46" stroke="white" stroke-width="1.5" fill="none"/>
+                  </svg>
+                </div>
+                <img src="assets/TANNIT 2026/Logos/SVG/Horizontal - Monochrome.- White.svg" alt="TANNIT" class="email-logo">
+                <p class="email-header-kicker">Informe de campaña · Resultados finales</p>
+                <h2 class="email-header-title">Tu campaña,<br><span>entregada.</span></h2>
+              </div>
+
+              <!-- Intro -->
+              <div class="email-section">
+                <p class="email-intro">
+                  Hola <span class="email-name">equipo Pharma</span>,<br><br>
+                  La campaña de material promocional para el lanzamiento del Q2 ha concluido. Aquí tienes el resumen de resultados con todos los datos de entrega, producción y trazabilidad.
+                </p>
+
+                <!-- Metrics -->
+                <div class="email-metrics">
+                  <div class="email-metric">
+                    <div class="email-metric-num">98%</div>
+                    <div class="email-metric-label">Entregas en plazo</div>
+                  </div>
+                  <div class="email-metric email-metric--purple">
+                    <div class="email-metric-num">500</div>
+                    <div class="email-metric-label">Folders entregados</div>
+                  </div>
+                  <div class="email-metric email-metric--dk">
+                    <div class="email-metric-num">19</div>
+                    <div class="email-metric-label">Días de media</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Summary -->
+              <div class="email-section">
+                <p class="email-summary-title">Resumen ejecutivo</p>
+                <p class="email-summary-body">
+                  La campaña cubrió 4 especialidades médicas en 3 comunidades autónomas. Todos los materiales fueron validados y aprobados por el departamento de compliance sin rechazos normativos. La distribución hospitalaria se completó según el calendario acordado.
+                </p>
+                <ul class="email-results-list">
+                  <li>Diseño y artes finales entregados en 5 días hábiles desde briefing</li>
+                  <li>Cero rechazos en revisión regulatoria — primera aprobación</li>
+                  <li>Trazabilidad completa con POD firmado por delegado</li>
+                  <li>Distribución completada en 47 hospitales y 112 clínicas</li>
+                </ul>
+              </div>
+
+              <!-- CTA -->
+              <div class="email-cta-wrap">
+                <p class="email-cta-text">El informe completo con métricas detalladas, PODs y documentación de compliance está disponible en tu portal de cliente.</p>
+                <a href="#" class="email-cta-btn">Ver informe completo</a>
+              </div>
+
+              <!-- Footer -->
+              <div class="email-footer">
+                <img src="assets/TANNIT 2026/Logos/SVG/Horizontal - Monochrome.- White.svg" alt="TANNIT" class="email-footer-logo">
+                <p class="email-footer-text">
+                  tannitagency.es &nbsp;·&nbsp; hello@tannitagency.es
+                </p>
+                <div class="email-footer-divider"></div>
+                <p class="email-footer-text">
+                  Has recibido este email porque tienes una campaña activa con Tannit Agency.<br>
+                  <a href="#">Cancelar suscripción</a> &nbsp;·&nbsp; <a href="#">Política de privacidad</a>
+                </p>
+              </div>
+
+            </div><!-- .email-body -->
+          </div><!-- .email-scroll-area -->
+        </div><!-- .email-pane -->
+
+      </div><!-- .email-client -->
+    </div><!-- .email-device -->
+
+    <!-- ════════════════════════════════════════════
+         SECTION 2 — SOCIAL MEDIA
+    ════════════════════════════════════════════ -->
+    <p class="section-label reveal" style="margin-top: 80px;">02 — Social media posts</p>
+
+    <div class="social-grid">
+
+      <!-- 1. Instagram post (square) -->
+      <div class="social-item reveal">
+        <span class="social-platform-label">Instagram · Post</span>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ig-chrome">
+              <div class="ig-topbar">
+                <span class="ig-username">tannitagency</span>
+                <div class="ig-icons">
+                  <svg class="ig-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8"><path d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/></svg>
+                </div>
+              </div>
+              <div class="ig-post">
+                <div class="ig-post-mark">
+                  <svg viewBox="0 0 100 100" fill="none">
+                    <polygon points="50,5 95,90 5,90" stroke="white" stroke-width="2" fill="none"/>
+                    <polygon points="50,22 80,75 20,75" stroke="white" stroke-width="1.5" fill="none"/>
+                  </svg>
+                </div>
+                <div class="ig-post-content">
+                  <img src="assets/TANNIT 2026/Logos/SVG/Horizontal - Monochrome.- White.svg" alt="TANNIT" class="ig-post-logo">
+                  <div class="ig-post-center">
+                    <div class="ig-post-num">98%</div>
+                    <div class="ig-post-label">Entregas en plazo</div>
+                  </div>
+                  <div class="ig-post-footer">
+                    <p class="ig-post-claim">De briefing a delegado. Sin sorpresas.</p>
+                    <span class="ig-post-tag">tannitagency.es</span>
+                  </div>
+                </div>
+              </div>
+              <div class="ig-post-actions">
+                <svg class="ig-action-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                <svg class="ig-action-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                <svg class="ig-action-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                <svg class="ig-action-icon ig-action-icon--bookmark" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+              </div>
+              <div class="ig-post-likes">847 Me gusta</div>
+              <div class="ig-post-caption">
+                <span class="ig-caption-user">tannitagency </span>El 98% de nuestras entregas llegan en plazo. Sin excusas, sin retrasos. Diseño · Producción · Logística. ✦ #pharmamarketing #tannit
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. LinkedIn post -->
+      <div class="social-item reveal reveal-d1">
+        <span class="social-platform-label">LinkedIn · Post</span>
+        <div class="linkedin-frame">
+          <div class="linkedin-chrome">
+            <div class="li-dots">
+              <div class="li-dot"></div>
+              <div class="li-dot"></div>
+              <div class="li-dot"></div>
+            </div>
+            <div class="li-url">linkedin.com/company/tannitagency</div>
+          </div>
+          <div class="linkedin-topbar">
+            <div class="li-logo-wrap">
+              <div class="li-logo-icon"><span>in</span></div>
+            </div>
+            <div class="li-search">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                Buscar
+            </div>
+          </div>
+          <div class="linkedin-feed">
+            <div class="li-post">
+              <div class="li-post-header">
+                <div class="li-avatar">
+                  <img src="assets/TANNIT 2026/Logos/SVG/Isotype - white - blue.svg" alt="TANNIT">
+                </div>
+                <div>
+                  <div class="li-poster-name">TANNIT Agency</div>
+                  <div class="li-poster-role">Diseño · Producción · Logística farmacéutica<br>Agencia de marketing especializada</div>
+                  <div class="li-post-time">1 día · <svg style="display:inline;vertical-align:middle" width="10" height="10" viewBox="0 0 24 24" fill="#666"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg></div>
+                </div>
+              </div>
+              <div class="li-post-text">
+                <strong>Ejecutamos tu campaña pharma sin que tengas que saber de pharma.</strong><br><br>
+                Ganar una cuenta farmacéutica es solo el principio. Coordinar normativa, producción especializada, BBDD de HCPs y logística hospitalaria es otro negocio distinto al tuyo.<br><br>
+                Nosotros lo hacemos por ti. Un briefing, una entrega, cero fricción.
+              </div>
+              <div class="li-post-visual">
+                <div class="li-visual-stripe"></div>
+                <div class="li-visual-mark">
+                  <svg viewBox="0 0 60 60" fill="none">
+                    <polygon points="30,2 58,54 2,54" stroke="#0E0D0B" stroke-width="2" fill="none"/>
+                    <polygon points="30,14 48,46 12,46" stroke="#0E0D0B" stroke-width="1.5" fill="none"/>
+                  </svg>
+                </div>
+                <div class="li-visual-kicker">Resultados que hablan por sí solos</div>
+                <div class="li-visual-headline">De briefing<br><span>a entrega.</span></div>
+                <div class="li-metrics">
+                  <div class="li-metric">
+                    <div class="li-metric-num">98%</div>
+                    <div class="li-metric-label">En plazo</div>
+                  </div>
+                  <div class="li-metric">
+                    <div class="li-metric-num">500</div>
+                    <div class="li-metric-label">Folders</div>
+                  </div>
+                  <div class="li-metric">
+                    <div class="li-metric-num">19d</div>
+                    <div class="li-metric-label">Media</div>
+                  </div>
+                </div>
+              </div>
+              <div class="li-post-actions">
+                <div class="li-action">
+                  <svg class="li-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/></svg>
+                  Me gusta
+                </div>
+                <div class="li-action">
+                  <svg class="li-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                  Comentar
+                </div>
+                <div class="li-action">
+                  <svg class="li-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+                  Compartir
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Instagram Story -->
+      <div class="social-item story-phone reveal reveal-d2">
+        <span class="social-platform-label">Instagram · Story</span>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ig-story">
+              <div class="story-progress">
+                <div class="story-bar story-bar--active"></div>
+                <div class="story-bar"></div>
+                <div class="story-bar"></div>
+              </div>
+              <div class="story-topbar">
+                <div class="story-avatar">
+                  <img src="assets/TANNIT 2026/Logos/SVG/Isotype - white - blue.svg" alt="TANNIT">
+                </div>
+                <div>
+                  <span class="story-handle">tannitagency</span>
+                  <span class="story-time">Hace 2h</span>
+                </div>
+              </div>
+
+              <div class="story-mark">
+                <svg viewBox="0 0 100 100" fill="none">
+                  <polygon points="50,3 97,93 3,93" stroke="white" stroke-width="1.5" fill="none"/>
+                  <polygon points="50,20 80,78 20,78" stroke="white" stroke-width="1" fill="none"/>
+                </svg>
+              </div>
+
+              <div class="story-content">
+                <p class="story-kicker">Para agencias creativas</p>
+                <h2 class="story-question">¿Tu agencia tiene<br>un cliente <span>pharma?</span></h2>
+                <p class="story-body">Nosotros nos encargamos de todo. Tú te centras en la creatividad.</p>
+                <div class="story-cta">Hablemos</div>
+                <span class="story-web">tannitagency.es</span>
+              </div>
+
+              <div class="story-footer">
+                <div class="story-reply">Enviar mensaje...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- .social-grid -->
+  </div><!-- .section-wrap -->
+
+  <script>
+    const els = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>

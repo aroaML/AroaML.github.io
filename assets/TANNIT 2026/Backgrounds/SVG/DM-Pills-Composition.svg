@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6B22C0"/>
+      <stop offset="100%" stop-color="#C040C8"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C040C8"/>
+      <stop offset="100%" stop-color="#00C4BE"/>
+    </linearGradient>
+    <linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6B22C0"/>
+      <stop offset="100%" stop-color="#00C4BE"/>
+    </linearGradient>
+    <linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3A1080"/>
+      <stop offset="50%" stop-color="#6B22C0"/>
+      <stop offset="100%" stop-color="#C040C8"/>
+    </linearGradient>
+    <linearGradient id="g5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00C4BE"/>
+      <stop offset="100%" stop-color="#100A1A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Horizontal wide pill -->
+  <rect x="20" y="190" width="240" height="80" rx="40" fill="url(#g1)"/>
+
+  <!-- Tall narrow pills -->
+  <rect x="300" y="80" width="90" height="220" rx="45" fill="url(#g2)"/>
+  <rect x="410" y="30" width="70" height="280" rx="35" fill="url(#g3)"/>
+
+  <!-- Square-ish pill -->
+  <rect x="510" y="120" width="120" height="150" rx="60" fill="url(#g4)"/>
+
+  <!-- Wide flat pill -->
+  <rect x="480" y="340" width="200" height="70" rx="35" fill="url(#g5)"/>
+
+  <!-- Small accent pill -->
+  <rect x="20" y="340" width="100" height="100" rx="50" fill="url(#g2)"/>
+
+  <!-- Tiny accent -->
+  <rect x="140" y="370" width="130" height="55" rx="27" fill="url(#g4)"/>
+</svg>

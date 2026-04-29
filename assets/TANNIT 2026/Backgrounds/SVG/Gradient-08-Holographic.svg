@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <defs>
+    <!-- White/light base -->
+    <linearGradient id="base" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#F0F5FF"/>
+      <stop offset="100%" stop-color="#E8F4F4"/>
+    </linearGradient>
+    <!-- Light blue band -->
+    <linearGradient id="band1" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#B8E0F8" stop-opacity="0"/>
+      <stop offset="35%"  stop-color="#C8E8FF" stop-opacity="0.7"/>
+      <stop offset="50%"  stop-color="#E0F0FF" stop-opacity="0.5"/>
+      <stop offset="65%"  stop-color="#F0FAFF" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Pink/rose band -->
+    <linearGradient id="band2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#F8D8E8" stop-opacity="0"/>
+      <stop offset="30%"  stop-color="#F0C0D8" stop-opacity="0.5"/>
+      <stop offset="50%"  stop-color="#F8E0EC" stop-opacity="0.6"/>
+      <stop offset="70%"  stop-color="#FFF0F8" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Teal/green band -->
+    <linearGradient id="band3" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%"   stop-color="#B8EEE8" stop-opacity="0.5"/>
+      <stop offset="30%"  stop-color="#D0F4F0" stop-opacity="0.3"/>
+      <stop offset="60%"  stop-color="#E8FBF8" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Yellow/warm band -->
+    <linearGradient id="band4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#F8F0C8" stop-opacity="0"/>
+      <stop offset="40%"  stop-color="#F4E8B0" stop-opacity="0.3"/>
+      <stop offset="60%"  stop-color="#FFF8E0" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Bright centre highlight -->
+    <radialGradient id="shine" cx="55%" cy="40%" r="35%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1000" height="1000" fill="url(#base)"/>
+  <rect width="1000" height="1000" fill="url(#band1)"/>
+  <rect width="1000" height="1000" fill="url(#band2)"/>
+  <rect width="1000" height="1000" fill="url(#band3)"/>
+  <rect width="1000" height="1000" fill="url(#band4)"/>
+  <rect width="1000" height="1000" fill="url(#shine)"/>
+</svg>
