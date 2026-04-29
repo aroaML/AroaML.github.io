@@ -1,0 +1,16 @@
+claude/
+claude/
+node_modules/
+.env
+.DS_Store
+*.log
+.env
+.env.*
+config.local.json
+settings.local.json
+*.pem
+*.key
+*.cert
+*.p12
+.DS_Store
+Thumbs.db
