@@ -3,7 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tannit Agency — Brand Identity Case Study</title>
+  <title>Tannit Agency · Brand Identity Case Study — Aroa, UX &amp; Brand Design</title>
+  <meta name="description" content="Case study: complete brand identity system for Tannit Agency — a pharma logistics and direct marketing firm. Logo, colour, typography, iconography and brand guidelines.">
+
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="Tannit Agency · Brand Identity — Aroa">
+  <meta property="og:description" content="From brief to full design system: logo, palette, type, icons and brand guidelines for a pharma-logistics agency.">
+  <meta property="og:image"       content="assets/projects/Preview.png">
+  <meta name="twitter:card"       content="summary_large_image">
+  <meta name="twitter:title"      content="Tannit Agency · Brand Identity — Aroa">
+  <meta name="twitter:image"      content="assets/projects/Preview.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,7 +41,7 @@
       --t-teal:     #6AA8A4;
       --t-teal-dk:  #2E5E5A;
       --t-cream:    #F8F0E3;
-      --t-cream-2:  #F2EDE4;
+      --ink:        #0E0D0B;
 
       --font-display: 'Cormorant Garamond', Georgia, serif;
       --font-body:    'Jost', 'Helvetica Neue', sans-serif;
@@ -80,7 +89,7 @@
     .hero-grid-bg {
       position: absolute;
       inset: 0;
-      background-image: url('tannit-grid.svg');
+      background-image: url('assets/backgrounds/tannit-grid.svg');
       background-size: cover;
       background-position: center;
       opacity: 0.55;
@@ -139,7 +148,7 @@
       opacity: 1;
       transition: opacity 0.9s ease;
     }
-    .hero-cinematic-overlay.done { opacity: 0; transition: opacity 0.45s ease !important; }
+    .hero-cinematic-overlay.done { opacity: 0; transition: opacity 0.65s ease !important; }
     .hero-cinematic-overlay svg { width: 100%; height: 100%; display: block; }
     #ovAnimSquare { pointer-events: none; }
 
@@ -250,52 +259,6 @@
       display: block;
     }
 
-    .hero-composition {
-      position: relative;
-      width: 100%;
-      max-width: 380px;
-    }
-
-    .hero-comp-img {
-      width: 100%;
-      border-radius: 2px;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 1s 1.1s cubic-bezier(0.22,1,0.36,1) forwards;
-    }
-
-    .hero-comp-logo {
-      position: absolute;
-      bottom: -16px;
-      left: -24px;
-      background: var(--t-purple-dk);
-      padding: 14px 20px;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 1s 1.25s cubic-bezier(0.22,1,0.36,1) forwards;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-    }
-
-    .hero-comp-logo img { height: 22px; filter: brightness(0) invert(1); opacity: 0.9; }
-
-    .hero-comp-tag {
-      position: absolute;
-      top: -14px;
-      right: -16px;
-      background: var(--t-teal);
-      padding: 8px 14px;
-      font-family: var(--font-body);
-      font-size: 0.6rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #fff;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 1s 1.35s cubic-bezier(0.22,1,0.36,1) forwards;
-    }
-
     /* META BAR */
     .hero-meta {
       position: absolute;
@@ -351,6 +314,15 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* Hero text paused until overlay clears */
+    .hero__label, .hero__title, .hero__body, .hero-meta {
+      animation-play-state: paused;
+    }
+    .hero.anims-go .hero__label { animation-play-state: running; animation-delay: 0s; }
+    .hero.anims-go .hero__title { animation-play-state: running; animation-delay: 0.18s; }
+    .hero.anims-go .hero__body  { animation-play-state: running; animation-delay: 0.34s; }
+    .hero.anims-go .hero-meta   { animation-play-state: running; animation-delay: 0.5s; }
+
 /* ============================================
        SECTION SKELETON
     ============================================ */
@@ -368,19 +340,6 @@
       color: var(--red);
       margin-bottom: 1.6rem;
     }
-
-    .s-num {
-      font-family: var(--font-display);
-      font-size: clamp(100px, 14vw, 180px);
-      font-weight: 300;
-      color: #D5CCC0;
-      line-height: 0.85;
-      letter-spacing: -0.02em;
-      pointer-events: none;
-      user-select: none;
-    }
-
-    .s-num--dark { color: rgba(255,255,255,0.06); }
 
     .s-headline {
       font-family: var(--font-display);
@@ -402,8 +361,6 @@
       max-width: 52ch;
     }
     .s-body + .s-body { margin-top: 1.1rem; }
-    .s-body--light { color: rgba(242,237,228,0.65); }
-
     .s-divider {
       display: flex; align-items: center; justify-content: center;
       padding: 3rem 0; background: var(--cream);
@@ -423,11 +380,10 @@
       background: var(--line);
       z-index: 0;
     }
+    .s-divider--line::before { display: none; }
+    .s-divider--line { padding: 0; height: 1px; }
+    .s-divider--line::after { left: 0; right: 0; top: 0; }
     .s-divider--dark { background: #0E0D0B; }
-    .s-divider--hero-fade {
-      background: linear-gradient(to right, var(--cream) 40%, #ecdde8 100%);
-    }
-    .s-divider--hero-fade::after { background: rgba(150,100,180,0.15); }
     .s-divider--dark::before { background: rgba(255,255,255,0.15); }
     .s-divider--dark::after  { background: rgba(255,255,255,0.07); }
 
@@ -570,332 +526,158 @@
       opacity: 0.5;
     }
 
-    /* Before/After Slider */
-    .ba-section {
-      position: relative;
-      background: #1A1010;
-    }
-
-    .ba-header {
-      padding: clamp(40px, 5vw, 64px) clamp(32px, 6vw, 80px) clamp(24px, 3vw, 36px);
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .ba-kicker {
-      font-family: var(--font-body);
-      font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.25);
-    }
-
-    .ba-note {
-      font-family: var(--font-body);
-      font-size: 0.75rem;
-      font-weight: 300;
-      color: rgba(255,255,255,0.3);
-      font-style: italic;
-    }
-
-    .ba-container {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 7;
-      overflow: hidden;
-      user-select: none;
-      cursor: ew-resize;
-    }
-
-    .ba-before, .ba-after {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .ba-before {
-      background: #1E1010;
-    }
-
-    .ba-after {
-      clip-path: inset(0 0 0 50%);
-      transition: clip-path 0s;
-      background: #0A1018;
-    }
-
-    .ba-image-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-    }
-
-    .ba-placeholder-label {
-      font-family: var(--font-body);
-      font-size: 0.6rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      font-weight: 500;
-    }
-    .ba-placeholder-label--before { color: rgba(255,255,255,0.18); }
-    .ba-placeholder-label--after  { color: var(--t-teal); opacity: 0.7; }
-
-    .ba-placeholder-desc {
-      font-family: var(--font-display);
-      font-size: clamp(1.4rem, 2.5vw, 2.4rem);
-      font-weight: 300;
-      text-align: center;
-      max-width: 28ch;
-      line-height: 1.25;
-    }
-    .ba-placeholder-desc--before { color: rgba(255,255,255,0.18); }
-    .ba-placeholder-desc--after  { color: rgba(255,255,255,0.55); }
-
-    /* The BEFORE side shows the old brand feel */
-    .ba-before-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      opacity: 0.25;
-      filter: saturate(0);
-    }
-    .ba-old-block {
-      width: min(340px, 60%);
-      height: 8px;
-      background: linear-gradient(90deg, #888, #aaa, #666);
-      border-radius: 2px;
-    }
-    .ba-old-block-sm { width: min(240px, 40%); height: 8px; background: #555; border-radius: 2px; }
-    .ba-old-circles {
-      display: flex;
-      gap: 12px;
-    }
-    .ba-old-circle {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: #666;
-    }
-
-    /* The AFTER side shows the new brand */
-    .ba-after-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      padding: 40px;
-    }
-
-    .ba-new-logo img {
-      height: 32px;
-      filter: brightness(0) invert(1);
-      opacity: 0.9;
-    }
-
-    .ba-new-palette {
-      display: flex;
-      gap: 8px;
-    }
-
-    .ba-new-swatch {
-      width: 40px;
-      height: 40px;
-      border-radius: 3px;
-    }
-
-    .ba-new-text {
-      font-family: var(--font-display);
-      font-size: clamp(1.4rem, 3vw, 2.2rem);
-      font-weight: 300;
-      color: var(--t-cream-2);
-      letter-spacing: -0.01em;
-    }
-
-    /* Divider handle */
-    .ba-handle {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      width: 2px;
-      background: var(--red);
-      transform: translateX(-50%);
-      pointer-events: none;
-      z-index: 10;
-    }
-
-    .ba-handle::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 32px;
-      height: 32px;
-      background: var(--red);
-      border-radius: 50%;
-    }
-
-    .ba-handle::after {
-      content: '◀ ▶';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 8px;
-      color: #fff;
-      white-space: nowrap;
-      letter-spacing: 2px;
-    }
-
-    .ba-labels {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .ba-label {
-      padding: 16px clamp(24px, 4vw, 64px);
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      color: rgba(255,255,255,0.25);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-    .ba-label:last-child { text-align: right; color: var(--t-teal); opacity: 0.7; }
-
     /* ============================================
-       02 — THE SYMBOL
+       02 — THE SYMBOL (diagonal split matching hero)
     ============================================ */
     .symbol {
-      background: var(--cream);
-      padding: clamp(4rem, 7vw, 7rem) 0;
-    }
-
-    .symbol-inner {
-      width: var(--content-width);
-      margin: 0 auto;
+      width: 100%;
       display: grid;
-      grid-template-columns: 1fr 1.5fr;
-      gap: clamp(40px, 6vw, 88px);
-      align-items: start;
+      grid-template-rows: clamp(400px, 55vh, 640px) clamp(280px, 38vh, 440px);
+      position: relative;
     }
 
-    .symbol-text {
+    /* Top row — full width, teal bg, cream overlaid diagonally */
+    .sym-row-top {
+      position: relative;
+      background: #6AA8A4;
+      background-image:
+        radial-gradient(ellipse at 76% 50%, rgba(106,168,164,0.0) 0%, rgba(46,94,90,0.35) 100%);
+      overflow: hidden;
+    }
+
+    /* Cream panel — straight split, no diagonal */
+    .sym-cream-panel {
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 52%;
+      background: var(--cream);
+      z-index: 2;
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      padding: clamp(3rem, 6vw, 6rem) clamp(3rem, 5vw, 5rem);
       gap: 1.2rem;
     }
-
-    /* Logo Grid — desktop */
-    .logo-grid {
-      display: grid;
-      grid-template-columns: 1.7fr 1fr;
-      grid-template-rows: auto auto;
-      gap: clamp(5px, 0.7vw, 8px);
+    .sym-cream-panel .s-headline {
+      font-size: clamp(1.6rem, 3vw, 2.8rem);
+      margin: 0;
+    }
+    .sym-cream-panel .s-body {
+      font-size: clamp(0.78rem, 1vw, 0.88rem);
+      max-width: 34ch;
     }
 
-    .logo-cell--primary {
-      grid-column: 1;
-      grid-row: 1 / 3;
-      aspect-ratio: unset;
-      min-height: clamp(260px, 28vw, 420px);
-      align-self: center;
-    }
-
-    .logo-cell {
-      aspect-ratio: 1 / 1;
+    /* Teal side — solid block occupying right 48% */
+    .sym-teal-logo {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 48%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: clamp(20px, 2.5vw, 36px);
+      z-index: 1;
+    }
+
+    /* Bottom row — same 52/48 proportions as top row */
+    .sym-row-bottom {
+      display: grid;
+      grid-template-columns: 52fr 48fr;
+      gap: 1px;
+      background: rgba(14,13,11,0.1);
+    }
+
+    .sym-cell {
       position: relative;
-      cursor: pointer;
-      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
-      transition: background 0.4s ease;
+    }
+    .sym-cell--lavender { background: #C9B5D8; }
+    .sym-cell--dark {
+      background: #180F20;
+      background-image:
+        radial-gradient(ellipse at 82% 18%, rgba(106,168,164,0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 18% 82%, rgba(138,110,154,0.25) 0%, transparent 50%);
     }
 
-    .logo-cell--primary { background: #F8F0E3; }
-    .logo-cell--primary:hover { background: #180F20; }
+    /* Pills in dark cell */
+    .sym-pills { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .sym-pill  { position: absolute; border-radius: 999px; }
+    .sym-pill--1 { width: 26px; height: 66px;  background: #6AA8A4; opacity: 0.18; top: 16%; right: 12%; transform: rotate(12deg); }
+    .sym-pill--2 { width: 20px; height: 52px;  background: #8A6E9A; opacity: 0.16; top: 34%; right: 7%;  transform: rotate(-8deg); }
+    .sym-pill--3 { width: 30px; height: 76px;  background: #6AA8A4; opacity: 0.11; top: 54%; right: 20%; transform: rotate(20deg); }
+    .sym-pill--4 { width: 16px; height: 44px;  background: #C9B5D8; opacity: 0.14; top: 66%; right: 5%;  transform: rotate(-15deg); }
+    .sym-pill--5 { width: 24px; height: 60px;  background: #8A6E9A; opacity: 0.13; top: 8%;  right: 26%; transform: rotate(5deg); }
 
-    .logo-cell--isotype { background: #B4D5D3; }
-    .logo-cell--isotype:hover { background: #C9B5D8; }
-
-    /* Two stacked images — crossfade on hover */
-    .logo-cell img {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      object-fit: contain;
-      transition: opacity 0.4s ease;
+    /* Logos */
+    .sym-logo {
+      width: clamp(120px, 18vw, 220px);
+      height: auto;
+      display: block;
+      position: relative;
+      z-index: 2;
+      will-change: transform;
     }
 
-    .logo-cell--primary .logo-default { width: 76%; max-height: 60%; opacity: 1; }
-    .logo-cell--primary .logo-hover   { width: 76%; max-height: 60%; opacity: 0; }
-    .logo-cell--isotype .logo-default { width: 62%; max-height: 62%; opacity: 1; }
-    .logo-cell--isotype .logo-hover   { width: 62%; max-height: 62%; opacity: 0; }
+    /* Wider logo for full wordmark in bottom-right cell */
+    .sym-logo--wide {
+      width: clamp(160px, 24vw, 300px);
+    }
 
-    /* Duo cell: crossfade, real colors */
-    .logo-cell--duo { background: #C9B5D8; cursor: pointer; }
-    .logo-cell--duo:hover { background: #4A3260; }
-    .logo-cell--duo .logo-default { width: 74%; max-height: 65%; opacity: 1; }
-    .logo-cell--duo .logo-hover   { width: 74%; max-height: 65%; opacity: 0; }
-
-    .logo-cell:hover .logo-default { opacity: 0; }
-    .logo-cell:hover .logo-hover   { opacity: 1; }
-
-    .logo-cell__caption {
+    /* Cell annotation — bottom-right corner, always visible */
+    .sym-cell-note {
       position: absolute;
-      bottom: clamp(10px, 1.4vw, 16px);
-      left: 0;
-      right: 0;
-      text-align: center;
+      bottom: clamp(1.2rem, 2vw, 1.8rem);
+      right: clamp(1.2rem, 2vw, 1.8rem);
       font-family: var(--font-body);
-      font-size: clamp(0.48rem, 0.6vw, 0.56rem);
-      font-weight: 500;
-      letter-spacing: 0.16em;
+      font-size: 0.48rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: rgba(14,13,11,0.3);
-      transition: color 0.4s ease;
+      color: rgba(14,13,11,0.28);
+      z-index: 3;
+      text-align: right;
     }
-    .logo-cell--primary:hover .logo-cell__caption { color: rgba(255,255,255,0.35); }
-    .logo-cell--isotype .logo-cell__caption       { color: rgba(74,50,96,0.35); }
-    .logo-cell--isotype:hover .logo-cell__caption { color: rgba(74,50,96,0.4); }
-    .logo-cell--duo:hover .logo-cell__caption     { color: rgba(255,255,255,0.35); }
+    .sym-cell-note--light { color: rgba(255,255,255,0.3); }
 
-    /* Mobile logo grid — all states visible, no hover needed */
-    .logo-grid--mobile { display: none; }
+    /* Always-visible badge */
+    .sym-badge {
+      position: absolute;
+      bottom: clamp(1.2rem, 2vw, 1.8rem);
+      left: clamp(1.2rem, 2vw, 1.8rem);
+      font-family: var(--font-body);
+      font-size: 0.5rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(14,13,11,0.38);
+      z-index: 3;
+    }
+    .sym-badge--light { color: rgba(255,255,255,0.52); }
 
-    @media (hover: none), (max-width: 680px) {
-      .symbol-inner { grid-template-columns: 1fr; }
-      .logo-grid--desktop { display: none; }
-      .logo-grid--mobile {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: clamp(5px, 1.5vw, 8px);
-      }
-      .logo-grid--mobile .logo-cell {
-        aspect-ratio: 1 / 1;
-        padding: clamp(16px, 4vw, 28px);
-      }
-      .logo-grid--mobile .logo-cell img {
-        position: static;
-        width: 78%;
-        max-height: 72%;
-        object-fit: contain;
-      }
-      .logo-grid--mobile .logo-cell--isotype-b img,
-      .logo-grid--mobile .logo-cell--duo-b img { filter: brightness(0) invert(1); }
+    /* Vertical divider between cream and teal */
+    .sym-row-top::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 52%;
+      width: 1px;
+      background: rgba(14,13,11,0.08);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    /* Horizontal divider between top and bottom rows */
+    .sym-row-top { border-bottom: 1px solid rgba(14,13,11,0.08); }
+
+    @media (max-width: 680px) {
+      .symbol { grid-template-rows: auto auto; }
+      .sym-row-top { min-height: 80vw; }
+      .sym-cream-panel { clip-path: polygon(0 0, 100% 0, 100% 52%, 0 62%); position: relative; inset: auto; }
+      .sym-teal-logo { position: relative; width: 100%; height: 50vw; }
+      .sym-row-top { display: flex; flex-direction: column; }
     }
 
     /* ============================================
@@ -903,7 +685,17 @@
     ============================================ */
     .palette {
       background: var(--cream);
-      padding: clamp(4rem, 7vw, 7rem) 0;
+      height: 280vh;
+      position: relative;
+    }
+
+    .palette-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: visible;
     }
 
     .palette-inner {
@@ -912,134 +704,184 @@
       display: grid;
       grid-template-columns: 1fr 1.5fr;
       gap: clamp(40px, 6vw, 88px);
-      align-items: start;
+      align-items: center;
     }
 
     .palette-text {
       display: flex;
       flex-direction: column;
       gap: 1.2rem;
-      position: sticky;
-      top: clamp(80px, 10vw, 120px);
     }
 
     .palette-visuals {
       display: flex;
       flex-direction: column;
-      gap: clamp(6px, 0.9vw, 10px);
     }
 
-    /* Two primary swatches */
-    .palette-primaries {
+    /* ── Typography section header ── */
+    .proceso-typo-header {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: clamp(6px, 0.9vw, 10px);
+      grid-template-columns: 1fr 1fr 1.85fr;
+      align-items: end;
+      gap: 0.6rem;
+      width: 100%;
+      padding: 0 0 clamp(1rem, 1.8vw, 1.5rem);
+      border-top: 1px solid rgba(14,13,11,0.08);
     }
-
-    .palette-primary {
-      aspect-ratio: 3/2;
-      border-radius: 4px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: clamp(12px, 1.4vw, 18px);
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+    .proceso-typo-header .s-chapter {
+      grid-column: 1 / -1;
     }
-    .palette-primary.visible { opacity: 1; transform: translateY(0); }
-
-    .pp-name {
+    .proceso-typo-header .s-headline {
+      grid-column: 1 / 3;
+      font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+    }
+    .proceso-typo-header-note {
       font-family: var(--font-body);
-      font-size: clamp(0.56rem, 0.75vw, 0.64rem);
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-    .pp-hex {
-      font-family: var(--font-mono);
-      font-size: clamp(0.5rem, 0.62vw, 0.56rem);
-      letter-spacing: 0.1em;
-      opacity: 0.55;
-      margin-top: 2px;
+      font-size: clamp(0.7rem, 0.85vw, 0.8rem);
+      color: rgba(14,13,11,0.42);
+      line-height: 1.6;
+      align-self: end;
     }
 
-    /* Expanded palette row */
-    .palette-expanded {
-      display: grid;
-      grid-template-columns: repeat(8, 1fr);
-      gap: clamp(4px, 0.6vw, 8px);
-    }
-
-    .palette-swatch {
-      aspect-ratio: 1/1.2;
-      border-radius: 3px;
+    /* ── Palette parallax stage ── */
+    .palette-stage {
+      position: relative;
+      width: 100%;
+      min-height: 420px;
       display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: clamp(5px, 0.6vw, 8px);
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
     }
-    .palette-swatch.visible { opacity: 1; transform: translateY(0); }
+    .palette-orbs {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: clamp(20px, 4vh, 50px);
+      gap: clamp(1rem, 2vw, 3rem);
+      will-change: transform, opacity;
+      overflow: visible;
+    }
+    .palette-orb-wrap {
+      position: relative;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* clip container — mask grows downward on scroll */
+    .palette-orb-clip {
+      width: clamp(240px, 30vw, 380px);
+      height: clamp(460px, 62vw, 720px);
+      -webkit-mask-image: linear-gradient(to bottom, black 0%, black var(--ms, 42%), transparent calc(var(--ms, 42%) + 8%));
+      mask-image:         linear-gradient(to bottom, black 0%, black var(--ms, 42%), transparent calc(var(--ms, 42%) + 8%));
+    }
+    .palette-orb {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      object-position: top center;
+    }
+    .palette-orb-transition {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: top center;
+      transform: scale(var(--ts, 1));
+      transform-origin: center 40%;
+      opacity: var(--to, 0);
+      will-change: transform, opacity;
+    }
+    .palette-orb-hex { display: none; }
 
-    .ps-hex {
-      font-family: var(--font-mono);
-      font-size: clamp(0.38rem, 0.48vw, 0.44rem);
-      letter-spacing: 0.04em;
-      opacity: 0.5;
+    .palette-color-tip {
+      position: fixed;
+      pointer-events: none;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: #1a1a1a;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      opacity: 0;
+      transition: opacity 0.15s ease;
       white-space: nowrap;
     }
-
-    /* Proportions bar */
-    .palette-proportions {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
-    }
-    .palette-proportions.visible { opacity: 1; transform: translateY(0); }
-
-    .prop-bar {
-      height: clamp(22px, 2.8vw, 34px);
-      border-radius: 5px;
-      background: linear-gradient(
-        to right,
-        #F8F0E3 0%,
-        #F8F0E3 48%,
-        #8A6E9A 58%,
-        #8A6E9A 73%,
-        #6AA8A4 83%,
-        #6AA8A4 100%
-      );
-      box-shadow: inset 0 0 0 1px rgba(74,50,96,0.1);
-    }
-
-    .prop-labels {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .prop-label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--font-body);
-      font-size: clamp(0.52rem, 0.68vw, 0.62rem);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ink);
-      opacity: 0.5;
-    }
-    .prop-dot {
-      width: 6px;
-      height: 6px;
+    .palette-color-tip.visible { opacity: 1; }
+    .palette-color-tip__swatch {
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       flex-shrink: 0;
     }
+    .palette-bar-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(14px, 2vw, 22px);
+      padding: 0 clamp(1.5rem, 3vw, 3rem);
+      opacity: 0;
+      will-change: opacity, transform;
+    }
+    .palette-bar-wrap .prop-bar {
+      width: 100%;
+      height: clamp(56px, 7.5vw, 88px);
+      border-radius: 999px;
+      background: linear-gradient(
+        to right,
+        #F4EEE4 0%,
+        #EDE5D8 42%,
+        #B59CC8 52%,
+        #8A6E9A 64%,
+        #6AA8A4 78%,
+        #4E9490 100%
+      );
+      box-shadow:
+        0 2px 24px rgba(138,110,154,0.18),
+        0 1px 4px rgba(0,0,0,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.35);
+      position: relative;
+      overflow: hidden;
+    }
+    .palette-bar-wrap .prop-bar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.14) 0%, transparent 55%);
+      border-radius: inherit;
+      pointer-events: none;
+    }
+    .palette-bar-wrap .prop-labels {
+      width: 100%;
+      padding: 0 6px;
+    }
+    .palette-bar-wrap .prop-label {
+      font-size: clamp(0.5rem, 0.62vw, 0.58rem);
+      letter-spacing: 0.14em;
+      opacity: 0.55;
+    }
+    .palette-bar-wrap .prop-dot {
+      width: 7px;
+      height: 7px;
+    }
+
 
     /* ============================================
        04 — ICONOGRAPHY
@@ -1055,7 +897,7 @@
       display: grid;
       grid-template-columns: 1fr 1.5fr;
       gap: clamp(40px, 6vw, 88px);
-      align-items: start;
+      align-items: center;
     }
 
     .icon-text {
@@ -1121,14 +963,14 @@
       font-size: clamp(0.48rem, 0.6vw, 0.54rem);
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: rgba(14,13,11,0.3);
+      color: rgba(14,13,11,0.48);
     }
 
     .icon-wall-hint-count {
       font-family: var(--font-display);
       font-size: clamp(0.62rem, 0.8vw, 0.72rem);
       font-weight: 300;
-      color: rgba(14,13,11,0.25);
+      color: rgba(14,13,11,0.45);
     }
 
     /* ============================================
@@ -1264,12 +1106,12 @@
     }
 
     .ta-panel--purple {
-      background-image: url("assets/Bcakgrounds/A4 - 4.png");
+      background-image: url("assets/backgrounds/A4 - 4.png");
       background-size: cover;
       background-position: center;
     }
     .ta-panel--teal {
-      background-image: url("assets/Bcakgrounds/A4 - 5.png");
+      background-image: url("assets/backgrounds/A4 - 5.png");
       background-size: cover;
       background-position: center;
     }
@@ -1349,28 +1191,6 @@
       color: rgba(30,20,40,0.35);
     }
 
-    /* Headline across both panels */
-    .ta-headline-bar {
-      background: transparent;
-      padding: clamp(48px, 6vw, 72px) var(--content-width);
-      margin: 0 auto;
-      text-align: center;
-      position: relative;
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    .ta-headline-wrap {
-      text-align: center;
-      padding: clamp(40px, 5vw, 64px) clamp(24px, 4vw, 48px);
-      background: #111;
-    }
-
-    .ta-headline-wrap .s-headline--light {
-      font-size: clamp(1.4rem, 2.8vw, 2.4rem);
-      margin-bottom: 0.6rem;
-    }
-
     .ta-body-wrap {
       background: var(--cream);
       padding: clamp(40px, 5vw, 64px) 0;
@@ -1389,92 +1209,6 @@
     .ta-body-inner .s-body { max-width: 54ch; text-align: center; }
 
     /* ============================================
-       07 — SYSTEM IN USE
-    ============================================ */
-    .system {
-      background: var(--cream);
-      padding: var(--section-gap) 0;
-    }
-
-    .system-layout {
-      width: var(--content-width);
-      margin: 0 auto;
-    }
-
-    .system-header {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: clamp(40px, 5vw, 72px);
-      align-items: start;
-      margin-bottom: clamp(48px, 6vw, 72px);
-    }
-
-    .system-mockups {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: clamp(24px, 3vw, 40px);
-      margin-bottom: clamp(40px, 5vw, 60px);
-    }
-
-    .system-mockup {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .system-mockup-img {
-      background: #1A1218;
-      aspect-ratio: 16 / 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .system-mockup-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      background: #1A1218;
-    }
-
-    .system-mockup-placeholder {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 32px;
-    }
-
-    .system-mockup-placeholder-label {
-      font-family: var(--font-mono);
-      font-size: 0.58rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.2);
-    }
-
-    .system-mockup-caption {
-      font-family: var(--font-body);
-      font-size: 0.62rem;
-      font-weight: 500;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: #aaa;
-    }
-
-    .system-text {
-      max-width: var(--narrow-width);
-      margin: 0 auto;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      align-items: center;
-    }
-
-    /* ============================================
        08 — WHAT I LEARNED
     ============================================ */
     .learned {
@@ -1490,62 +1224,66 @@
 
     .learned-num {
       font-family: var(--font-display);
-      font-size: clamp(80px, 12vw, 140px);
+      font-size: clamp(40px, 5vw, 60px);
       font-weight: 300;
-      color: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.06);
       line-height: 0.85;
-      margin-bottom: clamp(32px, 4vw, 48px);
+      margin-bottom: clamp(16px, 2vw, 24px);
     }
 
     .learned-headline {
       font-family: var(--font-display);
-      font-size: clamp(1.6rem, 3vw, 2.6rem);
+      font-size: clamp(1.4rem, 2.4vw, 2.1rem);
       font-weight: 300;
       font-style: italic;
       color: #F2EDE4;
       line-height: 1.2;
-      margin-bottom: clamp(28px, 3.5vw, 40px);
+      margin-bottom: clamp(20px, 2.5vw, 28px);
       max-width: 28ch;
     }
 
     .learned-body {
       font-family: var(--font-body);
-      font-size: clamp(0.9rem, 1.1vw, 1rem);
+      font-size: clamp(0.82rem, 0.95vw, 0.92rem);
       font-weight: 300;
-      line-height: 1.85;
-      color: rgba(255,255,255,0.4);
+      line-height: 1.75;
+      color: rgba(255,255,255,0.65);
       max-width: 52ch;
     }
 
-    .learned-body + .learned-body { margin-top: 1.2rem; }
+    .learned-body + .learned-body { margin-top: 0.9rem; }
 
     /* ============================================
        CLOSING
     ============================================ */
     .closing-statement {
       background: var(--cream);
-      padding: var(--section-gap) 0 clamp(48px, 6vw, 72px);
+      padding: 0;
       text-align: center;
+      justify-content: space-between;
     }
 
     .closing-statement-inner {
-      width: min(52ch, 84vw);
-      margin: 0 auto;
+      width: min(58ch, 84vw);
+      margin: auto auto 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 2rem;
+      padding: clamp(3rem, 6vw, 6rem) 0 clamp(2rem, 4vw, 4rem);
     }
 
     .closing-quote {
       font-family: var(--font-display);
-      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-size: clamp(1.5rem, 2.8vw, 2.2rem);
       font-weight: 300;
       font-style: italic;
       color: var(--black);
-      line-height: 1.4;
+      line-height: 1.5;
       text-align: center;
     }
+
+    .closing-quote br { display: block; margin-bottom: 0.5em; }
 
     .closing-quote strong {
       font-style: normal;
@@ -1614,6 +1352,8 @@
       letter-spacing: -0.01em;
       transition: opacity 0.3s ease;
     }
+    .closing-nav-item:last-child { background: rgba(158,34,16,0.04); }
+    .closing-nav-item:last-child:hover { background: rgba(158,34,16,0.08); }
     .closing-nav-item:last-child .closing-nav-title { color: var(--red); }
     .closing-nav-item:hover .closing-nav-title { opacity: 0.75; }
     .closing-nav-arrow {
@@ -1630,7 +1370,7 @@
     .closing-bottom-copy {
       font-family: var(--font-body);
       font-size: 11px;
-      color: #666;
+      color: #8a8a8a;
       font-weight: 300;
       letter-spacing: 0.06em;
     }
@@ -1740,7 +1480,6 @@
 
     @media (max-width: 600px) {
       .hero-meta { flex-direction: column; }
-      .ba-container { aspect-ratio: 16 / 10; }
     }
 
     /* ============================================
@@ -1749,19 +1488,20 @@
     .scroll-progress {
       position: fixed;
       left: 0; top: 0; bottom: 0;
-      width: 2px;
+      width: 3px;
       z-index: 200;
       pointer-events: none;
     }
     .scroll-progress-track {
       position: absolute; inset: 0;
-      background: rgba(158, 34, 16, 0.1);
+      background: rgba(158, 34, 16, 0.08);
     }
     .scroll-progress-fill {
       position: absolute; left: 0; top: 0; right: 0;
       height: 0%;
       background: var(--red);
-      transition: height 0.1s linear;
+      transition: height 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: height;
     }
 
     /* ============================================
@@ -1778,20 +1518,6 @@
     .reveal-wipe.wipe-d1 .wipe-inner { transition-delay: 0.12s; }
     .reveal-wipe.wipe-d2 .wipe-inner { transition-delay: 0.24s; }
     .reveal-wipe.visible .wipe-inner  { clip-path: inset(0 0% 0 0); }
-
-    /* ============================================
-       BA-SECTION CINEMATIC ENTRANCE
-    ============================================ */
-    .ba-entrance {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1s cubic-bezier(0.22,1,0.36,1),
-                  transform 1s cubic-bezier(0.22,1,0.36,1);
-    }
-    .ba-entrance.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
 
     /* ============================================
        CHAPTER LABEL (editorial numbered header)
@@ -1814,11 +1540,37 @@
     }
     .s-chapter .s-label { margin-bottom: 0; }
 
-    /* prefers-reduced-motion: disable wipe, fall back to fade */
     @media (prefers-reduced-motion: reduce) {
+      /* Wipe reveals — fade instead of clip */
       .reveal-wipe .wipe-inner { clip-path: none; transition: none; opacity: 0; }
       .reveal-wipe.visible .wipe-inner { opacity: 1; }
-      .ba-entrance { transition: opacity 0.4s ease; transform: none; }
+
+      /* All scroll-triggered reveals — instant */
+      .reveal, .reveal-left, .reveal-right {
+        transition: none !important;
+        opacity: 1;
+        transform: none !important;
+      }
+
+      /* Hero entrance keyframe animations */
+      .hero__label, .hero__title, .hero__body, .hero-meta,
+      .hero-comp-img, .hero-comp-logo, .hero-comp-tag {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      /* Structural CSS animations */
+      .hero::before { animation: none; height: 42%; }
+      .hero-diagonal-line path { animation: none; stroke-dashoffset: 0; }
+
+      /* Infinite decorative animation */
+      .ptypo-col--specimen { animation: none; background-position: 0% 50%; }
+
+      /* Cinematic overlay — show final state immediately */
+      .hero-cinematic-overlay { opacity: 0 !important; transition: none !important; }
+
+      /* Hide progress bar (motion artifact) */
       .scroll-progress { display: none; }
     }
 
@@ -1827,26 +1579,31 @@
     ============================================ */
     .proceso {
       background: var(--cream);
-      padding: clamp(4rem, 7vw, 7rem) 0;
+      padding: clamp(4rem, 7vw, 7rem) 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
     }
-    .proceso-inner {
+
+    /* ── Row 1: headline + decisions ── */
+    .proceso-top {
       width: var(--content-width);
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr 1.4fr;
+      grid-template-columns: 1fr 1.35fr;
       gap: clamp(40px, 6vw, 88px);
       align-items: start;
+      padding-bottom: clamp(3rem, 5vw, 5rem);
     }
-    .proceso-left {
+    .proceso-top-left {
       display: flex;
       flex-direction: column;
       gap: 1.2rem;
     }
-    /* Decision rows */
     .proceso-decisions {
       display: flex;
       flex-direction: column;
-      margin-top: clamp(1.5rem, 2.5vw, 2.5rem);
+      margin-top: clamp(2.5rem, 4vw, 4rem);
     }
     .proceso-card {
       display: grid;
@@ -1860,7 +1617,7 @@
       font-family: var(--font-mono);
       font-size: 0.6rem;
       font-weight: 400;
-      color: rgba(14,13,11,0.25);
+      color: rgba(14,13,11,0.48);
       letter-spacing: 0.1em;
       padding-top: 3px;
     }
@@ -1880,18 +1637,50 @@
       text-transform: uppercase;
     }
 
-    /* Typography specimen — right column */
-    .proceso-typo {
+    /* ── Row 2: typography panel ── */
+    .proceso-typo-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.85fr;
+      border-top: 1px solid rgba(14,13,11,0.1);
+      min-height: clamp(300px, 36vw, 460px);
+      background: #fff;
+    }
+    .ptypo-col {
+      padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 3vw, 2.8rem);
       display: flex;
       flex-direction: column;
-      gap: clamp(24px, 3vw, 36px);
+      gap: 0.9rem;
     }
-    .typo-block {
-      display: flex;
-      flex-direction: column;
-      gap: clamp(12px, 1.5vw, 18px);
+    .ptypo-col--primary  { border-right: 1px solid rgba(14,13,11,0.08); }
+    .ptypo-col--secondary { border-right: 1px solid rgba(14,13,11,0.08); }
+    .ptypo-col--specimen {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(145deg,
+          #4A3260 0%,
+          #6AA8A4 60%,
+          #8A6E9A 100%
+        );
+      background-size: 200% 200%;
+      animation: holo-shift 9s ease infinite;
+      justify-content: flex-start;
+      align-items: flex-start;
+      padding: clamp(2rem, 4vw, 3.5rem);
     }
-    .typo-block-label {
+    .ptypo-col--specimen::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(14, 13, 11, 0.12);
+      pointer-events: none;
+    }
+    @keyframes holo-shift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .ptypo-label {
       font-family: var(--font-body);
       font-size: 0.56rem;
       font-weight: 500;
@@ -1899,80 +1688,107 @@
       text-transform: uppercase;
       color: rgba(14,13,11,0.3);
     }
-    .typo-specimen-primary {
+    .ptypo-name {
       font-family: 'Montserrat', sans-serif;
-      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-size: clamp(1.3rem, 2vw, 1.9rem);
       font-weight: 800;
       letter-spacing: -0.03em;
       line-height: 1;
       color: var(--ink);
     }
-    .typo-specimen-weights {
-      display: flex;
-      gap: clamp(12px, 2vw, 24px);
-    }
-    .typo-weight {
-      font-family: 'Montserrat', sans-serif;
-      font-size: clamp(0.7rem, 0.9vw, 0.82rem);
-      color: rgba(14,13,11,0.4);
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .typo-weight span:first-child { color: var(--ink); font-size: clamp(0.9rem, 1.2vw, 1.1rem); }
-    .typo-weight-600 { font-weight: 600; }
-    .typo-weight-700 { font-weight: 700; }
-    .typo-weight-800 { font-weight: 800; }
-
-    .typo-specimen-secondary {
-      font-family: Helvetica, Arial, sans-serif;
-      font-size: clamp(2.2rem, 3.8vw, 3.2rem);
-      font-weight: 400;
+    .ptypo-name--helv {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 300;
       letter-spacing: -0.01em;
+    }
+    .ptypo-abb {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(2.8rem, 4.5vw, 4.2rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
       line-height: 1;
       color: var(--ink);
     }
-    .typo-specimen-secondary-sub {
-      font-family: Helvetica, Arial, sans-serif;
-      font-size: clamp(0.72rem, 0.9vw, 0.82rem);
-      color: rgba(14,13,11,0.4);
-      margin-top: 4px;
+    .ptypo-abb--helv {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 300;
+      font-style: italic;
     }
-
-    /* Type scale table */
-    .typo-scale {
+    .ptypo-desc {
+      font-family: var(--font-body);
+      font-size: clamp(0.7rem, 0.85vw, 0.78rem);
+      line-height: 1.75;
+      color: rgba(14,13,11,0.48);
+      margin: 0;
+    }
+    .ptypo-weights-row {
+      display: flex;
+      gap: 1rem;
+      margin-top: auto;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(14,13,11,0.07);
+    }
+    .ptypo-w {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      color: rgba(14,13,11,0.38);
+    }
+    .ptypo-w--helv {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    .ptypo-specimen-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(2.4rem, 4.5vw, 5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.92;
+      color: #fff;
       display: flex;
       flex-direction: column;
-      border-top: 1px solid rgba(14,13,11,0.08);
+      align-items: flex-start;
+      text-align: left;
+      position: relative;
+      z-index: 1;
+      margin-top: auto;
     }
-    .typo-scale-row {
-      display: grid;
-      grid-template-columns: 2.5rem 1fr auto;
-      gap: 0 1rem;
-      padding: clamp(8px, 1vw, 12px) 0;
-      border-bottom: 1px solid rgba(14,13,11,0.06);
-      align-items: baseline;
+    .ptypo-specimen-line {
+      display: block;
     }
-    .ts-tag {
-      font-family: var(--font-mono);
+    .ptypo-specimen-dot {
+      display: inline-block;
+      width: clamp(0.55rem, 1vw, 0.85rem);
+      height: clamp(0.55rem, 1vw, 0.85rem);
+      background: #fff;
+      margin-left: 0.14em;
+      vertical-align: middle;
+      transform: translateY(-0.1em);
+      opacity: 0.75;
+    }
+    .ptypo-specimen-sub {
+      font-family: var(--font-body);
       font-size: 0.52rem;
-      color: rgba(14,13,11,0.25);
-      letter-spacing: 0.06em;
-      padding-top: 2px;
-    }
-    .ts-sample { color: var(--ink); line-height: 1.2; }
-    .ts-meta {
-      font-family: var(--font-mono);
-      font-size: 0.5rem;
-      color: rgba(14,13,11,0.25);
-      letter-spacing: 0.04em;
-      text-align: right;
-      white-space: nowrap;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      position: relative;
+      z-index: 1;
+      margin-top: 1rem;
     }
 
+    @media (max-width: 1024px) {
+      .proceso-typo-row { grid-template-columns: 1fr 1fr; }
+      .ptypo-col--specimen { grid-column: 1 / -1; min-height: 280px; justify-content: flex-end; align-items: flex-start; }
+      .proceso-typo-header { grid-template-columns: 1fr; }
+      .proceso-typo-header .s-headline { grid-column: 1; }
+      .proceso-typo-header-note { grid-column: 1; }
+    }
     @media (max-width: 768px) {
-      .proceso-inner { grid-template-columns: 1fr; }
-      .proceso-decisions { margin-top: 0; }
+      .proceso-top { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .proceso-typo-row { grid-template-columns: 1fr; }
+      .ptypo-col--primary, .ptypo-col--secondary { border-right: none; border-bottom: 1px solid rgba(14,13,11,0.08); }
+      .ptypo-col--specimen { grid-column: 1; }
     }
 
     /* ============================================
@@ -2053,7 +1869,8 @@
     .mw-pitch   { aspect-ratio: 7 / 5; }
     .mw-papel-1,
     .mw-papel-2 { aspect-ratio: 4 / 5; }
-    .mw-guide   { aspect-ratio: 16 / 4; background: #0E0D0B; }
+    .mw-guide   { aspect-ratio: 16 / 4; background: var(--cream); }
+    .mw-guide img { object-fit: contain; }
 
     /* Backgrounds + object-fit */
     .mw-card-b              { background: #c8e8f0; }
@@ -2129,162 +1946,198 @@
     }
 
     /* ============================================
-       LIFESTYLE SECTION — images only, Pentagram style (kept for reference)
+       STATEMENT BREAK
     ============================================ */
-    .lifestyle { padding: var(--section-gap) 0; background: var(--cream); }
-
-    .lifestyle-intro {
-      max-width: var(--content-width);
+    .stmt-break {
+      background: #ffffff;
+      position: relative;
+    }
+    .stmt-wrap {
+      width: var(--content-width);
       margin: 0 auto;
-      padding: 0 clamp(1.5rem, 5vw, 4rem);
-      margin-bottom: clamp(2rem, 4vw, 4rem);
-    }
-
-    /* Full-bleed hero image */
-    .lf-hero {
-      width: 100%;
-      height: clamp(320px, 52vw, 680px);
-      overflow: hidden;
-      margin-bottom: 3px;
-    }
-    .lf-hero img {
-      width: 100%; height: 100%;
-      object-fit: cover; display: block;
-      transition: transform 0.9s cubic-bezier(0.22,1,0.36,1);
-    }
-    .lf-hero:hover img { transform: scale(1.022); }
-    .lf-placeholder {
-      width: 100%; height: 100%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 0.8rem;
-    }
-    .lf-placeholder--cards  { background: linear-gradient(160deg, #2e1c42, #4a3260); }
-    .lf-placeholder--folder { background: #ddd6cb; }
-    .lf-placeholder--web    { background: linear-gradient(160deg, #1a2e3a, #2e5e5a); }
-    .lf-placeholder-label {
-      font-family: var(--font-body);
-      font-size: 0.65rem; font-weight: 400;
-      letter-spacing: 0.2em; text-transform: uppercase;
-    }
-    .lf-placeholder--cards  .lf-placeholder-label { color: rgba(255,255,255,0.25); }
-    .lf-placeholder--folder .lf-placeholder-label { color: rgba(74,50,96,0.3); }
-    .lf-placeholder--web    .lf-placeholder-label { color: rgba(255,255,255,0.2); }
-
-    /* 2-col grid */
-    .lf-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3px;
-      margin-bottom: 3px;
-    }
-    .lf-cell {
-      overflow: hidden;
-      aspect-ratio: 4/3;
-    }
-    .lf-cell img {
-      width: 100%; height: 100%;
-      object-fit: cover; display: block;
-      transition: transform 0.9s cubic-bezier(0.22,1,0.36,1);
-    }
-    .lf-cell:hover img { transform: scale(1.028); }
-    .lf-cell .lf-placeholder {
-      aspect-ratio: 4/3;
-      height: 100%;
-    }
-
-    /* Caption strip below the image block */
-    .lf-caption-row {
-      max-width: var(--content-width);
-      margin: 1.2rem auto 0;
-      padding: 0 clamp(1.5rem, 5vw, 4rem);
       display: flex;
-      justify-content: space-between;
-      align-items: baseline;
+      flex-direction: column;
+      gap: 0.1em;
     }
-    .lf-caption {
+    .stmt-line {
+      font-family: 'Montserrat', var(--font-body), sans-serif;
+      font-size: clamp(1.8rem, 4.5vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.0;
+      color: var(--ink);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1);
+    }
+    .stmt-line.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .stmt-label {
+      display: block;
       font-family: var(--font-body);
-      font-size: 0.65rem; font-weight: 400;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--gray-light);
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray-text);
+      margin-bottom: clamp(1.2rem, 2.5vw, 2rem);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
-    .lf-caption-right {
-      font-family: var(--font-display);
-      font-style: italic; font-size: 0.88rem;
-      color: var(--gray-light);
+    .stmt-label.is-visible { opacity: 1; transform: translateY(0); }
+    .stmt-d1 { transition-delay: 0.14s; }
+    .stmt-d2 { transition-delay: 0.28s; }
+    .stmt-d3 { transition-delay: 0.42s; }
+    .stmt-dot {
+      display: inline-block;
+      width: clamp(1rem, 2.4vw, 2rem);
+      height: clamp(1rem, 2.4vw, 2rem);
+      background: var(--t-teal);
+      margin-left: 0.22em;
+      margin-bottom: 0.12em;
+      flex-shrink: 0;
+      align-self: flex-end;
+      opacity: 0;
+      transform: scale(0.6);
+      transition: opacity 0.7s ease 0.9s, transform 0.7s ease 0.9s;
     }
-
-    @media (max-width: 560px) {
-      .lf-grid { grid-template-columns: 1fr; }
-      .lf-cell { aspect-ratio: 3/2; }
+    .stmt-line.is-visible .stmt-dot {
+      opacity: 1;
+      transform: scale(1);
+    }
+    @media (max-width: 600px) {
+      .stmt-line { font-size: clamp(2.2rem, 11vw, 4rem); }
     }
 
     /* ============================================
-       APLICACIONES (grid inside system section)
+       MOBILE FIXES — max-width: 768px
     ============================================ */
-    .aplic-grid {
-      max-width: var(--content-width);
-      margin: clamp(2rem, 4vw, 4rem) auto 0;
-      padding: 0 clamp(1.5rem, 5vw, 4rem);
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: clamp(0.75rem, 1.5vw, 1.5rem);
+    @media (max-width: 768px) {
+
+      /* ── Sticky slow-scroll sections → normal flow en móvil ── */
+      .stmt-break      { height: auto; min-height: 100vh;
+                         display: flex; align-items: center; }
+      .stmt-sticky     { position: static; height: auto;
+                         width: 100%; padding: clamp(3rem, 8vw, 5rem) 0; }
+
+      .proceso         { height: auto; min-height: auto; }
+      .proceso-sticky  { position: static; height: auto; }
+
+      .learned         { height: auto; min-height: auto; }
+      .learned-sticky  { position: static; height: auto; }
+
+      /* ── Palette sticky → normal flow ── */
+      .palette         { height: auto; }
+      .palette-sticky  { position: static; height: auto;
+                         padding: clamp(3rem, 8vw, 5rem) 0; }
+
+      /* ── Iconography sticky → normal flow ── */
+      .iconography     { height: auto; }
+      .icon-inner      { position: static; height: auto;
+                         padding: clamp(3rem, 8vw, 5rem) 0; }
+
+      /* ── Icon wall: 4 col en móvil para que respiren ── */
+      .icon-wall { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+
+      /* ── Illus sticky → normal flow ── */
+      .illus           { min-height: auto;
+                         padding: clamp(3rem, 8vw, 5rem) 0; }
+
+      /* ── Typo section sticky → normal flow ── */
+      .typo-section    { height: auto; }
+      .typo-inner      { position: static; height: auto; }
+
+      /* ── Symbol sticky → normal flow ── */
+      .symbol          { height: auto; }
+      .sym-inner       { position: static; height: auto;
+                         grid-template-rows: auto; }
+
+      /* ── Parallax del stmt → desactivado en móvil ── */
+      .stmt-wrap       { transform: none !important; }
     }
-    .aplic-item { display: flex; flex-direction: column; gap: 0.75rem; }
-    .aplic-img {
-      width: 100%; aspect-ratio: 3/2;
+
+    /* ============================================
+       STICKY SECTION STACK
+    ============================================ */
+
+    /* Scroll lock during hero animation */
+    body.anim-lock { overflow: hidden; }
+
+    /* Sections that pin to viewport top as card stack */
+    .stmt-break, .proceso, .typo-section,
+    .symbol, .iconography, .illus,
+    .learned, .closing-statement {
+      position: sticky;
+      top: 0;
+    }
+
+    /* Z-index ladder: higher = appears on top as user scrolls down */
+    .hero              { z-index:  1; }
+    .prob              { z-index:  2; position: relative; }
+    .stmt-break        { z-index:  3; height: 180vh; }
+    .stmt-sticky       { position: sticky; top: 0; height: 100vh;
+                         display: flex; align-items: center; background: #ffffff; }
+    .proceso           { z-index:  4; height: 180vh; }
+    .proceso-sticky    { position: sticky; top: 0; height: 100vh;
+                         display: flex; flex-direction: column; justify-content: center;
+                         padding: clamp(2.5rem, 4vw, 4rem) 0; }
+    .typo-section      { z-index:  5; height: 180vh; background: var(--cream); }
+    .typo-inner        { position: sticky; top: 0; height: 100vh; display: flex;
+                         flex-direction: column;
+                         padding: clamp(2.5rem, 4vw, 4rem) clamp(2rem, 5vw, 5rem); }
+    .symbol            { z-index:  6; height: 180vh; }
+    .sym-inner         { position: sticky; top: 0; height: 100vh; display: grid;
+                         grid-template-rows: 1fr 0.65fr; }
+    .palette           { z-index:  7; position: relative; }
+    .iconography       { z-index:  8; height: 180vh; }
+    .icon-inner        { position: sticky; top: 0; height: 100vh;
+                         display: flex; flex-direction: column; justify-content: center; }
+    .illus             { z-index:  9; min-height: 100vh;
+                         display: flex; flex-direction: column; justify-content: center; }
+    .applied           { position: relative; z-index: 10; }
+    .learned           { z-index: 11; height: 180vh; padding: 0; }
+    .learned-sticky    { position: sticky; top: 0; height: 100vh;
+                         display: flex; flex-direction: column; justify-content: center; }
+    .closing-statement { z-index: 12; min-height: 100vh;
+                         display: flex; flex-direction: column; justify-content: center; }
+
+    /* Typography panel fills remaining height inside its section */
+    .typo-section .proceso-typo-row {
+      flex: 1;
+      min-height: unset;
+      border-radius: 4px;
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.06);
-      position: relative;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 37px 39px 70px rgba(0,0,0,0.25);
     }
-    .aplic-img::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 2;
-      opacity: 0.055;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 180px 180px;
-      mix-blend-mode: multiply;
+
+    /* Header top border acts as separator when section has padding */
+    .typo-section .proceso-typo-header {
+      border-top: none;
+      padding-top: 0;
     }
-    .aplic-img img {
-      width: 100%; height: 100%; object-fit: cover; object-position: top; display: block;
-      transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
-    }
-    .aplic-img:hover img { transform: scale(1.04); }
-    .aplic-img-placeholder {
-      width: 100%; height: 100%;
-      background: rgba(255,255,255,0.03);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 0.6rem;
-    }
-    .aplic-placeholder-label {
-      font-family: var(--font-body);
-      font-size: 0.62rem; letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.18); text-align: center;
-    }
-    .aplic-item-label {
-      font-family: var(--font-body);
-      font-size: 0.65rem; font-weight: 500;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: rgba(244,240,235,0.38);
-    }
-    .aplic-item-desc {
-      font-family: var(--font-body);
-      font-size: 0.8rem; font-weight: 300;
-      line-height: 1.6; color: rgba(244,240,235,0.28);
-    }
-    @media (max-width: 768px) { .aplic-grid { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 480px) { .aplic-grid { grid-template-columns: 1fr; } }
+
+    /* Closing statement vertically centered */
+    .closing-statement-inner { margin: auto; }
+
+    /* Learned vertically centered */
+    .learned-inner { margin: auto; }
+
+    /* Icon layout fills 100vh properly */
+    .iconography .icon-layout { margin: auto; width: var(--content-width); }
+
+    /* Illus layout fills 100vh properly */
+    .illus .illus-layout { margin: auto; width: var(--content-width); }
   </style>
 </head>
 <body>
 
   <!-- Scroll progress line (left edge) -->
-  <div class="scroll-progress" aria-hidden="true">
+  <div class="scroll-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="scrollProgress">
     <div class="scroll-progress-track"></div>
     <div class="scroll-progress-fill" id="progressFill"></div>
   </div>
@@ -2354,18 +2207,19 @@
       <div class="hero-left">
         <span class="hero__label">Brand Identity · Design System</span>
         <h1 class="hero__title">Tannit<br>Agency<span class="hero-title-sq" id="heroTitleSq"></span></h1>
-        <p class="hero__body">The brief came over dinner. Two founders, serious experience in pharma logistics and direct marketing, and a brand that said a lot less than the work behind it. They wanted to evolve it, carefully.</p>
+        <p class="hero__body">The brief came over dinner: two founders with serious experience in pharma logistics and direct marketing, and a brand that undersold the work behind it. They wanted to evolve it without losing what was already working.</p>
       </div>
 
       <!-- RIGHT: animated logo -->
       <div class="hero-right">
         <div class="hero-animation-wrap">
-          <svg id="tannitLogoSvg" viewBox="0 70 400 390" xmlns="http://www.w3.org/2000/svg">
+          <svg id="tannitLogoSvg" viewBox="0 70 400 400" xmlns="http://www.w3.org/2000/svg">
             <polygon fill="#744d82" points="336.58 310.63 316.09 310.63 300.08 281.96 288.63 261.48 272.62 232.8 214.34 128.48 224.58 110.14 293.1 232.8 309.11 261.48 320.56 281.96 336.58 310.63"/>
             <polygon fill="#000000" points="316.09 310.63 34.75 310.63 50.77 281.96 300.08 281.96 316.09 310.63"/>
             <path fill="#000000" d="M349.23,281.96l-11.45-20.48-16.02-28.67-82.85-148.33-14.34-25.67-14.34,25.67-10.24,18.34-14.34,25.67-58.28,104.33h-20.48l68.52-122.66,14.34-25.67,10.24-18.34,14.34-25.66-.15-.27h-28.38l-.15.27-10.24,18.33-14.34,25.67-82.86,148.33-16.02,28.67h226.42l-16.02-28.67-58.27-104.33,10.24-18.34,68.52,122.66,16.02,28.67,11.45,20.48,16.02,28.67h28.67l-16.02-28.67ZM243.94,232.8h-87.88l43.95-78.67,43.94,78.67Z"/>
             <text x="200" y="395" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="500" font-size="46" letter-spacing="4" fill="#000000">TANNIT</text>
             <text x="200" y="418" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="400" font-size="13" letter-spacing="8" fill="#000000">agency</text>
+            <rect x="191" y="325" width="18" height="18" fill="#6AA8A4"/>
           </svg>
         </div>
       </div>
@@ -2400,16 +2254,15 @@
     <div class="s-wrap">
       <div class="prob-header">
         <div class="prob-header-left reveal">
-          <div class="s-num">01</div>
-          <div class="s-chapter" style="margin-top: 1rem; margin-bottom: 0;">
-            <span class="s-chapter-num">(01)</span>
+          <div class="s-chapter" style="margin-bottom: 0;">
+            <span class="s-chapter-num" aria-hidden="true">(01)</span>
             <span class="s-label">The Problem</span>
           </div>
         </div>
         <div class="prob-body-block">
           <h2 class="s-headline reveal-wipe wipe-d1"><span class="wipe-inner"><em>Heavy brand.</em><br>Light promise.</span></h2>
-          <p class="s-body reveal reveal-d2">Tannit is one vendor for design, production, and delivery. The identity didn't reflect that. Dense illustrations, muted colors, visual layers that said a lot without landing anywhere.</p>
-          <p class="s-body reveal reveal-d3">Three things had to happen at once: clean up the noise, protect what already felt right (the triangle, the tone, the earned equity), and build one system that could speak to two completely different audiences.</p>
+          <p class="s-body reveal reveal-d2">Tannit is one vendor for design, production, and delivery, but the identity didn't read that way. Dense illustrations, muted colours, and layered visuals that signalled complexity rather than capability.</p>
+          <p class="s-body reveal reveal-d3">Three things had to happen at once: reduce the visual noise, protect what already worked (the triangle, the tone, the equity the founders had built), and create one system that could speak to two completely different audiences.</p>
 
           <!-- Two Audiences — anchored to the purple zone -->
           <div class="audiences reveal">
@@ -2417,14 +2270,14 @@
               <span class="audience-card__num" aria-hidden="true">01</span>
               <div class="audience-card__label audience-card__label--purple">Pharma Clients</div>
               <div class="audience-card__title">Rigour, traceability,<br>institutional tone.</div>
-              <p class="audience-card__body">These clients work inside regulatory frameworks and long approval chains. The brand needed to read as seriously as the materials it supports: data-first, no decorative noise.</p>
+              <p class="audience-card__body">These clients work inside regulatory frameworks and long approval chains; the brand needed to carry the same weight as the materials it supports: precise, undecorated, trustworthy.</p>
               <p class="audience-card__keywords">Institutional<span class="kw-dot"></span>Data-first<span class="kw-dot"></span>Rigorous</p>
             </div>
             <div class="audience-card audience-card--agency">
               <span class="audience-card__num" aria-hidden="true">02</span>
               <div class="audience-card__label audience-card__label--teal">Agencies</div>
               <div class="audience-card__title">A partner that works<br>behind the client's brand.</div>
-              <p class="audience-card__body">These clients want white-label execution. Tannit handles everything, the agency takes the credit. The brand needed to read as capable and quiet.</p>
+              <p class="audience-card__body">These clients want white-label execution: Tannit handles production, the agency presents the result. The brand needed to read as reliable and unobtrusive, without competing with the client's own identity.</p>
               <p class="audience-card__keywords">White-label<span class="kw-dot"></span>Frictionless<span class="kw-dot"></span>Invisible</p>
             </div>
           </div>
@@ -2434,366 +2287,385 @@
 
   </section>
 
-  <div class="s-divider"></div>
+  <!-- ============================================
+       STATEMENT BREAK
+  ============================================ -->
+  <section class="stmt-break">
+    <div class="stmt-sticky">
+      <div class="stmt-wrap">
+        <span class="stmt-label reveal-stmt">Tannit — Brand Identity System</span>
+        <p class="stmt-line reveal-stmt stmt-d1">Built for two worlds.</p>
+        <p class="stmt-line reveal-stmt stmt-d2">Designed as one<span class="stmt-dot" aria-hidden="true"></span></p>
+      </div>
+    </div>
+  </section>
 
 
   <!-- ============================================
        02 — PROCESO: HOW WE GOT THERE
   ============================================ -->
   <section class="proceso">
-    <div class="proceso-inner">
+    <div class="proceso-sticky">
 
-      <!-- Left: chapter + headline + decisions -->
-      <div class="proceso-left">
+    <!-- ROW 1: chapter + headline left / decisions right -->
+    <div class="proceso-top">
+      <div class="proceso-top-left">
         <div class="s-chapter reveal">
-          <span class="s-chapter-num">(02)</span>
+          <span class="s-chapter-num" aria-hidden="true">(02)</span>
           <span class="s-label">Process</span>
         </div>
         <h2 class="s-headline reveal-wipe wipe-d1"><span class="wipe-inner">Three decisions,<br>each with a reason.</span></h2>
-        <p class="s-body reveal reveal-d2">Each choice came from something specific: a problem, an audience, something the system had to protect.</p>
+        <p class="s-body reveal reveal-d2">Each choice came from something specific: a problem with the existing identity, a need from the audience, or something worth keeping from what was already there.</p>
+      </div>
 
-        <div class="proceso-decisions reveal reveal-d3">
-          <div class="proceso-card">
-            <span class="proceso-card__num">01</span>
-            <div class="proceso-card__content">
-              <span class="proceso-card__title">Reduce visual noise</span>
-              <span class="proceso-card__verdict">→ 4 colours · 2 illustrations</span>
-            </div>
+      <div class="proceso-decisions reveal reveal-d3">
+        <div class="proceso-card">
+          <span class="proceso-card__num">01</span>
+          <div class="proceso-card__content">
+            <span class="proceso-card__title">Reduce visual noise</span>
+            <span class="proceso-card__verdict">→ 4 colours · 2 illustrations</span>
           </div>
-          <div class="proceso-card">
-            <span class="proceso-card__num">02</span>
-            <div class="proceso-card__content">
-              <span class="proceso-card__title">Keep what already works</span>
-              <span class="proceso-card__verdict">→ Refined from what existed</span>
-            </div>
+        </div>
+        <div class="proceso-card">
+          <span class="proceso-card__num">02</span>
+          <div class="proceso-card__content">
+            <span class="proceso-card__title">Keep what already works</span>
+            <span class="proceso-card__verdict">→ Refined from what existed</span>
           </div>
-          <div class="proceso-card">
-            <span class="proceso-card__num">03</span>
-            <div class="proceso-card__content">
-              <span class="proceso-card__title">One system, two tones</span>
-              <span class="proceso-card__verdict">→ One system · zero compromise</span>
-            </div>
+        </div>
+        <div class="proceso-card">
+          <span class="proceso-card__num">03</span>
+          <div class="proceso-card__content">
+            <span class="proceso-card__title">One system, two tones</span>
+            <span class="proceso-card__verdict">→ One grid · two voices</span>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Right: typography specimen -->
-      <div class="proceso-typo reveal reveal-d2">
+    </div><!-- /proceso-sticky -->
+  </section>
 
-        <!-- Primary: Montserrat -->
-        <div class="typo-block">
-          <span class="typo-block-label">Primary · Headings</span>
-          <div class="typo-specimen-primary">Montserrat</div>
-          <div class="typo-specimen-weights">
-            <div class="typo-weight typo-weight-600">
-              <span>SemiBold</span>
-              <span>600</span>
-            </div>
-            <div class="typo-weight typo-weight-700">
-              <span>Bold</span>
-              <span>700</span>
-            </div>
-            <div class="typo-weight typo-weight-800">
-              <span>ExtraBold</span>
-              <span>800</span>
-            </div>
-          </div>
+  <!-- ============================================
+       02b — TYPOGRAPHY
+  ============================================ -->
+  <section class="typo-section">
+    <div class="typo-inner">
+
+    <!-- Typography header -->
+    <div class="proceso-typo-header">
+      <div class="s-chapter reveal">
+        <span class="s-label">Typography</span>
+      </div>
+      <h2 class="s-headline reveal-wipe wipe-d1"><span class="wipe-inner">Two typefaces.<br>One clear voice.</span></h2>
+      <p class="proceso-typo-header-note reveal reveal-d2">Montserrat for authority.<br>Helvetica Neue for clarity.</p>
+    </div>
+
+    <!-- ROW 2: typography panel — 3 columns -->
+    <div class="proceso-typo-row reveal reveal-d2">
+
+      <!-- Col A: Primary — Montserrat -->
+      <div class="ptypo-col ptypo-col--primary">
+        <span class="ptypo-label">Primary · Display</span>
+        <div class="ptypo-name">Montserrat</div>
+        <div class="ptypo-abb">Aa</div>
+        <p class="ptypo-desc">Geometric sans-serif chosen for headlines and brand statements. From Light to ExtraBold, its weight range covers every tone in the system without needing a third typeface.</p>
+        <div class="ptypo-weights-row">
+          <span class="ptypo-w" style="font-weight:600;">SemiBold</span>
+          <span class="ptypo-w" style="font-weight:700;">Bold</span>
+          <span class="ptypo-w" style="font-weight:800;">ExtraBold</span>
         </div>
+      </div>
 
-        <!-- Secondary: Helvetica -->
-        <div class="typo-block">
-          <span class="typo-block-label">Secondary · Body Copy</span>
-          <div class="typo-specimen-secondary">Helvetica</div>
-          <div class="typo-specimen-secondary-sub">Regular 400 · Medium 500 · Bold 700 · System font</div>
+      <!-- Col B: Secondary — Helvetica Neue -->
+      <div class="ptypo-col ptypo-col--secondary">
+        <span class="ptypo-label">Secondary · Body</span>
+        <div class="ptypo-name ptypo-name--helv">Helvetica Neue</div>
+        <div class="ptypo-abb ptypo-abb--helv">Aa</div>
+        <p class="ptypo-desc">Helvetica Neue carries body copy and UI labels. Its neutrality balances Montserrat's assertiveness, keeping long-form text clear without competing with the headlines.</p>
+        <div class="ptypo-weights-row">
+          <span class="ptypo-w ptypo-w--helv" style="font-weight:300;">Light</span>
+          <span class="ptypo-w ptypo-w--helv" style="font-weight:400;">Regular</span>
+          <span class="ptypo-w ptypo-w--helv" style="font-weight:700;">Bold</span>
         </div>
+      </div>
 
+      <!-- Col C: Usage specimen -->
+      <div class="ptypo-col ptypo-col--specimen">
+        <div class="ptypo-specimen-text">
+          <span class="ptypo-specimen-line">MADE IT</span>
+          <span class="ptypo-specimen-line">SIMPLE<span class="ptypo-specimen-dot"></span></span>
+        </div>
+        <div class="ptypo-specimen-sub">Specimen · Montserrat ExtraBold</div>
       </div>
 
     </div>
-  </section>
 
-  <div class="s-divider"></div>
+    </div><!-- /typo-inner -->
+  </section>
 
 
   <!-- ============================================
        03 — THE SYMBOL
   ============================================ -->
   <section class="symbol">
-    <div class="symbol-inner">
+    <div class="sym-inner">
 
-      <!-- Left: text -->
-      <div class="symbol-text">
-        <div class="s-chapter reveal">
-          <span class="s-chapter-num">(03)</span>
+    <!-- TOP ROW: cream diagonal over teal -->
+    <div class="sym-row-top">
+
+      <!-- Cream panel with diagonal clip (matches hero) -->
+      <div class="sym-cream-panel reveal">
+        <div class="s-chapter">
+          <span class="s-chapter-num" aria-hidden="true">(03)</span>
           <span class="s-label">The Symbol</span>
         </div>
-        <h2 class="s-headline reveal-wipe wipe-d1"><span class="wipe-inner">One fixed point:<br><em>the triangle.</em></span></h2>
-        <p class="s-body reveal reveal-d2">The symbol references the Phoenician goddess Tanit, the one element the founders chose from the start. A second inner triangle and a diagonal purple line came later, breaking symmetry and encoding the three women behind the agency into the mark.</p>
+        <h2 class="s-headline">One fixed point:<br><em>the triangle.</em></h2>
+        <p class="s-body">The symbol references the Phoenician goddess Tanit, the one element the founders kept from the start. A second inner triangle and a diagonal purple line came later: a detail that breaks the mark's symmetry and signals the three women who built the agency.</p>
       </div>
 
-      <!-- Right: desktop hover grid -->
-      <div class="logo-grid logo-grid--desktop">
-        <div class="logo-cell logo-cell--primary reveal">
-          <img class="logo-default" src="assets/TANNIT 2026/Logos/SVG/Primary logo - Black - Blue.svg" alt="Primary logo — colour">
-          <img class="logo-hover"   src="assets/TANNIT 2026/Logos/SVG/Primary Logo - White - Purpple.svg" alt="">
-          <span class="logo-cell__caption">Primary Logo</span>
-        </div>
-        <div class="logo-cell logo-cell--isotype reveal reveal-d1">
-          <img class="logo-default" src="assets/TANNIT 2026/Logos/SVG/Isotype- Square- purpple.svg" alt="Isotype">
-          <img class="logo-hover"   src="assets/TANNIT 2026/Logos/SVG/Isotype - square-  white - purpple.svg" alt="">
-          <span class="logo-cell__caption">Isotype</span>
-        </div>
-        <div class="logo-cell logo-cell--duo reveal reveal-d2">
-          <img class="logo-default" src="assets/TANNIT 2026/Logos/PNG/TANNIT logo-12.png" alt="Tannit logo 12">
-          <img class="logo-hover"   src="assets/TANNIT 2026/Logos/PNG/TANNIT logo-16.png" alt="Tannit logo 16">
-        </div>
-      </div>
-
-      <!-- Mobile: flat grid — all states visible -->
-      <div class="logo-grid logo-grid--mobile">
-        <div class="logo-cell" style="background:#F8F0E3;">
-          <img src="assets/TANNIT 2026/Logos/SVG/Primary logo - Black - Blue.svg" alt="Primary logo light">
-        </div>
-        <div class="logo-cell" style="background:#180F20;">
-          <img src="assets/TANNIT 2026/Logos/SVG/Primary Logo - White - Purpple.svg" alt="Primary logo dark">
-        </div>
-        <div class="logo-cell" style="background:#B4D5D3;">
-          <img src="assets/TANNIT 2026/Logos/SVG/Isotype- Square- purpple.svg" alt="Isotype teal">
-        </div>
-        <div class="logo-cell" style="background:#C9B5D8;">
-          <img src="assets/TANNIT 2026/Logos/SVG/Isotype - square-  white - purpple.svg" alt="Isotype lilac">
-        </div>
-        <div class="logo-cell" style="background:#C9B5D8;">
-          <img src="assets/TANNIT 2026/Logos/PNG/TANNIT logo-12.png" alt="Logo 12">
-        </div>
-        <div class="logo-cell" style="background:#4A3260;">
-          <img src="assets/TANNIT 2026/Logos/PNG/TANNIT logo-16.png" alt="Logo 16" style="filter:brightness(0) invert(1);">
-        </div>
+      <!-- Teal side: isotype black -->
+      <div class="sym-teal-logo reveal reveal-d1">
+        <img loading="lazy" class="sym-logo" src="assets/brand/logos/Isotype- Square- purpple.svg" alt="TANNIT isotype — square format">
+        <span class="sym-badge">Isotype · Teal</span>
+        <span class="sym-cell-note">Primary brand colour</span>
       </div>
 
     </div>
+
+    <!-- BOTTOM ROW: lavender + dark, 50/50 -->
+    <div class="sym-row-bottom">
+
+      <!-- Lavender: isotype white -->
+      <div class="sym-cell sym-cell--lavender reveal reveal-d2">
+        <img loading="lazy" class="sym-logo" src="assets/brand/logos/Isotype - square-  white - purpple.svg" alt="TANNIT isotype — white on lavender">
+        <span class="sym-badge">Isotype · Lavender</span>
+        <span class="sym-cell-note">The mark holds on neutral tints</span>
+      </div>
+
+      <!-- Dark: full primary logo white + pills -->
+      <div class="sym-cell sym-cell--dark reveal reveal-d3">
+        <div class="sym-pills">
+          <div class="sym-pill sym-pill--1"></div>
+          <div class="sym-pill sym-pill--2"></div>
+          <div class="sym-pill sym-pill--3"></div>
+          <div class="sym-pill sym-pill--4"></div>
+          <div class="sym-pill sym-pill--5"></div>
+        </div>
+        <img loading="lazy" class="sym-logo sym-logo--wide" src="assets/brand/logos/Primary Logo - White - Purpple.svg" alt="TANNIT primary logo — white">
+        <span class="sym-badge sym-badge--light">Primary Logo · Dark</span>
+        <span class="sym-cell-note sym-cell-note--light">Full identity on dark backgrounds</span>
+      </div>
+
+    </div>
+
+    </div><!-- /sym-inner -->
   </section>
-
-  <div class="s-divider"></div>
-
 
   <!-- ============================================
        03 — THE PALETTE
   ============================================ -->
-  <section class="palette">
-    <div class="palette-inner">
+  <section class="palette" id="paletteSection">
+    <div class="palette-sticky">
+      <div class="palette-inner">
 
-      <!-- Left: text -->
-      <div class="palette-text">
-        <div class="s-chapter reveal">
-          <span class="s-chapter-num">(04)</span>
-          <span class="s-label">The Palette</span>
-        </div>
-        <h2 class="s-headline reveal-wipe wipe-d1"><span class="wipe-inner">A palette<br>with more reach.</span></h2>
-        <p class="s-body reveal reveal-d2">The original palette had eight or more colors, most of them underused. The new system needed more presence, while staying calm enough for pharmaceutical clients in the room.</p>
-      </div>
-
-      <!-- Right: all visuals -->
-      <div class="palette-visuals">
-
-        <!-- Primary colors -->
-        <div class="palette-primaries">
-          <div class="palette-primary" style="background:#8A6E9A; color:#F8F0E3;">
-            <span class="pp-name">Violet</span>
-            <span class="pp-hex">#8A6E9A</span>
+        <!-- Left: text -->
+        <div class="palette-text">
+          <div class="s-chapter">
+            <span class="s-chapter-num" aria-hidden="true">(04)</span>
+            <span class="s-label">The Palette</span>
           </div>
-          <div class="palette-primary" style="background:#6AA8A4; color:#F8F0E3;">
-            <span class="pp-name">Teal</span>
-            <span class="pp-hex">#6AA8A4</span>
-          </div>
+          <h2 class="s-headline">Two colours.<br>One clear voice.</h2>
+          <p class="s-body">The original palette had eight or more colours with no hierarchy. The new system leads with two: a deep teal and a muted violet. Warm white and near-black complete the set — the kind of neutral ground that lets the two main colours do the talking.</p>
         </div>
 
-        <!-- Expanded palette -->
-        <div class="palette-expanded">
-          <div class="palette-swatch" style="background:#180F20; color:#F8F0E3;">
-            <span class="ps-hex">#180F20</span>
-          </div>
-          <div class="palette-swatch" style="background:#4A3260; color:#F8F0E3;">
-            <span class="ps-hex">#4A3260</span>
-          </div>
-          <div class="palette-swatch" style="background:#C9B5D8; color:#180F20;">
-            <span class="ps-hex">#C9B5D8</span>
-          </div>
-          <div class="palette-swatch" style="background:#E8E3ED; color:#4A3260;">
-            <span class="ps-hex">#E8E3ED</span>
-          </div>
-          <div class="palette-swatch" style="background:#B4D5D3; color:#180F20;">
-            <span class="ps-hex">#B4D5D3</span>
-          </div>
-          <div class="palette-swatch" style="background:#E8F4F3; color:#4A3260;">
-            <span class="ps-hex">#E8F4F3</span>
-          </div>
-          <div class="palette-swatch" style="background:#F2E8D4; color:#4A3260;">
-            <span class="ps-hex">#F2E8D4</span>
-          </div>
-          <div class="palette-swatch" style="background:#F8F0E3; color:#4A3260; box-shadow: inset 0 0 0 1px rgba(74,50,96,0.12);">
-            <span class="ps-hex">#F8F0E3</span>
-          </div>
-        </div>
+        <!-- Right: animated stage -->
+        <div class="palette-visuals">
+          <div class="palette-stage" id="paletteStage">
 
-        <!-- Proportions bar -->
-        <div class="palette-proportions">
-          <div class="prop-bar"></div>
-          <div class="prop-labels">
-            <span class="prop-label"><span class="prop-dot" style="background:#F8F0E3; border: 1px solid rgba(74,50,96,0.2);"></span>Warm White · 55%</span>
-            <span class="prop-label"><span class="prop-dot" style="background:#8A6E9A;"></span>Violet · 25%</span>
-            <span class="prop-label"><span class="prop-dot" style="background:#6AA8A4;"></span>Teal · 20%</span>
+            <!-- Orbs -->
+            <div class="palette-orbs" id="paletteOrbs">
+              <div class="palette-orb-wrap">
+                <div class="palette-orb-clip" id="orbClipViolet">
+                  <img loading="lazy" class="palette-orb" src="assets/palette/Ellipse 1.png" alt="Violet">
+                  <img loading="lazy" class="palette-orb-transition" id="orbTransViolet" src="assets/palette/elipse violeta transicion.png" alt="">
+                </div>
+                <span class="palette-orb-hex">#8A6E9A</span>
+              </div>
+              <div class="palette-orb-wrap">
+                <div class="palette-orb-clip" id="orbClipTeal">
+                  <img loading="lazy" class="palette-orb" src="assets/palette/Ellipse 5.png" alt="Teal">
+                  <img loading="lazy" class="palette-orb-transition" id="orbTransTeal" src="assets/palette/elipse teal transicion.png" alt="">
+                </div>
+                <span class="palette-orb-hex">#6AA8A4</span>
+              </div>
+            </div>
+
+            <!-- Proportions bar (fades in as orbs leave) -->
+            <div class="palette-bar-wrap" id="paletteBarWrap">
+              <div class="prop-bar"></div>
+              <div class="prop-labels">
+                <span class="prop-label"><span class="prop-dot" style="background:#6AA8A4;"></span>Teal · 45%</span>
+                <span class="prop-label"><span class="prop-dot" style="background:#8A6E9A;"></span>Violet · 35%</span>
+                <span class="prop-label"><span class="prop-dot" style="background:#F8F0E3; border:1px solid rgba(74,50,96,0.2);"></span>Warm White · 20%</span>
+              </div>
+            </div>
+
           </div>
         </div>
 
       </div>
-
     </div>
   </section>
 
-  <div class="s-divider"></div>
+  <div class="palette-color-tip" id="paletteColorTip">
+    <span class="palette-color-tip__swatch" id="paletteTipSwatch"></span>
+    <span id="paletteTipHex"></span>
+  </div>
+
 
 
   <!-- ============================================
        04 — ICONOGRAPHY
   ============================================ -->
   <section class="iconography">
+    <div class="icon-inner">
     <div class="icon-layout">
 
       <div class="icon-text">
         <div class="s-chapter reveal">
-          <span class="s-chapter-num">(05)</span>
+          <span class="s-chapter-num" aria-hidden="true">(05)</span>
           <span class="s-label">Iconography</span>
         </div>
         <h2 class="s-headline reveal-wipe wipe-d1"><span class="wipe-inner">28 icons.<br>Two variants each.</span></h2>
-        <p class="s-body reveal reveal-d2">Built for decks, one-pagers, and email headers. Consistent stroke weight, clear at any size. Hover to switch from teal to violet.</p>
+        <p class="s-body reveal reveal-d2">Designed for decks, one-pagers, and email headers, with consistent stroke weight that holds at any size. Hover to switch between the two brand colours.</p>
       </div>
 
       <div class="icon-right">
         <div class="icon-wall reveal">
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Briefing - Color=Azul, Dark=True.svg"        alt="Briefing">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Briefing - Color=Morado, Dark=True.svg"      alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Briefing - Color=Azul, Dark=True.svg"        alt="Briefing">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Briefing - Color=Morado, Dark=True.svg"      alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Design - Colores=Blue, Size=BIg.svg"          alt="Design">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Design - Colores=Morado, Size=BIg.svg"        alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Design - Colores=Blue, Size=BIg.svg"          alt="Design">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Design - Colores=Morado, Size=BIg.svg"        alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Document Certification -Color = Blue.svg"         alt="Certification">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Document Certification - Property 1=Variant2.svg" alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Document Certification -Color = Blue.svg"         alt="Certification">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Document Certification - Property 1=Variant2.svg" alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Production - Size=Big, Color=Blue, Property 3=Default.svg"   alt="Production">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Production - Size=Big, Color=Purple, Property 3=Defaul.svg"  alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Production - Size=Big, Color=Blue, Property 3=Default.svg"   alt="Production">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Production - Size=Big, Color=Purple, Property 3=Defaul.svg"  alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Shipping - Color=Blue, Size=Big.svg"          alt="Shipping">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Shipping - Color=Purple, Size=Big.svg"        alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Shipping - Color=Blue, Size=Big.svg"          alt="Shipping">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Shipping - Color=Purple, Size=Big.svg"        alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Check - Color = Blue.svg"                     alt="Check">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Check - Color =  Purpple.svg"                 alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Check - Color = Blue.svg"                     alt="Check">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Check - Color =  Purpple.svg"                 alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Email marketing - Color=Blue.svg"             alt="Email marketing">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Email marketing - Color=Purpple.svg"          alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Email marketing - Color=Blue.svg"             alt="Email marketing">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Email marketing - Color=Purpple.svg"          alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Email Contact - Color=Blue 1, Size=Big.svg"   alt="Email contact">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Email Contact - Color=Purpple, Size=Big.svg"  alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Email Contact - Color=Blue 1, Size=Big.svg"   alt="Email contact">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Email Contact - Color=Purpple, Size=Big.svg"  alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Certified Email - Color=Purple 2.svg"         alt="Certified email">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Certified Email - Color=Purple 1.svg"         alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Certified Email - Color=Purple 2.svg"         alt="Certified email">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Certified Email - Color=Purple 1.svg"         alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Printing - Color=Blue 1.svg"                  alt="Printing">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Printing - Color=Purple 1.svg"                alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Printing - Color=Blue 1.svg"                  alt="Printing">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Printing - Color=Purple 1.svg"                alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Database - SIze=Big, Color=Blue.svg"          alt="Database">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Database - SIze=Big, Color=Purple.svg"        alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Database - SIze=Big, Color=Blue.svg"          alt="Database">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Database - SIze=Big, Color=Purple.svg"        alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Analytic - Color = Blue.svg"                  alt="Analytics">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Analytic - Color = Blue.svg"                  alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Analytic - Color = Blue.svg"                  alt="Analytics">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Analytic - Color = Blue.svg"                  alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Automation -Color=Blue.svg"                   alt="Automation">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Automation -Color=Purplle.svg"                alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Automation -Color=Blue.svg"                   alt="Automation">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Automation -Color=Purplle.svg"                alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Translation - Color=Blue 1.svg"               alt="Translation">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Translation - Color=Purpple 2.svg"            alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Translation - Color=Blue 1.svg"               alt="Translation">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Translation - Color=Purpple 2.svg"            alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Global Worldwide - Color=Blue 1.svg"          alt="Global">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Global Worldwide - Color=Purple 1.svg"        alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Global Worldwide - Color=Blue 1.svg"          alt="Global">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Global Worldwide - Color=Purple 1.svg"        alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Location - Color=Blue 1.svg"                  alt="Location">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Location - Color=Purple 1.svg"                alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Location - Color=Blue 1.svg"                  alt="Location">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Location - Color=Purple 1.svg"                alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Calendar - Color=Blue, size=Big.svg"          alt="Calendar">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Calendar - Color=Purple 1, size=Big.svg"      alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Calendar - Color=Blue, size=Big.svg"          alt="Calendar">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Calendar - Color=Purple 1, size=Big.svg"      alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Phone Blue.svg"                               alt="Phone">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Phone Purple.svg"                             alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Phone Blue.svg"                               alt="Phone">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Phone Purple.svg"                             alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/LinkedIn - Color=Blue.svg"                    alt="LinkedIn">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/LinkedIn - Color=Purple 1.svg"                alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/LinkedIn - Color=Blue.svg"                    alt="LinkedIn">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/LinkedIn - Color=Purple 1.svg"                alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Landing Pages - Color=Blue 1.svg"             alt="Landing pages">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Landing Pages - Color=Purple 1.svg"           alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Landing Pages - Color=Blue 1.svg"             alt="Landing pages">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Landing Pages - Color=Purple 1.svg"           alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Web Hosting - Color=Blue.svg"                 alt="Web hosting">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Web Hosting - Property 1=Purplle.svg"         alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Web Hosting - Color=Blue.svg"                 alt="Web hosting">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Web Hosting - Property 1=Purplle.svg"         alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Hospital - Color = Blue.svg"                  alt="Hospital">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Hospital - Color = Purpple.svg"               alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Hospital - Color = Blue.svg"                  alt="Hospital">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Hospital - Color = Purpple.svg"               alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Team Collaboration - Color=Blue 1.svg"        alt="Team">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Team Collaboration - Color=Blue 2.svg"        alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Team Collaboration - Color=Blue 1.svg"        alt="Team">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Team Collaboration - Color=Blue 2.svg"        alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Info - Color=Blue.svg"                        alt="Info">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Info - Color=Purple.svg"                      alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Info - Color=Blue.svg"                        alt="Info">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Info - Color=Purple.svg"                      alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Warning Alert - Color=Blue 1.svg"             alt="Warning">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Warning Alert - Color=Purple 1.svg"           alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Warning Alert - Color=Blue 1.svg"             alt="Warning">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Warning Alert - Color=Purple 1.svg"           alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Close Exit - Color=Blue.svg"                  alt="Close">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Close Exit - Color=Purple 1.svg"              alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Close Exit - Color=Blue.svg"                  alt="Close">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Close Exit - Color=Purple 1.svg"              alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Certified ISO - Color=Blue 1.svg"             alt="ISO">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Certified ISO - Color=Purple 1.svg"           alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Certified ISO - Color=Blue 1.svg"             alt="ISO">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Certified ISO - Color=Purple 1.svg"           alt="">
       </div>
       <div class="icon-cell">
-        <img class="icon-blue"   src="assets/TANNIT 2026/Icons/SVG/Quality Control - Color=Blue 2.svg"           alt="Quality control">
-        <img class="icon-purple" src="assets/TANNIT 2026/Icons/SVG/Quality Control - Color=Purple 1.svg"         alt="">
+        <img loading="lazy" class="icon-blue"   src="assets/brand/icons/Quality Control - Color=Blue 2.svg"           alt="Quality control">
+        <img loading="lazy" class="icon-purple" src="assets/brand/icons/Quality Control - Color=Purple 1.svg"         alt="">
       </div>
     </div><!-- /icon-wall -->
         <div class="icon-wall-hint reveal">
-          <span class="icon-wall-hint-label">Hover to switch variant · Teal / Violet</span>
+          <span class="icon-wall-hint-label">Hover to switch · Teal / Violet</span>
           <span class="icon-wall-hint-count">28 icons · 2 variants · 56 files</span>
         </div>
       </div><!-- /icon-right -->
 
     </div><!-- /icon-layout -->
+    </div><!-- /icon-inner -->
   </section>
 
-  <div class="s-divider"></div>
 
 
   <!-- ============================================
@@ -2804,11 +2676,11 @@
 
       <div class="illus-text">
         <div class="s-chapter reveal">
-          <span class="s-chapter-num">(06)</span>
+          <span class="s-chapter-num" aria-hidden="true">(06)</span>
           <span class="s-label">Illustration</span>
         </div>
         <h2 class="s-headline reveal-wipe wipe-d1"><span class="wipe-inner">Two delivered.<br>A third on the way.</span></h2>
-        <p class="s-body reveal reveal-d2">Two illustrations, each with a color and monochrome variant: clean lines, palette restricted to system colors, placed with intention across decks and one-pagers.</p>
+        <p class="s-body reveal reveal-d2">Two illustrations, each with a colour and a monochrome version. Clean linework, system colours only, sized to work across decks and one-pagers without adding visual weight.</p>
         <div class="honest-note reveal reveal-d3">
           <p><strong>One honest note.</strong> A third illustration is taking longer than expected. Past a certain point, forcing it beyond your current skill produces less than bringing in a specialist. A system built around transferable files outlasts whoever made it.</p>
         </div>
@@ -2818,15 +2690,15 @@
         <div class="illus-grid">
           <figure class="illus-figure reveal">
             <div class="illus-img-wrap">
-              <img class="illus-img-color"  src="assets/TANNIT 2026/Illustration/Medica - Color.png"       alt="Medica — colour variant">
-              <img class="illus-img-pastel" src="assets/TANNIT 2026/Illustration/Medica Color Pastel.png"  alt="Medica — pastel variant">
+              <img loading="lazy" class="illus-img-color"  src="assets/brand/illustrations/Medica - Color.png"       alt="Medica — colour variant">
+              <img loading="lazy" class="illus-img-pastel" src="assets/brand/illustrations/Medica Color Pastel.png"  alt="Medica — pastel variant">
             </div>
             <figcaption class="illus-caption">Medica · Pharma contexts</figcaption>
           </figure>
           <figure class="illus-figure illus-figure--computer reveal reveal-d2">
             <div class="illus-img-wrap">
-              <img class="illus-img-color"  src="assets/TANNIT 2026/Illustration/Illustratoion - computer.png"       alt="Computer — colour variant">
-              <img class="illus-img-pastel" src="assets/TANNIT 2026/Illustration/Illustration- Computer pastel.png"  alt="Computer — pastel variant">
+              <img loading="lazy" class="illus-img-color"  src="assets/brand/illustrations/Illustratoion - computer.png"       alt="Computer — colour variant">
+              <img loading="lazy" class="illus-img-pastel" src="assets/brand/illustrations/Illustration- Computer pastel.png"  alt="Computer — pastel variant">
             </div>
             <figcaption class="illus-caption">Computer · Agency contexts</figcaption>
           </figure>
@@ -2836,7 +2708,6 @@
     </div>
   </section>
 
-  <div class="s-divider"></div>
 
 
   <!-- ============================================
@@ -2847,12 +2718,12 @@
     <!-- Header -->
     <div class="applied-intro s-wrap">
       <div class="s-chapter reveal">
-        <span class="s-chapter-num">(07)</span>
+        <span class="s-chapter-num" aria-hidden="true">(07)</span>
         <span class="s-label">The Brand, Applied</span>
       </div>
       <div class="applied-intro-grid">
         <h2 class="s-headline reveal-wipe wipe-d1"><span class="wipe-inner">The real test:<br><em>the founders use it on their own.</em></span></h2>
-        <p class="s-body reveal reveal-d2">The pitch deck has a fixed structure and swappable content. The founders update cases and numbers each time, the layout stays. One grid, same typefaces and colors, two completely different conversations.</p>
+        <p class="s-body reveal reveal-d2">The pitch deck has a fixed structure with swappable content: the founders update cases and numbers each time, the layout stays. One grid and the same typefaces carry two completely different conversations.</p>
       </div>
     </div>
 
@@ -2860,13 +2731,13 @@
     <div class="ta-split">
       <div class="ta-panel ta-panel--purple reveal reveal-left">
         <div class="ta-doc">
-          <img src="assets/One page- pharma.jpg" alt="Tannit one-pager for pharma clients" style="width:100%;height:auto;display:block;">
+          <img loading="lazy" src="assets/mockups/One page- pharma.jpg" alt="Tannit one-pager for pharma clients" style="width:100%;height:auto;display:block;">
         </div>
         <span class="ta-annotation">Pharma clients</span>
       </div>
       <div class="ta-panel ta-panel--teal reveal reveal-right">
         <div class="ta-doc">
-          <img src="assets/Onepage - Agencias.jpg" alt="Tannit one-pager for agency clients" style="width:100%;height:auto;display:block;">
+          <img loading="lazy" src="assets/mockups/Onepage - Agencias.jpg" alt="Tannit one-pager for agency clients" style="width:100%;height:auto;display:block;">
         </div>
         <span class="ta-annotation">Agency clients</span>
       </div>
@@ -2883,7 +2754,7 @@
 
       <!-- Business card — blue textured -->
       <div class="mw-item mw-card-b reveal">
-        <img src="assets/textured paper and backgroun-blue.png" alt="Tannit business card — blue textured">
+        <img loading="lazy" src="assets/backgrounds/textured paper and backgroun-blue.png" alt="Tannit business card — blue textured">
         <div class="mw-caption">
           <span class="mw-caption-title">Business Card · Blue</span>
           <span class="mw-caption-desc">Textured paper · Teal gradient</span>
@@ -2892,7 +2763,7 @@
 
       <!-- Business card — pink -->
       <div class="mw-item mw-card-p reveal">
-        <img src="assets/pale background- purple.png" alt="Tannit business card — pink">
+        <img loading="lazy" src="assets/backgrounds/pale background- purple.png" alt="Tannit business card — pink">
         <div class="mw-caption">
           <span class="mw-caption-title">Business Card · Pink</span>
           <span class="mw-caption-desc">Pale background · Purple gradient</span>
@@ -2901,7 +2772,7 @@
 
       <!-- Pitch deck -->
       <div class="mw-item mw-pitch reveal">
-        <img src="assets/pitch deck 2.png" alt="Tannit pitch deck 2026">
+        <img loading="lazy" src="assets/mockups/pitch deck 2.png" alt="Tannit pitch deck 2026">
         <div class="mw-caption">
           <span class="mw-caption-title">Pitch Deck</span>
           <span class="mw-caption-desc">Fixed structure, variable content</span>
@@ -2910,7 +2781,7 @@
 
       <!-- Papel 1 -->
       <div class="mw-item mw-papel-1 reveal">
-        <img src="assets/Papel. 1.jpg" alt="Tannit papel mockup 1">
+        <img loading="lazy" src="assets/mockups/Papel. 1.jpg" alt="Tannit papel mockup 1">
         <div class="mw-caption">
           <span class="mw-caption-title">Stationery · Sheet 1</span>
           <span class="mw-caption-desc">Branded paper · Corporate identity</span>
@@ -2919,20 +2790,16 @@
 
       <!-- Papel 2 -->
       <div class="mw-item mw-papel-2 reveal">
-        <img src="assets/papel 2.jpg" alt="Tannit papel mockup 2">
+        <img loading="lazy" src="assets/mockups/papel 2.jpg" alt="Tannit papel mockup 2">
         <div class="mw-caption">
           <span class="mw-caption-title">Stationery · Sheet 2</span>
           <span class="mw-caption-desc">Branded paper · Corporate identity</span>
         </div>
       </div>
 
-      <!-- Brand guidelines placeholder -->
+      <!-- Brand guidelines -->
       <div class="mw-item mw-guide reveal">
-        <div class="mw-placeholder">
-          <img src="assets/TANNIT 2026/Logos/SVG/Horizontal - Monochrome.- White.svg" alt="TANNIT" style="height:18px;filter:brightness(0) invert(1);opacity:0.18;">
-          <span class="mw-placeholder-label">Brand Guidelines · 2026</span>
-          <span class="mw-placeholder-sub">→ PDF preview coming</span>
-        </div>
+        <img loading="lazy" src="assets/mockups/bgrandguidelines.png" alt="Brand Guidelines 2026">
         <div class="mw-caption">
           <span class="mw-caption-title">Brand Guidelines</span>
           <span class="mw-caption-desc">PDF + interactive HTML</span>
@@ -2942,20 +2809,21 @@
     </div>
   </section>
 
-  <div class="s-divider s-divider--dark"></div>
 
 
   <!-- ============================================
        08 — WHAT I LEARNED
   ============================================ -->
   <section class="learned">
+    <div class="learned-sticky">
     <div class="learned-inner">
-      <div class="learned-num reveal">08</div>
-      <h2 class="learned-headline reveal reveal-d1">Where the time went,<br>and where it should have gone.</h2>
-      <p class="learned-body reveal reveal-d2">I spent real hours building animated versions of the illustrations, for social media and presentations. Tannit generates few contexts for either, and none of that production time turned into something the founders actually use.</p>
-      <p class="learned-body reveal reveal-d3">Those hours would have gone further into presentation and email templates, tools the founders still use every week without a clean system. Next time: templates before animation.</p>
-      <p class="learned-body reveal reveal-d4">The same applies to illustration. Knowing when to bring in a specialist is a design decision too. A system built around one person's availability has a shelf life. Transferable files outlast whoever made them.</p>
+      <div class="learned-num reveal" aria-hidden="true">08</div>
+      <h2 class="learned-headline reveal reveal-d1">What I'd do differently<br>with the same brief.</h2>
+      <p class="learned-body reveal reveal-d2">I spent real hours animating illustrations: loops for social, motion variants for decks. Tannit barely uses either format. The work was technically solid and completely beside the point. Deliverables should follow how the client actually communicates.</p>
+      <p class="learned-body reveal reveal-d3">The founders still build every pitch deck and email from scratch. A reusable template would have delivered more value per hour than any animation I exported. That's where the system should have started.</p>
+      <p class="learned-body reveal reveal-d4">The illustrations follow the same pattern. Two pieces are in use; a third was planned and never delivered because it depended entirely on my availability. Files that any designer can open and extend are worth more to the client than files that require a call to me first.</p>
     </div>
+    </div><!-- /learned-sticky -->
   </section>
 
 
@@ -2964,36 +2832,36 @@
   ============================================ -->
   <section class="closing-statement">
     <div class="closing-statement-inner">
-      <p class="closing-quote reveal">Tannit left with <strong>a full toolkit, digital brand guidelines,</strong> and a clearer picture of who they are visually.</p>
+      <p class="closing-quote reveal">Two founders, three women, one brief over dinner.<br>Tannit left with <strong>a system they can use on their own</strong> and a brand that says what they actually do.</p>
     </div>
-  </section>
 
-  <footer class="closing">
-    <div class="closing-nav">
-      <a href="index.html#work" class="closing-nav-item reveal">
-        <span class="closing-nav-label">← Portfolio</span>
-        <span class="closing-nav-title">Back to work</span>
-      </a>
-      <a href="contact.html" class="closing-nav-item reveal reveal-d1">
-        <span class="closing-nav-label">Get in touch</span>
-        <span class="closing-nav-title">Contact <span class="closing-nav-arrow">→</span></span>
-      </a>
-    </div>
-    <div class="closing-bottom">
-      <span class="closing-bottom-copy">Aroa — UX &amp; Brand Design</span>
-      <span class="closing-bottom-copy">Tannit Agency · 2024</span>
-    </div>
-  </footer>
+    <footer class="closing">
+      <div class="closing-nav">
+        <a href="index.html#work" class="closing-nav-item reveal">
+          <span class="closing-nav-label">← Portfolio</span>
+          <span class="closing-nav-title">Back to work</span>
+        </a>
+        <a href="contact.html" class="closing-nav-item reveal reveal-d1">
+          <span class="closing-nav-label">Got a brief? Let's talk.</span>
+          <span class="closing-nav-title">Contact <span class="closing-nav-arrow">→</span></span>
+        </a>
+      </div>
+      <div class="closing-bottom">
+        <span class="closing-bottom-copy">Aroa — UX &amp; Brand Design</span>
+        <span class="closing-bottom-copy">Tannit Agency · 2024</span>
+      </div>
+    </footer>
+  </section>
 
 
   <!-- SIDE NAV -->
   <nav class="side-nav" aria-label="Quick navigation">
     <a href="index.html" class="back-arrow" aria-label="Back to home" data-tip="Back">
-      <img src="assets/images/ui/Back-Hand.png" alt="">
+      <img loading="lazy" src="assets/ui/Back-Hand.png" alt="">
     </a>
     <a href="contact.html" class="contact-envelope" aria-label="Go to contact" data-tip="Write me">
-      <img class="env-closed" src="assets/images/ui/sobre_cerrado.png" alt="">
-      <img class="env-open"   src="assets/images/ui/sobre_abierto.png" alt="">
+      <img loading="lazy" class="env-closed" src="assets/ui/sobre_cerrado.png" alt="">
+      <img loading="lazy" class="env-open"   src="assets/ui/sobre_abierto.png" alt="">
     </a>
   </nav>
 
@@ -3027,7 +2895,7 @@
 
       /* ── Timing ── */
       var DELAY     = 350;
-      var DUR_WIPE  = 900;   /* logo mark clip wipe */
+      var DUR_WIPE  = 1400;   /* logo mark clip wipe */
       var LOGO_H    = 245;   /* reveals y:70→y:315 (mark only) */
       var HOLD1     = 400;   /* hold on triangle before dot */
 
@@ -3038,10 +2906,10 @@
       var T_HOLD=8, T_PREP=20, T_SWEEP=60, T_SETTLE=82, T_TS=70, T_TE=110;
       var DOT_FPS=38, DOT_END=115;
       var DOT_DUR=(DOT_END/DOT_FPS)*1000;  /* ~3.03s */
-      var HOLD2     = 450;
+      var HOLD2     = 120;
 
-      var REVEAL_AT = DOT_START + DOT_DUR + HOLD2;  /* ~4.78s */
-      var OVERLAY_FADE_DELAY = 1050;  /* overlay fades when cream is ~80% done */
+      var REVEAL_AT = DOT_START + DOT_DUR + HOLD2;  /* ~4.45s */
+      var OVERLAY_FADE_DELAY = 350;  /* overlay fades when cream is ~80% done */
 
       var t0=null, revealDone=false, dotStarted=false;
 
@@ -3085,17 +2953,24 @@
         /* Phase 3 — hero reveal */
         if (!revealDone && e>=REVEAL_AT) {
           revealDone=true;
+          document.body.classList.remove('anim-lock');
           creamPanel.classList.add('active');
           if (heroInner) heroInner.classList.add('active');
           /* Overlay waits for cream to settle, then pops off */
           setTimeout(function(){ overlay.classList.add('done'); }, OVERLAY_FADE_DELAY);
-          /* Title square on left after overlay gone */
-          if (titleSq) setTimeout(function(){ titleSq.classList.add('visible'); }, OVERLAY_FADE_DELAY+500);
+          /* Hero text + meta start after overlay fully fades (650ms) + 500ms buffer */
+          var heroSection = overlay.closest('section') || document.querySelector('.hero');
+          var HERO_ANIMS_DELAY = OVERLAY_FADE_DELAY + 650 + 500;
+          setTimeout(function(){
+            if (heroSection) heroSection.classList.add('anims-go');
+            if (titleSq) titleSq.classList.add('visible');
+          }, HERO_ANIMS_DELAY);
         }
 
         if (!revealDone || e<REVEAL_AT+200) requestAnimationFrame(tick);
       }
 
+      document.body.classList.add('anim-lock');
       requestAnimationFrame(tick);
     })();
 
@@ -3125,45 +3000,149 @@
     }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
     revealEls.forEach(el => revealObs.observe(el));
 
+    /* ── Palette scroll-locked animation ── */
+    (function () {
+      var section      = document.getElementById('paletteSection');
+      var orbs         = document.getElementById('paletteOrbs');
+      var clipViolet   = document.getElementById('orbClipViolet');
+      var clipTeal     = document.getElementById('orbClipTeal');
+      var transViolet  = document.getElementById('orbTransViolet');
+      var transTeal    = document.getElementById('orbTransTeal');
+      var bar          = document.getElementById('paletteBarWrap');
+      if (!section || !orbs || !bar) return;
+
+      function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
+      function map(v, a, b)     { return clamp((v - a) / (b - a), 0, 1); }
+      function lerp(a, b, t)    { return a + (b - a) * t; }
+
+      function update() {
+        var r    = section.getBoundingClientRect();
+        var vh   = window.innerHeight;
+        var trav = section.offsetHeight - vh;
+        var p    = clamp(-r.top / trav, 0, 1);
+
+        /* KF1 (p 0→0.18): orbs fade in as circles */
+        var orbO = map(p, 0.0, 0.18);
+        orbs.style.opacity = orbO;
+
+        /* KF2: transición arranca en escala 1 y para de crecer en p=0.32 */
+        var ts = lerp(1.0, 1.28, map(p, 0.18, 0.32));
+        var to = map(p, 0.18, 0.25);
+        if (transViolet) { transViolet.style.setProperty('--ts', ts.toFixed(3)); transViolet.style.setProperty('--to', to.toFixed(3)); }
+        if (transTeal)   { transTeal.style.setProperty('--ts', ts.toFixed(3));   transTeal.style.setProperty('--to', to.toFixed(3)); }
+
+        /* máscara del clip también se abre en paralelo */
+        var ms = lerp(42, 92, map(p, 0.18, 0.36));
+        if (clipViolet) clipViolet.style.setProperty('--ms', ms.toFixed(1) + '%');
+        if (clipTeal)   clipTeal.style.setProperty('--ms', ms.toFixed(1) + '%');
+
+        /* KF3 (p 0.60→0.82): orbs fade out */
+        if (p > 0.60) orbs.style.opacity = 1 - map(p, 0.60, 0.82);
+
+        /* KF4 (p 0.68→0.95): bar rises in */
+        var barO = map(p, 0.68, 0.95);
+        var barY = (1 - map(p, 0.68, 0.95)) * 28;
+        bar.style.opacity   = barO;
+        bar.style.transform = 'translateY(' + barY + 'px)';
+      }
+
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+
+      /* ── Orb color tooltip on hover ── */
+      var tip     = document.getElementById('paletteColorTip');
+      var tipHex  = document.getElementById('paletteTipHex');
+      var tipSwat = document.getElementById('paletteTipSwatch');
+
+      var violetStops = [
+        { pct: 0,   hex: '#8A6E9A' },
+        { pct: 0.22, hex: '#9E83AE' },
+        { pct: 0.40, hex: '#B59CC8' },
+        { pct: 0.56, hex: '#D9C8E8' },
+        { pct: 0.72, hex: '#EDE8F5' },
+        { pct: 1,   hex: '#F8F0E3' }
+      ];
+      var tealStops = [
+        { pct: 0,    hex: '#6AA8A4' },
+        { pct: 0.22, hex: '#7DBAB6' },
+        { pct: 0.40, hex: '#96C8C4' },
+        { pct: 0.56, hex: '#C2DFDD' },
+        { pct: 0.72, hex: '#DCF0EE' },
+        { pct: 1,    hex: '#F0FAF9' }
+      ];
+
+      function hexFromStops(stops, yPct) {
+        for (var i = stops.length - 2; i >= 0; i--) {
+          if (yPct >= stops[i].pct) {
+            var t = (yPct - stops[i].pct) / (stops[i+1].pct - stops[i].pct);
+            return t < 0.5 ? stops[i].hex : stops[i+1].hex;
+          }
+        }
+        return stops[0].hex;
+      }
+
+      function bindOrbTip(clipEl, stops, xInsetLeft, xInsetRight) {
+        if (!clipEl) return;
+        clipEl.addEventListener('mouseleave', function() { if (tip) tip.classList.remove('visible'); });
+        clipEl.addEventListener('mousemove', function(e) {
+          var r    = clipEl.getBoundingClientRect();
+          var xOff = e.clientX - r.left;
+          /* fuera de la zona válida → ocultar */
+          if (xOff < xInsetLeft || xOff > r.width - xInsetRight) {
+            tip.classList.remove('visible');
+            return;
+          }
+          var yPct = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+          var hex  = hexFromStops(stops, yPct);
+          tipHex.textContent       = hex;
+          tipSwat.style.background = hex;
+          tip.style.left           = e.clientX + 'px';
+          tip.style.top            = (e.clientY - 38) + 'px';
+          tip.style.transform      = 'translateX(-50%)';
+          tip.classList.add('visible');
+        });
+      }
+
+      /* violeta: ignorar 20px izq + 50px der (zona transparente interior) */
+      /* teal:    ignorar 50px izq (zona transparente interior) + 20px der  */
+      bindOrbTip(clipViolet, violetStops, 20, 50);
+      bindOrbTip(clipTeal,   tealStops,   50, 20);
+    })();
+
+    /* ── Statement Break ── */
+    const stmtEls = document.querySelectorAll('.reveal-stmt');
+    const stmtObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-visible');
+          stmtObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.6 });
+    stmtEls.forEach(el => stmtObs.observe(el));
+
 
     /* ── Scroll Progress Line ── */
     const progressFill = document.getElementById('progressFill');
+    const scrollProgressEl = document.getElementById('scrollProgress');
     if (progressFill) {
+      let rafPending = false;
       const updateProgress = () => {
-        const docH = document.documentElement.scrollHeight - window.innerHeight;
-        const pct  = docH > 0 ? (window.scrollY / docH) * 100 : 0;
-        progressFill.style.height = pct + '%';
+        if (rafPending) return;
+        rafPending = true;
+        requestAnimationFrame(() => {
+          const docH = document.documentElement.scrollHeight - window.innerHeight;
+          const pct  = docH > 0 ? Math.round((window.scrollY / docH) * 1000) / 10 : 0;
+          progressFill.style.height = pct + '%';
+          if (scrollProgressEl) scrollProgressEl.setAttribute('aria-valuenow', Math.round(pct));
+          rafPending = false;
+        });
       };
       window.addEventListener('scroll', updateProgress, { passive: true });
       updateProgress();
     }
 
-    /* ── Before/After section cinematic entrance ── */
-    const baSection = document.getElementById('baSection');
-    if (baSection) {
-      const baObs = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            baObs.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.08 });
-      baObs.observe(baSection);
-    }
 
-    /* ── Palette stagger ── */
-    const paletteStaggerObs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (!e.isIntersecting) return;
-        e.target.querySelectorAll('.palette-primary, .palette-swatch, .palette-proportions').forEach((s, i) => {
-          setTimeout(() => s.classList.add('visible'), i * 60);
-        });
-        paletteStaggerObs.unobserve(e.target);
-      });
-    }, { threshold: 0.15 });
-    const paletteInner = document.querySelector('.palette-inner');
-    if (paletteInner) paletteStaggerObs.observe(paletteInner);
 
     /* ── Icon wall stagger ── */
     const iconWall = document.querySelector('.icon-wall');
@@ -3181,121 +3160,6 @@
       iconObs.observe(iconWall);
     }
 
-    /* ── Before/After drag slider ── */
-    const container = document.getElementById('baContainer');
-    const after = document.getElementById('baAfter');
-    const handle = document.getElementById('baHandle');
-
-    let dragging = false;
-
-    function setPosition(x) {
-      const rect = container.getBoundingClientRect();
-      let pct = ((x - rect.left) / rect.width) * 100;
-      pct = Math.min(Math.max(pct, 5), 95);
-      after.style.clipPath = `inset(0 0 0 ${pct}%)`;
-      handle.style.left = `${pct}%`;
-    }
-
-    container.addEventListener('mousedown',  e => { dragging = true; setPosition(e.clientX); });
-    container.addEventListener('touchstart', e => { dragging = true; setPosition(e.touches[0].clientX); }, { passive: true });
-    window.addEventListener('mousemove',  e => { if (dragging) setPosition(e.clientX); });
-    window.addEventListener('touchmove',  e => { if (dragging) setPosition(e.touches[0].clientX); }, { passive: true });
-    window.addEventListener('mouseup',  () => dragging = false);
-    window.addEventListener('touchend', () => dragging = false);
-
-    /* ── Tannit Logo Hero Animation ── */
-    (function () {
-      var square   = document.getElementById('heroAnimSquare');
-      var clipTR   = document.getElementById('heroClipTannitRect');
-      var tannitG  = document.getElementById('heroTannitText');
-      var clipMR   = document.getElementById('heroClipMadeRect');
-      var madeG    = document.getElementById('heroMadeText');
-      if (!square) return;
-
-      var SQ_SIZE = 12, TL = 80, TR = 320;
-      var SQ_IX = 200, SQ_IY = 322;
-      var SQ_SX = 66, SQ_EX = 328, SQ_FX = 276, SQ_FY = 383;
-      var T_HOLD = 8, T_PREP = 20, T_SWEEP = 60, T_SETTLE = 82;
-      var T_TS = 70, T_TE = 110;
-
-      function polyInOut(n, t) {
-        return t < 0.5 ? Math.pow(t * 2, n) / 2 : 1 - Math.pow((1 - t) * 2, n) / 2;
-      }
-      function polyOut(n, t) { return 1 - Math.pow(1 - t, n); }
-      function backOut(s, t)  { var u = 1 - t; return 1 - u * u * ((s + 1) * u - s); }
-
-      function lerp(f, f0, f1, v0, v1, ease) {
-        var t = Math.min(1, Math.max(0, (f - f0) / (f1 - f0)));
-        if (ease) t = ease(t);
-        return v0 + (v1 - v0) * t;
-      }
-
-      var titleSq  = document.getElementById('heroTitleSq');
-      var sqDone   = false;
-
-      var t0 = null;
-      function tick(ts) {
-        if (!t0) t0 = ts;
-        var frame = Math.min(((ts - t0) / 1000) * 30, 270);
-
-        if (!sqDone && frame >= T_TE) {
-          if (titleSq) titleSq.classList.add('visible');
-          sqDone = true;
-        }
-
-        var sx, sy;
-        if (frame <= T_HOLD) {
-          sx = SQ_IX; sy = SQ_IY;
-        } else if (frame <= T_PREP) {
-          sx = lerp(frame, T_HOLD, T_PREP, SQ_IX, SQ_SX, function(t){ return polyInOut(4, t); });
-          sy = SQ_IY;
-        } else if (frame <= T_SWEEP) {
-          sx = lerp(frame, T_PREP, T_SWEEP, SQ_SX, SQ_EX, function(t){ return polyInOut(5, t); });
-          sy = SQ_IY;
-        } else if (frame <= T_SETTLE) {
-          sx = lerp(frame, T_SWEEP, T_SETTLE, SQ_EX, SQ_FX, function(t){ return backOut(1.4, t); });
-          sy = lerp(frame, T_SWEEP, T_SETTLE, SQ_IY, SQ_FY, function(t){ return polyOut(4, t); });
-        } else {
-          sx = SQ_FX; sy = SQ_FY;
-        }
-
-        var cx, cw;
-        if (frame <= T_PREP) {
-          cx = TL; cw = TR - TL;
-        } else if (frame <= T_SWEEP) {
-          cx = sx + SQ_SIZE + 2; cw = Math.max(0, TR - cx);
-        } else {
-          cx = TR; cw = 0;
-        }
-
-        square.setAttribute('x', sx);
-        square.setAttribute('y', sy);
-        clipTR.setAttribute('x', cx);
-        clipTR.setAttribute('width', cw);
-        tannitG.style.opacity = lerp(frame, T_SWEEP - 4, T_SWEEP + 8, 1, 0, null);
-        clipMR.setAttribute('width', lerp(frame, T_TS, T_TE, 0, TR - TL, function(t){ return polyOut(4, t); }));
-        madeG.style.opacity  = lerp(frame, T_TS, T_TS + 12, 0, 1, null);
-
-        if (frame < 270) requestAnimationFrame(tick);
-      }
-
-      requestAnimationFrame(tick);
-    })();
-
-    /* ── Prob section diagonal — continues hero's slope exactly ── */
-    (function () {
-      function setProbDiag() {
-        var prob = document.querySelector('.prob');
-        if (!prob) return;
-        var probH = prob.offsetHeight;
-        var vh    = window.innerHeight;
-        // Hero diagonal: 56% (top) → 43% (bottom) over 100vh → slope = −13% per 100vh
-        var bottomX = 43 - 13 * (probH / vh);
-        prob.style.setProperty('--prob-diag-bottom', bottomX.toFixed(2) + '%');
-      }
-      setProbDiag();
-      window.addEventListener('resize', setProbDiag);
-    })();
 
     /* ── Hide side-nav when footer is visible ── */
     const sideNav = document.querySelector('.side-nav');
@@ -3306,6 +3170,70 @@
         sideNav.style.pointerEvents = entries[0].isIntersecting ? 'none' : '';
       }, { threshold: 0 }).observe(footer);
     }
+
+    /* ── Parallax lento en stmt-break (0.4× velocidad de scroll) ── */
+    (function() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const stmtSection = document.querySelector('.stmt-break');
+      const stmtWrap    = document.querySelector('.stmt-wrap');
+      if (!stmtSection || !stmtWrap) return;
+      let rafId = null;
+      function updateParallax() {
+        const rect   = stmtSection.getBoundingClientRect();
+        const center = rect.top + rect.height / 2 - window.innerHeight / 2;
+        stmtWrap.style.transform = `translateY(${(center * 0.18).toFixed(2)}px)`;
+        rafId = null;
+      }
+      window.addEventListener('scroll', () => {
+        if (!rafId) rafId = requestAnimationFrame(updateParallax);
+      }, { passive: true });
+      updateParallax();
+    })();
+
+    /* ── Pause holo-shift when not in viewport (decorative, infinite) ── */
+    const holoEl = document.querySelector('.ptypo-col--specimen');
+    if (holoEl && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      new IntersectionObserver((entries) => {
+        holoEl.style.animationPlayState = entries[0].isIntersecting ? 'running' : 'paused';
+      }, { threshold: 0 }).observe(holoEl);
+    }
+
+    /* ── Scroll-driven logo scale (Symbol section) ── */
+    (function() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const logos = document.querySelectorAll('.symbol .sym-logo');
+      if (!logos.length) return;
+
+      const SCALE_MIN = 0.78;
+      const SCALE_MAX = 1.0;
+      let rafId = null;
+
+      function getProgress(el) {
+        const rect = el.getBoundingClientRect();
+        const vh = window.innerHeight;
+        /* 0 when bottom edge enters viewport, 1 when element is fully visible */
+        const start = vh;
+        const end = vh * 0.25;
+        const pos = rect.top + rect.height * 0.5;
+        return Math.max(0, Math.min(1, (start - pos) / (start - end)));
+      }
+
+      function updateLogos() {
+        logos.forEach(logo => {
+          const p = getProgress(logo);
+          const scale = SCALE_MIN + (SCALE_MAX - SCALE_MIN) * p;
+          logo.style.transform = `scale(${scale.toFixed(4)})`;
+        });
+        rafId = null;
+      }
+
+      function onScroll() {
+        if (!rafId) rafId = requestAnimationFrame(updateLogos);
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      updateLogos();
+    })();
   </script>
 
 </body>

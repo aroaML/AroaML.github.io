@@ -233,6 +233,43 @@
     .project-img.window-mock { background: var(--cream); }
     .project-img.window-mock img { object-fit: contain; }
     .project-item:hover .project-img img { transform: scale(1.02); }
+    .project-img.tannit-holo-wrap {
+      background: transparent;
+      box-shadow: none;
+      overflow: visible;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px calc(18% - 6px);
+    }
+    .tannit-holo-frame {
+      position: absolute;
+      inset: 24px calc(18% - 6px);
+      border-radius: 61px;
+      box-shadow: 6px 8px 17px rgba(0,0,0,0.32);
+      overflow: hidden;
+    }
+    .tannit-frame-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transform: scale(1.12);
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .tannit-holo-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('assets/holo-shift.gif') center / cover no-repeat;
+      z-index: 0;
+    }
+    .tannit-frame-overlay { z-index: 1; }
+    .project-item:hover .tannit-frame-overlay {
+      transform: scale(1.12) scale(1.02);
+    }
+    .tannit-meta { padding: 6px calc(18% - 6px) 0; }
     .project-meta { display: flex; align-items: center; justify-content: center; gap: 20px; }
     .project-name {
       font-family: 'Cormorant Garamond', serif; font-size: clamp(18px, 2.2vw, 26px);
@@ -335,10 +372,14 @@
       <div class="projects-col">
         <div class="projects-list">
 
-          <a href="UnderConstruction.html" class="project-item">
+          <a href="Tannit_ Agency.html" class="project-item">
             <div class="project-diamond"></div>
-            <div class="project-img window-mock"><img src="assets/images/projects/Tannit.Home.jpg" alt="Tannit Agency"></div>
-            <div class="project-meta">
+            <div class="project-img tannit-holo-wrap">
+              <div class="tannit-holo-frame">
+                <img class="tannit-frame-overlay" src="assets/Tannitframe.png" alt="">
+              </div>
+            </div>
+            <div class="project-meta tannit-meta">
               <span class="project-name">Tannit Agency</span>
               <span class="project-tag">Brand Identity</span>
             </div>
@@ -346,7 +387,7 @@
 
           <a href="Macrodata-refinement (1).html" class="project-item">
             <div class="project-diamond"></div>
-            <div class="project-img window-mock"><img src="assets/images/projects/Home. Home.jpg" alt="Macrodata refinement"></div>
+            <div class="project-img window-mock"><img src="assets/projects/Home. Home.jpg" alt="Macrodata refinement"></div>
             <div class="project-meta">
               <span class="project-name">Macrodata refinement</span>
               <span class="project-tag">Tool · Product</span>
@@ -355,7 +396,7 @@
 
           <a href="UnderConstruction.html" class="project-item">
             <div class="project-diamond"></div>
-            <div class="project-img window-mock"><img src="assets/images/projects/Amantis. Home.jpg" alt="Amantis"></div>
+            <div class="project-img window-mock"><img src="assets/projects/Amantis. Home.jpg" alt="Amantis"></div>
             <div class="project-meta">
               <span class="project-name">Amantis</span>
               <span class="project-tag">Campaigns</span>
