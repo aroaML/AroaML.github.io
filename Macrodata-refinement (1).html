@@ -2361,7 +2361,7 @@
               const target = parseInt(numEl.dataset.count);
               const prefix = numEl.dataset.prefix || '';
               const suffix = numEl.dataset.suffix || '';
-              if (target === 0) { numEl.innerHTML = prefix + '0' + suffix; return; }
+              if (target === 0) { numEl.textContent = prefix + '0' + suffix; return; }
               const duration = 1400;
               let startTs = null;
               const tick = (ts) => {
@@ -2369,7 +2369,7 @@
                 const progress = Math.min((ts - startTs) / duration, 1);
                 const eased = 1 - Math.pow(1 - progress, 4);
                 const val = Math.round(eased * target);
-                numEl.innerHTML = prefix + val + suffix;
+                numEl.textContent = prefix + val + suffix;
                 if (progress < 1) requestAnimationFrame(tick);
               };
               requestAnimationFrame(tick);

@@ -327,10 +327,15 @@
                  rel="noopener noreferrer">
                 linkedin
               </a>
-              <a class="contact-link"
-                 href="mailto:aroamtnlpz@gmail.com">
-                aroamtnlpz@gmail.com
-              </a>
+              <a id="contact-email" class="contact-link" href="#"></a>
+              <script>
+                (function(){
+                  var u='aroamtnlpz',d='gmail.com';
+                  var el=document.getElementById('contact-email');
+                  el.href='mailto:'+u+'@'+d;
+                  el.textContent=u+'@'+d;
+                })();
+              </script>
             </div>
 
             <!-- ── IMAGEN — el archivo tiene que estar
