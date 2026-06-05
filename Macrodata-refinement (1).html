@@ -175,6 +175,9 @@
     .tb-frame img { width: 100%; display: block; }
     .tb-lbl { margin-top: 8px; font-family: var(--f-mono); font-size: .52rem; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); text-align: center; }
 
+    /* ── THE DATA SPLIT (mobile only) ── */
+    .the-data-split { display: none; }
+
     /* ── PDF LINK ── */
     .pdf-a {
       display: inline-flex; align-items: center; gap: 10px;
@@ -421,6 +424,12 @@
       .ps { padding: 2.8rem 1.5rem; gap: 1.5rem; }
       .ps-title { font-size: clamp(2rem,8vw,2.8rem); }
       .mob-pull-0 { margin-top: 0 !important; }
+      .the-data-wrap { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
+      .the-data-full { display: none !important; }
+      .the-data-split { display: flex; flex-direction: column; gap: 12px; }
+      .the-data-half { overflow: hidden; width: 100%; }
+      .the-data-half img { width: 200%; max-width: none; display: block; }
+      .the-data-right img { margin-left: -100%; }
       .node-lbl { font-size: .38rem; max-width: 48px; }
       .node-track-wrap { padding: 0 1.5rem clamp(40px,7vw,64px); }
       .pdf-a { width: 100%; justify-content: center; box-sizing: border-box; }
@@ -565,8 +574,16 @@
       </div>
     </div>
 
-    <div class="rv mob-pull-0" style="padding: 0 clamp(48px,7vw,88px) clamp(72px,9vw,112px); margin-top: -48px;">
-      <img src="assets/projects/The data.png" alt="The data — before and after structure" loading="lazy" style="max-width:100%; display:block;">
+    <div class="rv mob-pull-0 the-data-wrap" style="padding: 0 clamp(48px,7vw,88px) clamp(72px,9vw,112px); margin-top: -48px;">
+      <img class="the-data-full" src="assets/projects/The data.png" alt="The data — before and after structure" loading="lazy" style="max-width:100%; display:block;">
+      <div class="the-data-split">
+        <div class="the-data-half">
+          <img src="assets/projects/The data.png" alt="The data — antes" loading="lazy">
+        </div>
+        <div class="the-data-half the-data-right">
+          <img src="assets/projects/The data.png" alt="The data — después" loading="lazy">
+        </div>
+      </div>
     </div>
 
     <!-- ┄┄┄┄┄ 02 RESEARCH ┄┄┄┄┄ -->
